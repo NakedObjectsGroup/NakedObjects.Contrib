@@ -1,0 +1,17 @@
+<div *ngIf="expiredTransient" class="title">The requested view of unsaved object details has expired.</div>
+
+<!--place holder-->
+<ng-container *ngIf="!object">
+    <div class="object view" [ngClass]="color"></div>
+</ng-container>
+<div *ngIf="object" class="object view" [ngClass]="color">
+    <header class="header">
+        <div class="title" dnd-draggable [dragEnabled]="true" [dragData]="object" tabindex="0" (keydown)="copy($event)" (keypress)="copy($event)">
+            <span class="type">{{friendlyName}}</span>Custom {{title()}}
+        </div>
+          
+    </header>
+    
+    <app-custom-calendar [collection]="customCollection()" [config]="customConfig"></app-custom-calendar>
+</div>
+
