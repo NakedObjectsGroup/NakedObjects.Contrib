@@ -1,0 +1,354 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<!--<Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>-->
+	
+  <!-- *** These are the only things that should need to be changed in order to add new code to the build *** -->
+
+  <!-- List of all clusters  -->
+  <PropertyGroup>
+    <Accounts>Cluster.Accounts</Accounts>
+    <Addresses>Cluster.Addresses</Addresses>
+    <Audit>Cluster.Audit</Audit>
+    <Countries>Cluster.Countries</Countries>
+    <Documents>Cluster.Documents</Documents>
+    <Emails>Cluster.Emails</Emails>
+    <Forms>Cluster.Forms</Forms>
+    <Names>Cluster.Names</Names>
+    <Batch>Cluster.Batch</Batch>
+    <System>Cluster.System</System>
+    <Tasks>Cluster.Tasks</Tasks>
+    <Telephones>Cluster.Telephones</Telephones>
+    <Templates>Cluster.Templates</Templates>
+    <Users>Cluster.Users</Users>
+    <!--<RunMvc2>App.RunMvc2</RunMvc2>-->
+    <RunMvc5>App.RunMvc5</RunMvc5>
+    <CommunityTargets>$(MSBuildProjectDirectory)\.build\MSBuild.Community.Tasks.targets</CommunityTargets>
+    <CommunityTasks>.build\MSBuild.Community.Tasks.dll</CommunityTasks>
+  </PropertyGroup>
+
+  <Import Project="$(CommunityTargets)"/>
+  <UsingTask TaskName="FileUpdate" AssemblyFile="$(CommunityTasks)" />
+  <UsingTask TaskName="XmlUpdate" AssemblyFile="$(CommunityTasks)" />
+  <UsingTask TaskName="Zip" AssemblyFile="$(CommunityTasks)"/>
+
+
+  <!-- List of all projects to be built -->
+  <ItemGroup>
+    <Files Include="$(RunMvc5)\$(RunMvc5).csproj"/>
+    <Files Include="$(Accounts).Impl\$(Accounts).Impl.csproj"/>
+    <Files Include="$(Accounts).Test\$(Accounts).Test.csproj"/>
+    <Files Include="$(Addresses).Api\$(Addresses).Api.csproj"/>
+    <Files Include="$(Addresses).Impl\$(Addresses).Impl.csproj"/>
+    <Files Include="$(Addresses).Test\$(Addresses).Test.csproj"/>
+    <Files Include="$(Audit).Api\$(Audit).Api.csproj"/>
+    <Files Include="$(Audit).Impl\$(Audit).Impl.csproj"/>
+    <Files Include="$(Audit).Test\$(Audit).Test.csproj"/>
+    <Files Include="$(Countries).Api\$(Countries).Api.csproj"/>
+    <Files Include="$(Countries).Impl\$(Countries).Impl.csproj"/>
+    <Files Include="$(Countries).Test\$(Countries).Test.csproj"/>
+    <Files Include="$(Documents).Api\$(Documents).Api.csproj"/>
+    <Files Include="$(Documents).Impl\$(Documents).Impl.csproj"/>
+    <Files Include="$(Documents).Test\$(Documents).Test.csproj"/>
+    <Files Include="$(Emails).Api\$(Emails).Api.csproj"/>
+    <Files Include="$(Emails).Impl\$(Emails).Impl.csproj"/>
+    <Files Include="$(Emails).Test\$(Emails).Test.csproj"/>
+    <Files Include="$(Forms).Api\$(Forms).Api.csproj"/>
+    <Files Include="$(Forms).Impl\$(Forms).Impl.csproj"/>
+    <Files Include="$(Forms).Test\$(Forms).Test.csproj"/>
+    <Files Include="$(Names).Api\$(Names).Api.csproj"/>
+    <Files Include="$(Names).Impl\$(Names).Impl.csproj"/>
+    <Files Include="$(Names).Test\$(Names).Test.csproj"/>
+    <Files Include="$(Batch).Api\$(Batch).Api.csproj"/>
+    <Files Include="$(Batch).Impl\$(Batch).Impl.csproj"/>
+    <Files Include="$(Batch).Test\$(Batch).Test.csproj"/>
+    <Files Include="$(System).Api\$(System).Api.csproj"/>
+    <Files Include="$(System).Impl\$(System).Impl.csproj"/>
+    <Files Include="$(System).Mock\$(System).Mock.csproj"/>
+    <Files Include="$(System).Test\$(System).Test.csproj"/>
+    <Files Include="$(Tasks).Api\$(Tasks).Api.csproj"/>
+    <Files Include="$(Tasks).Impl\$(Tasks).Impl.csproj"/>
+    <Files Include="$(Tasks).Test\$(Tasks).Test.csproj"/>
+    <Files Include="$(Telephones).Api\$(Telephones).Api.csproj"/>
+    <Files Include="$(Telephones).Impl\$(Telephones).Impl.csproj"/>
+    <Files Include="$(Telephones).Test\$(Telephones).Test.csproj"/>
+    <Files Include="$(Templates).Api\$(Templates).Api.csproj"/>
+    <Files Include="$(Templates).Impl\$(Templates).Impl.csproj"/>
+    <Files Include="$(Templates).Test\$(Templates).Test.csproj"/>
+    <Files Include="$(Users).Api\$(Users).Api.csproj"/>
+    <Files Include="$(Users).Impl\$(Users).Impl.csproj"/>
+    <Files Include="$(Users).Mock\$(Users).Mock.csproj"/>
+    <Files Include="$(Users).Test\$(Users).Test.csproj"/>
+  </ItemGroup>
+
+  <!-- list of all clusters to be tested  -->
+  <ItemGroup>
+    <Test Include="$(Accounts)"/>
+    <Test Include="$(Addresses)"/>
+    <Test Include="$(Audit)"/>
+    <Test Include="$(Countries)"/>
+    <Test Include="$(Documents)"/>
+    <Test Include="$(Emails)"/>
+    <Test Include="$(Forms)"/>
+    <Test Include="$(Names)"/>
+    <Test Include="$(Batch)"/>
+    <Test Include="$(System)"/>
+    <Test Include="$(Tasks)"/>
+    <Test Include="$(Telephones)"/>
+    <Test Include="$(Templates)"/>
+    <Test Include="$(Users)"/>
+  </ItemGroup>
+
+  <!-- list of all packages (excluding 'all') below -->
+  <ItemGroup>
+  </ItemGroup>
+
+  <!-- these are the 'all' packages-->
+  <PropertyGroup>
+    <AllApi>Cluster.All.Api</AllApi>
+    <AllImpl>Cluster.All.Impl</AllImpl>
+  </PropertyGroup>
+  
+  <!-- version of clusters - all cluster packages are at the same version -->
+  <PropertyGroup>
+		<ClustersMajor>0</ClustersMajor>
+		<ClustersMinor>2</ClustersMinor>
+		<ClustersPatch>0</ClustersPatch>
+	</PropertyGroup>
+    
+  <!-- *** End of change area *** -->
+  
+	<PropertyGroup Condition="'$(BUILD_NUMBER)'==''">
+		<BUILD_NUMBER>1</BUILD_NUMBER>
+	</PropertyGroup>
+
+	<PropertyGroup >
+		<BuildSuffix Condition="'$(nightly-build)'=='true'" >-pre$(BUILD_NUMBER)</BuildSuffix>
+		<ClustersVersion>$(ClustersMajor).$(ClustersMinor).$(ClustersPatch)$(BuildSuffix)</ClustersVersion>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<BuiltPackagesPath>build\packages</BuiltPackagesPath>
+		<InstalledPackagesPath>packages</InstalledPackagesPath>
+		<ReleasePath>build\release</ReleasePath>
+		<TestResultsPath>test-results</TestResultsPath>
+		<PackageSourcePath>C:\NakedObjectsNugetPackages</PackageSourcePath>
+		<Nuget>.nuget\nuget.exe</Nuget>
+	</PropertyGroup>
+
+	<Choose>
+		<When Condition="Exists('C:\Program Files (x86)')">
+			<PropertyGroup>
+				<ToolsPath>C:\Program Files (x86)</ToolsPath>
+				<MSTestPath>C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE</MSTestPath>
+			</PropertyGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<ToolsPath>C:\Program Files</ToolsPath>
+				<MSTestPath>C:\Program Files\Microsoft Visual Studio 10.0\Common7\IDE</MSTestPath>
+			</PropertyGroup>
+		</Otherwise>
+	</Choose>
+
+	<PropertyGroup Condition="'$(Configuration)'==''">
+		<Configuration>Debug</Configuration>
+		<Platform>x86</Platform>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageFiles Include="**\packages.config"  Exclude="build\**\packages.config"/>
+	</ItemGroup>
+
+  <ItemGroup>
+    <ProjFiles Include="**\*.csproj"  Exclude="build\**\*.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SpecFiles Include="**\*.nuspec" Exclude="build\**\*.nuspec" />
+  </ItemGroup>
+  
+    
+  <Target Name="UpdateProj" Inputs="@(ProjFiles)" Outputs="%(Identity).Dummy">
+    <!--<FileUpdate Files="@(ProjFiles)"
+								RegEx= 'packages\\NakedObjects\.Mvc\.\d+\.\d+\.\d+\b'
+								ReplacementText ='packages\NakedObjects.Mvc.$(RoVersion)'/>-->
+
+	</Target>
+  
+	<Target Name="UpdateNuspec" Inputs="@(SpecFiles)" Outputs="%(Identity).Dummy">
+		
+		<XmlUpdate
+			 Prefix="n"
+			 Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
+			 XmlFileName="@(SpecFiles)"
+			 XPath="//n:metadata/n:version"
+			 Value="$(ClustersVersion)"/>
+
+		<XmlUpdate
+			 Prefix="n"
+			 Namespace="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd"
+			 XmlFileName="@(SpecFiles)"
+			 XPath='//n:dependencies/n:dependency[starts-with(@id, "Cluster.")]/@version'
+			 Value="$(ClustersVersion)"/>
+
+	</Target>
+
+	<Target Name="UpdatePackage" Inputs="@(PackageFiles)" Outputs="%(Identity).Dummy">
+
+		<XmlUpdate
+			 XmlFileName="@(PackageFiles)"
+			 XPath='//packages/package[starts-with(@id, "Cluster.")]/@version'
+			 Value="$(ClustersVersion)"/>
+
+	</Target>
+
+  <Target Name="CleanPackages"  Inputs="@(Package)" Outputs="%(Identity).Dummy">
+     <PropertyGroup>
+      <CurrentPackage>@(Package)</CurrentPackage>
+    </PropertyGroup>
+    
+		<RemoveDir Directories="$(CurrentPackage).package\lib"/>
+		<RemoveDir Directories="$(CurrentPackage).package\src"/>
+  
+	</Target>
+    
+      
+	<Target Name="Clean"  DependsOnTargets="CleanPackages">
+		<CreateItem Include="$(Configuration)">
+			<Output TaskParameter="Include" ItemName="Configuration" />
+		</CreateItem>
+
+		<MSBuild Projects="$(MSBuildProjectFile)" Targets="Build" Properties="Targets=Clean;Configuration=%(Configuration.Identity)" />
+
+		<RemoveDir Directories="$(TestResultsPath)"/>
+
+		<ItemGroup>
+			<OldPackages Include="**\*.package\*.nupkg"/>
+			<OldPackages Include="$(InstalledPackagesPath)\**\*.nupkg"/>
+			<OldPackages Include="$(InstalledPackagesPath)\**\content\**\*.*"/>
+			<OldPackages Include="$(InstalledPackagesPath)\**\lib\**\*.*"/>
+		</ItemGroup>
+
+		<Delete Files="@(OldPackages)"/>
+    
+    <ItemGroup>
+			<OldCode Include="**\bin\**\*.dll"/>
+      <OldCode Include="**\bin\**\*.dll"/>
+			<OldCode Include="**\obj\**\*.*"/>
+		</ItemGroup>
+    
+     
+    <Delete Files="@(OldCode)" ContinueOnError="true"/>
+
+		<RemoveDir Directories="$(BuiltPackagesPath)"/>
+		<RemoveDir Directories="$(ReleasePath)"/>
+
+    <RemoveDir Directories="$(AllApi).package\lib"/>
+    <RemoveDir Directories="$(AllImpl).package\lib"/>
+    <RemoveDir Directories="$(AllApi).package\src"/>
+    <RemoveDir Directories="$(AllImpl).package\src"/>
+  
+	</Target>
+	
+	<Target Name="InitFiles" >
+		<MakeDir Directories="$(TestResultsPath)"/>
+
+		<CallTarget Targets="UpdateProj" Condition="'$(Build)'!='0'"/>
+		<CallTarget Targets="UpdateNuspec" Condition="'$(Build)'!='0'"/>
+		<CallTarget Targets="UpdatePackage" Condition="'$(Build)'!='0'"/>
+	</Target>
+
+	<Target Name="Init" >
+		<CreateItem Include="$(Configuration)">
+			<Output TaskParameter="Include" ItemName="Configuration" />
+		</CreateItem>
+
+		<CallTarget Targets="InitFiles" Condition=" '$(Targets)'!='Clean' "/>
+	</Target>
+
+  <Target Name="Build" DependsOnTargets="Init">
+    <MSBuild Projects="@(Files)" Targets="$(Targets)" Properties="Configuration=%(Configuration.Identity)">
+      <Output TaskParameter="TargetOutputs" ItemName="Artifacts"/>
+    </MSBuild>
+    
+  </Target>
+
+
+  <Target Name="PackageAll" DependsOnTargets="Build">
+
+
+    <ItemGroup>
+      <ApiArtifacts Include="Cluster.*.Api\bin\%(Configuration.Identity)\*.Api.dll;Cluster.*.Api\bin\%(Configuration.Identity)\*.Api.pdb"/>
+      <ImplArtifacts Include="Cluster.*.Impl\bin\%(Configuration.Identity)\*.Impl.dll;Cluster.*.Impl\bin\%(Configuration.Identity)\*.Impl.pdb"/>
+      <ApiSrc Include="*Cluster.*.Api\**\*.cs" Exclude="*\obj\**\*.cs" />
+      <ImplSrc Include="*Cluster.*.Impl\**\*.cs" Exclude="*\obj\**\*.cs" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(ApiArtifacts)" DestinationFolder="$(AllApi).package\lib\net45" Condition=" '$(Targets)'!='Clean' "/>
+    <Copy SourceFiles="@(ImplArtifacts)" DestinationFolder="$(AllImpl).package\lib\net45" Condition=" '$(Targets)'!='Clean' "/>
+
+    <Copy SourceFiles="@(ApiSrc)" DestinationFolder="$(AllApi).package\src\%(RecursiveDir)" Condition=" '$(Targets)'!='Clean' "/>
+    <Copy SourceFiles="@(ImplSrc)" DestinationFolder="$(AllImpl).package\src\%(RecursiveDir)" Condition=" '$(Targets)'!='Clean' "/>
+
+    <Exec WorkingDirectory="$(AllApi).package" Command="..\$(Nuget) pack $(AllApi).nuspec -Symbols" />
+    <Exec WorkingDirectory="$(AllImpl).package" Command="..\$(Nuget) pack $(AllImpl).nuspec -Symbols" />
+    
+    <ItemGroup>
+      <Packages Include="$(AllApi).package\*.nupkg"/>
+      <Packages Include="$(AllImpl).package\*.nupkg"/>
+    </ItemGroup>
+
+    <Copy SourceFiles="@(Packages)" DestinationFolder="$(BuiltPackagesPath)" Condition=" '$(Targets)'!='Clean' "/>
+    <Copy SourceFiles="@(Packages)" DestinationFolder="$(PackageSourcePath)" Condition=" '$(Targets)'!='Clean' "/>
+
+    <!-- For some reason this command in the proj files does not pick up the package when run from hudson - this seems to work though  -->
+    <Exec WorkingDirectory="." Command="$(Nuget) install $(AllApi) -pre -Source $(PackageSourcePath) -o ..\$(InstalledPackagesPath)" />
+    <Exec WorkingDirectory="." Command="$(Nuget) install $(AllImpl) -pre -Source $(PackageSourcePath) -o ..\$(InstalledPackagesPath)" />
+    
+  </Target>
+  
+
+  <Target Name="Package" DependsOnTargets="Build"  Returns="%(Package.Identity)" Condition="'@(Package)'!=''">
+    
+    <PropertyGroup>
+      <CurrentPackage>@(Package)</CurrentPackage>
+    </PropertyGroup>
+      
+    <ItemGroup>
+      <Lib Include="$(CurrentPackage)\bin\%(Configuration.Identity)\$(CurrentPackage).dll"/>
+      <Lib Include="$(CurrentPackage)\bin\%(Configuration.Identity)\$(CurrentPackage).pdb"/>
+    </ItemGroup>
+
+    <Copy SourceFiles="@(Lib)" DestinationFolder="$(CurrentPackage).package\lib\net45" Condition=" '$(Targets)'!='Clean' "/>
+
+    <ItemGroup>
+      <Src Include="*$(CurrentPackage)\**\*.cs" Exclude="*\obj\**\*.cs" />
+    </ItemGroup>
+
+    <Copy SourceFiles="@(Src)" DestinationFolder="$(CurrentPackage).package\src\%(RecursiveDir)" Condition=" '$(Targets)'!='Clean' "/>
+
+    <Exec WorkingDirectory="$(CurrentPackage).package" Command="..\$(Nuget) pack $(CurrentPackage).nuspec -Symbols" />
+    <ItemGroup>
+      <Packages Include="$(CurrentPackage).package\*.nupkg"/>
+    </ItemGroup>
+
+    <Copy SourceFiles="@(Packages)" DestinationFolder="$(BuiltPackagesPath)" Condition=" '$(Targets)'!='Clean' "/>
+    <Copy SourceFiles="@(Packages)" DestinationFolder="$(PackageSourcePath)" Condition=" '$(Targets)'!='Clean' "/>
+
+    <!-- For some reason this command in the proj files does not pick up the package when run from hudson - this seems to work though  -->
+    <Exec WorkingDirectory="." Command="$(Nuget) install $(CurrentPackage) -pre -Source $(PackageSourcePath) -o ..\$(InstalledPackagesPath)" />
+       
+  </Target>
+  
+  <Target Name="Test" DependsOnTargets="Build"  Returns="%(Test.Identity)">
+     <Exec Command='"$(MSTestPath)\MSTest.exe" /testcontainer:"@(Test).Test\bin\%(Configuration.Identity)\@(Test).Test.dll" /resultsfile:$(TestResultsPath)\@(Test).Test.trx' />  
+  </Target>
+    
+	<Target Name="Release" DependsOnTargets="Package;PackageAll;Test">
+
+	</Target>
+
+  <Target Name="NightlyBuild" DependsOnTargets="Release">
+
+  </Target>
+	
+</Project>

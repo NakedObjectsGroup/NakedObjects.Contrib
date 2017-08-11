@@ -1,0 +1,7 @@
+ERROR 9 NakedObjects.Persistor.Entity.Component.EntityObjectStore - Failed to create Code First DbContext: The target principal name is incorrect.  Cannot generate SSPI context.
+ERROR 5 NakedObjects.Persistor.Entity.Component.EntityObjectStore - Failed to create Code First DbContext: The target principal name is incorrect.  Cannot generate SSPI context.
+ERROR 6 NakedObjects.Persistor.Entity.Component.EntityObjectStore - Failed to create Code First DbContext: The target principal name is incorrect.  Cannot generate SSPI context.
+ERROR 6 NakedObjects.Persistor.Entity.Component.EntityObjectStore - Failed to create Code First DbContext: The target principal name is incorrect.  Cannot generate SSPI context.
+ERROR 6 NakedObjects.Persistor.Entity.Component.EntityObjectStore - Failed to create Code First DbContext: The target principal name is incorrect.  Cannot generate SSPI context.
+ERROR 6 NakedObjects.Persistor.Entity.Component.EntityObjectStore - Failed to create Code First DbContext: The target principal name is incorrect.  Cannot generate SSPI context.
+ERROR 5 NakedObjects.Persistor.Entity.Component.EntityObjectStore - Failed to create Code First DbContext: The target principal name is incorrect.  Cannot generate SSPI context.

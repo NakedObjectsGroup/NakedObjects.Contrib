@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Cluster.All.Impl</id>
+    <version>0.2.0</version>
+    <authors>Naked Objects Group Ltd</authors>
+    <owners>Naked Objects Group Ltd</owners>
+    <licenseUrl>https://bitbucket.org/richardpawson/clusters</licenseUrl>
+    <projectUrl>https://bitbucket.org/richardpawson/clusters</projectUrl>
+    <iconUrl>http://www.nakedobjects.net/images/nakedobjects.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Impl</description>
+    <frameworkAssemblies>
+    </frameworkAssemblies>
+    <dependencies>
+      <dependency id="Cluster.All.Api" version="0.2.0" />
+    </dependencies>
+  </metadata>
+</package>

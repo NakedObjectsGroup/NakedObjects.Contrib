@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A94DC40A-6FFC-4487-9F78-E520C5484F81}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Template.DataBase</RootNamespace>
+    <AssemblyName>Template.DataBase</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppDbContext.cs" />
+    <Compile Include="ExampleDbContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Cluster.Accounts.Api\Cluster.Accounts.Api.csproj">
+      <Project>{065f781d-8ae0-40d1-9a30-0e0716a32e66}</Project>
+      <Name>Cluster.Accounts.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Accounts.Impl\Cluster.Accounts.Impl.csproj">
+      <Project>{8a449c98-76d3-4c7f-acb7-53694efd8fa6}</Project>
+      <Name>Cluster.Accounts.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Addresses.Api\Cluster.Addresses.Api.csproj">
+      <Project>{21e84d63-2d1d-4c2a-a2d7-735af768144e}</Project>
+      <Name>Cluster.Addresses.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Addresses.Impl\Cluster.Addresses.Impl.csproj">
+      <Project>{39cfa399-8b8b-4b6d-ae01-291f4e1181b0}</Project>
+      <Name>Cluster.Addresses.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Audit.Api\Cluster.Audit.Api.csproj">
+      <Project>{580e43c7-fbb4-46a6-83a7-57b6c450fbbe}</Project>
+      <Name>Cluster.Audit.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Audit.Impl\Cluster.Audit.Impl.csproj">
+      <Project>{c76212c0-a29c-4cdb-8139-49656b835c8b}</Project>
+      <Name>Cluster.Audit.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Countries.Api\Cluster.Countries.Api.csproj">
+      <Project>{fbea5f51-e01f-4589-a730-1a7405b70182}</Project>
+      <Name>Cluster.Countries.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Countries.Impl\Cluster.Countries.Impl.csproj">
+      <Project>{b4c006af-b597-4966-a6c5-a9a305221831}</Project>
+      <Name>Cluster.Countries.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Documents.Api\Cluster.Documents.Api.csproj">
+      <Project>{3181c18d-6118-4063-95bd-56301839f543}</Project>
+      <Name>Cluster.Documents.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Documents.Impl\Cluster.Documents.Impl.csproj">
+      <Project>{9b76d7e7-6ef8-4f21-b7e4-77a7c4d56b39}</Project>
+      <Name>Cluster.Documents.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Emails.Api\Cluster.Emails.Api.csproj">
+      <Project>{82d9a3b1-04d5-47da-a47f-06d0a585878d}</Project>
+      <Name>Cluster.Emails.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Emails.Impl\Cluster.Emails.Impl.csproj">
+      <Project>{320b1170-3433-4f9b-a51d-b54d8e3c91d4}</Project>
+      <Name>Cluster.Emails.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Forms.Api\Cluster.Forms.Api.csproj">
+      <Project>{46f6d99c-8cde-4609-82d0-01dd8b79312f}</Project>
+      <Name>Cluster.Forms.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Forms.Impl\Cluster.Forms.Impl.csproj">
+      <Project>{ada98f12-0e6f-4df8-9dda-9a80c8abb6a3}</Project>
+      <Name>Cluster.Forms.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.MultiStep.Api\Cluster.MultiStep.Api.csproj">
+      <Project>{45e585ac-77e4-4e58-a69d-348715940e25}</Project>
+      <Name>Cluster.MultiStep.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Names.Api\Cluster.Names.Api.csproj">
+      <Project>{9edd9ad6-6a67-4683-83ca-2029e49f20ea}</Project>
+      <Name>Cluster.Names.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Names.Impl\Cluster.Names.Impl.csproj">
+      <Project>{52fb8795-9c1f-49e3-a93c-02f2a63411d6}</Project>
+      <Name>Cluster.Names.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.System.Api\Cluster.System.Api.csproj">
+      <Project>{6b67fbde-9f10-4ebd-9dd0-7f390016c661}</Project>
+      <Name>Cluster.System.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.System.Impl\Cluster.System.Impl.csproj">
+      <Project>{99ac6666-8414-4212-a046-4f3c2b12df8f}</Project>
+      <Name>Cluster.System.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.System.Mock\Cluster.System.Mock.csproj">
+      <Project>{10fc14d4-0a6c-4e2d-87bf-fe320e82fc47}</Project>
+      <Name>Cluster.System.Mock</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Tasks.Api\Cluster.Tasks.Api.csproj">
+      <Project>{5a811962-236c-45dd-aa13-c4eb9fb5397d}</Project>
+      <Name>Cluster.Tasks.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Tasks.Impl\Cluster.Tasks.Impl.csproj">
+      <Project>{56a7c119-5d7c-4d28-b65b-f2e52eb86687}</Project>
+      <Name>Cluster.Tasks.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Telephones.Api\Cluster.Telephones.Api.csproj">
+      <Project>{f67415ae-ad4a-4b12-b355-7eace6af8684}</Project>
+      <Name>Cluster.Telephones.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Telephones.Impl\Cluster.Telephones.Impl.csproj">
+      <Project>{092a6e91-7e33-4d62-b20b-7101f2c113ef}</Project>
+      <Name>Cluster.Telephones.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Templates.Api\Cluster.Templates.Api.csproj">
+      <Project>{4c17888f-4d9c-47a4-9dd8-d379540a556a}</Project>
+      <Name>Cluster.Templates.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Templates.Impl\Cluster.Templates.Impl.csproj">
+      <Project>{60754d36-8f83-4d93-b5d7-df2fc478ef1b}</Project>
+      <Name>Cluster.Templates.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Users.Api\Cluster.Users.Api.csproj">
+      <Project>{71d96da1-4e7d-47fe-b4ad-18d8132a8a49}</Project>
+      <Name>Cluster.Users.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cluster.Users.Impl\Cluster.Users.Impl.csproj">
+      <Project>{4329BF10-1497-4C86-A196-BA4A284005E4}</Project>
+      <Name>Cluster.Users.Impl</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

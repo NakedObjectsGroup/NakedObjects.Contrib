@@ -1,0 +1,17 @@
+﻿AccountingPeriod
+Balance
+
+- Can create a starting balance (as of date d) for an account.
+- When a Period is closed, the balance is snapshotted for each Account.
+- Each transaction has a Period.  When Period is closed, transaction is immutable.
+- Currenly balance looks up the most recent snapshot balance and then adds subsequent transactions.
+
+-  Accounts can be grouped into larger accounts.
+- Accounts incl. groups, have types.
+
+-Sub-classess of account e.g. Sales account have additional items e.g. associated 'customer'
+
+- Transfer between accounts of different currencies?
+
+- Transactions can have sub-classes e.g. a SalesTransaction holds reference to saleableItem.
+- Payment transaction holds payment details ?

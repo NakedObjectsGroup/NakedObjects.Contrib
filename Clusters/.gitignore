@@ -1,0 +1,12 @@
+*.user
+*.suo
+/packages
+*/bin
+*/obj
+*.mdf
+/App.RunMvc2/App_Data/aspnet-App.RunMvc2-20130705150339_log.ldf
+*.LDF
+*/lib
+*/src
+/test-results
+*.nupkg

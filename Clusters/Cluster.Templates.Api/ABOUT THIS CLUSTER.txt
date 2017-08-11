@@ -1,0 +1,4 @@
+﻿Allows creation & retrieval of communications templates in several forms e.g. Word and .pdf,
+and mechanisms for populating those templates from source object(s).  The resulting populated
+files may be presented to the user /  persisted as FileAttachments (e.g. via the Documents cluster) /
+printed / or transmitted (e.g. via the email cluster).

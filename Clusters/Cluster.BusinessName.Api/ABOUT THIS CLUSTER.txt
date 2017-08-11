@@ -1,0 +1,6 @@
+﻿Similar to the Name cluster (meaning 'Individual Name'), this cluster represents Business Names, hiding the complexity of the way that Business Names
+are represented differently in different countries.
+
+Cluster provides implementations for creating and retrieving names, searching for names, finding near matches and duplicates. 
+
+Need to have the notion of a business entity that the name belongs to and also the scope (geographic, temporal, and otherwise).
