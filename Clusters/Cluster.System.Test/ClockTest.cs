@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Cluster.System.Api;
 using Cluster.System.Impl;
 using Cluster.System.Mock;
@@ -9,58 +10,64 @@ namespace Cluster.System.Test
     [TestClass]
     public class ClockTest
     {
-        [TestMethod]
+		[TestMethod, TestCategory("System_ClockTest")]
         public void RealClockMatchesDateTime()
         {
             IClock clock = new RealClock();
             DateTime dtnow = DateTime.Now;
             DateTime clockNow = clock.Now();
-            Assert.AreEqual(dtnow.ToString(), clockNow.ToString()); //Deliberately accurate only to the second.
+			Assert.AreEqual(dtnow.ToString(CultureInfo.InvariantCulture), clockNow.ToString(CultureInfo.InvariantCulture)); //Deliberately accurate only to the second.
 
             Assert.AreEqual(DateTime.Today, clock.Today());
 
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("System_ClockTest")]
         public void ProgammableClockDefaultValue()
         {
-            FixedClock clock = new FixedClock();
-            Assert.AreEqual("01/01/0001 00:00:00", clock.Now().ToString());
-            Assert.AreEqual("01/01/0001 00:00:00", clock.Today().ToString());
+			var clock = new FixedClock();
+			Assert.AreEqual("01/01/0001 00:00:00", clock.Now().ToString(CultureInfo.InvariantCulture));
+			Assert.AreEqual("01/01/0001 00:00:00", clock.Today().ToString(CultureInfo.InvariantCulture));
         }
 
+		[TestMethod, TestCategory("System_ClockTest")]
 
-
-        [TestMethod]
         public void ProgammableClockInitialValue()
         {
-            FixedClock clock = new FixedClock(new DateTime(2013, 7, 28, 14, 08, 30));
+			var clock = new FixedClock(new DateTime(2013, 7, 28, 14, 08, 30));
 
-           Assert.AreEqual("28/07/2013 14:08:30", clock.Now().ToString());
-            Assert.AreEqual("28/07/2013 00:00:00", clock.Today().ToString());
+			Assert.AreEqual("07/28/2013 14:08:30", clock.Now().ToString(CultureInfo.InvariantCulture));
+			Assert.AreEqual("07/28/2013 00:00:00", clock.Today().ToString(CultureInfo.InvariantCulture));
         }
 
 
-        [TestMethod]
+		[TestMethod, TestCategory("System_ClockTest")]
         public void ProgammableClockSetClock()
         {
-            FixedClock clock = new FixedClock();
+			var clock = new FixedClock();
 
             clock.SetClock(new DateTime(2014, 7, 28, 14, 08, 30));
 
-            Assert.AreEqual("28/07/2014 14:08:30", clock.Now().ToString());
-            Assert.AreEqual("28/07/2014 00:00:00", clock.Today().ToString());
+			Assert.AreEqual("07/28/2014 14:08:30", clock.Now().ToString(CultureInfo.InvariantCulture));
+			Assert.AreEqual("07/28/2014 00:00:00", clock.Today().ToString(CultureInfo.InvariantCulture));
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("System_ClockTest")]
         public void ProgammableClockForward()
         {
-            FixedClock clock = new FixedClock(new DateTime(2013, 7, 28, 14, 08, 30));
+			var clock = new FixedClock(new DateTime(2013, 7, 28, 14, 08, 30));
             clock.Forward(2);
-            Assert.AreEqual("30/07/2013 14:08:30", clock.Now().ToString());
-            Assert.AreEqual("30/07/2013 00:00:00", clock.Today().ToString());
+			Assert.AreEqual("07/30/2013 14:08:30", clock.Now().ToString(CultureInfo.InvariantCulture));
+			Assert.AreEqual("07/30/2013 00:00:00", clock.Today().ToString(CultureInfo.InvariantCulture));
         }
 
+		[TestMethod, TestCategory("System_ClockTest")]
+		public void ProgammableClockInitialValueCultureGb()
+		{
+			var clock = new FixedClock(new DateTime(2013, 7, 28, 14, 08, 30));
 
+			Assert.AreEqual("2013-07-28 14:08:30", clock.Now().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
+			Assert.AreEqual("2013-07-28 00:00:00", clock.Today().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
     }
+	}
 }
