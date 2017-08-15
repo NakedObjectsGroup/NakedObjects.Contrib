@@ -13,6 +13,7 @@ using Cluster.Countries.Impl.Mapping;
 using Cluster.Accounts.Impl;
 using Cluster.Audit.Impl;
 using Cluster.Users.Impl;
+using Cluster.Users.Impl.Mapping;
 
 namespace Template.DataBase
 {
@@ -100,7 +101,7 @@ namespace Template.DataBase
             MapsForCountriesCluster.AddTo(modelBuilder);
             MapsForEmailsCluster.AddTo(modelBuilder);
             MapsForTasksCluster.AddTo(modelBuilder);
-            //MapsForUsersCluster.AddTo(modelBuilder);
+            MapsForUsersCluster.AddTo(modelBuilder);
         }
     }
 }
