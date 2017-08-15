@@ -1,20 +1,17 @@
 using System.Linq;
 using NakedObjects.Boot;
 using NakedObjects.Core.NakedObjectsSystem;
-using NakedObjects.EntityObjectStore;
 using NakedObjects.Services;
-using NakedObjects.Xat;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cluster.Accounts.Impl;
 using System;
 using Cluster.System.Mock;
-using System.Data.Entity;
 using Helpers;
 
 namespace Cluster.Accounts.Test
 {
-    [TestClass()]
+	[TestClass]
     public class AccountsXAT : ClusterXAT<AccountsTestDbContext, AccountsFixture>
     {
         #region Run configuration
@@ -58,7 +55,7 @@ namespace Cluster.Accounts.Test
         #endregion
 
          #region Creating Accounts
-        [TestMethod()]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void FindAccountByName()
         {
             var find = GetTestService("Accounts").GetAction("Find Account By Name");
@@ -69,7 +66,7 @@ namespace Cluster.Accounts.Test
             results.AssertCountIs(1).ElementAt(0).AssertIsType(typeof(Account)).AssertTitleEquals("F2 - Foo 2");
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void CreateNewAccountParams()
         {
             var newAccount = GetTestService("Accounts").GetAction("Create New Account");
@@ -83,12 +80,12 @@ namespace Cluster.Accounts.Test
             var p4 = newAccount.Parameters[4].AssertIsNamed("Opening Balance").AssertIsMandatory();
             Assert.AreEqual("0", p4.GetDefault().Title);
             var p5 = newAccount.Parameters[5].AssertIsNamed("As Of").AssertIsMandatory();
-            Assert.AreEqual("30/11/1999 00:00:00", p5.GetDefault().Title);
+			Assert.AreEqual("1999-11-30 00:00:00", p5.GetDefault().Title);
 
 
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void AsOfDateMustBeBeforeToday()
         {
             var newAccount = GetTestService("Accounts").GetAction("Create New Account");
@@ -97,7 +94,7 @@ namespace Cluster.Accounts.Test
 
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void CreateNewIncomeAccount()
         {
             var newAccount = GetTestService("Accounts").GetAction("Create New Account");
@@ -110,23 +107,23 @@ namespace Cluster.Accounts.Test
             a1.GetPropertyByName("Name").AssertIsMandatory().AssertIsModifiable().AssertValueIsEqual("Income 1");
             a1.GetPropertyByName("Type").AssertIsUnmodifiable().AssertTitleIsEqual("Income");
             a1.GetPropertyByName("Currency").AssertIsUnmodifiable().AssertValueIsEqual("USD");
-            a1.GetPropertyByName("Last Modified").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
+			a1.GetPropertyByName("Last Modified").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-01 00:00:00");
 
             var entries = a1.GetPropertyByName("Entries").ContentAsCollection.AssertCountIs(2);
             var opening = entries.ElementAt(0);
-            opening.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/04/1999 00:00:00");
+			opening.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("1999-04-01 00:00:00");
             opening.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Opening Balance");
             opening.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertValueIsEqual("10");
             opening.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertIsEmpty();
 
             var current = entries.ElementAt(1);
-            current.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
+			current.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-01 00:00:00");
             current.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Current Balance");
             current.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertValueIsEqual("10");
             current.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertIsEmpty();
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void CreateNewIncomeAccountZeroBalance()
         {
             var newAccount = GetTestService("Accounts").GetAction("Create New Account");
@@ -142,7 +139,7 @@ namespace Cluster.Accounts.Test
             current.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertIsEmpty();
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void CreateNewLiabilityAccountZeroBalance()
         {
             var newAccount = GetTestService("Accounts").GetAction("Create New Account");
@@ -158,7 +155,7 @@ namespace Cluster.Accounts.Test
             current.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertIsEmpty();
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void CreateNewLiabilityAssetZeroBalance()
         {
             var newAccount = GetTestService("Accounts").GetAction("Create New Account");
@@ -174,7 +171,7 @@ namespace Cluster.Accounts.Test
             current.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("0");
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void CreateNewExpenseAssetZeroBalance()
         {
             var newAccount = GetTestService("Accounts").GetAction("Create New Account");
@@ -190,9 +187,8 @@ namespace Cluster.Accounts.Test
             current.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("0");
         }
 
+		[TestMethod, TestCategory("Accounts")]
 
-
-        [TestMethod()]
         public virtual void CreateNewAssetAccount()
         {
             var newAccount = GetTestService("Accounts").GetAction("Create New Account");
@@ -206,19 +202,19 @@ namespace Cluster.Accounts.Test
 
             var entries = a1.GetPropertyByName("Entries").ContentAsCollection.AssertCountIs(2);
             var opening = entries.ElementAt(0);
-            opening.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/04/1999 00:00:00");
+			opening.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("1999-04-01 00:00:00");
             opening.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Opening Balance");
             opening.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
             opening.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("10");
 
             var current = entries.ElementAt(1);
-            current.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
+			current.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-01 00:00:00");
             current.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Current Balance");
             current.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
             current.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("10");
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void AttemptToCreateAccountWithExistingName()
         {
             var newAccount = GetTestService("Accounts").GetAction("Create New Account");
@@ -226,7 +222,7 @@ namespace Cluster.Accounts.Test
             newAccount.AssertIsValidWithParms("A87654", "Account 3x", AccountTypes.Income, "EUR", new decimal(0), new DateTime(1999, 4, 1));
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void AttemptToCreateAccountWithExistingCode()
         {
             var newAccount = GetTestService("Accounts").GetAction("Create New Account");
@@ -237,13 +233,13 @@ namespace Cluster.Accounts.Test
 
         #region Posting Transactions
 
-        [TestMethod]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void PostTransactionTestParameters()
         {
             var post = GetTestService("Accounts").GetAction("Post Transaction");
             Assert.AreEqual(6, post.Parameters.Count());
             var date = post.Parameters[0].AssertIsNamed("Date").AssertIsMandatory();
-            Assert.AreEqual("01/01/2000 00:00:00", date.GetDefault().Title);
+			Assert.AreEqual("2000-01-01 00:00:00", date.GetDefault().Title);
             var desc = post.Parameters[1].AssertIsNamed("Description").AssertIsMandatory();
             var curr = post.Parameters[2].AssertIsNamed("Currency").AssertIsMandatory();
             Assert.AreEqual("USD", curr.GetDefault().Title);
@@ -254,7 +250,7 @@ namespace Cluster.Accounts.Test
             var credit = post.Parameters[5].AssertIsNamed("Credit Account").AssertIsMandatory();
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void PostATransaction()
         {
             var accounts = GetTestService("Accounts");
@@ -274,13 +270,13 @@ namespace Cluster.Accounts.Test
 
             var transView = entries.ElementAt(1);
             transView.AssertIsType(typeof(TransactionInAccountView));
-            transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("02/01/2000 00:00:00");
+			transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-02 00:00:00");
             transView.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Trans 1");
             transView.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("12.34");
             transView.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
 
             var balance = entries.ElementAt(2);
-            balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
+			balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-01 00:00:00");
             balance.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Current Balance");
             balance.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("12.34");
             balance.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
@@ -291,7 +287,7 @@ namespace Cluster.Accounts.Test
 
             entries = a1.GetPropertyByName("Entries").ContentAsCollection.AssertCountIs(4);
             transView = entries.ElementAt(2);
-            transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/02/2000 00:00:00");
+			transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-02-01 00:00:00");
             transView.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Trans 2");
             transView.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertIsEmpty();
             transView.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertValueIsEqual("5.12");
@@ -301,25 +297,25 @@ namespace Cluster.Accounts.Test
             trans2.GetPropertyByName("Period").AssertIsUnmodifiable().AssertTitleIsEqual("Feb 00");
 
             balance = entries.ElementAt(3);
-            balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
+			balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-01 00:00:00");
             balance.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Current Balance");
             balance.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("7.22");
             balance.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
 
             entries = a2.GetPropertyByName("Entries").ContentAsCollection.AssertCountIs(4);
             transView = entries.ElementAt(2);
-            transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/02/2000 00:00:00");
+			transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-02-01 00:00:00");
             transView.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("5.12");
             transView.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
 
             balance = entries.ElementAt(3);
-            balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
+			balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-01 00:00:00");
             balance.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Current Balance");
             balance.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertIsEmpty();
             balance.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertValueIsEqual("7.22");
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void ValidateParamsOnPostTransaction()
         {
             var accounts = GetTestService("Accounts");
@@ -348,7 +344,7 @@ namespace Cluster.Accounts.Test
             post.AssertIsInvalidWithParms(new DateTime(2000, 02, 01), "Trans 1", "USD", new decimal(12.34), a7, a1);
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void SomeFieldsOnATransactionMayBeEditedWhileItsPeriodIsStillOpen()
         {
             var accounts = GetTestService("Accounts");
@@ -387,7 +383,7 @@ namespace Cluster.Accounts.Test
         #endregion
 
         #region Customer Accounts
-        [TestMethod()]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void CreateNewAccountForHolder()
         {
             var ah1 = GetTestService("Mock Account Holders").GetAction("All Instances").InvokeReturnCollection().ElementAt(0);
@@ -400,7 +396,7 @@ namespace Cluster.Accounts.Test
             var bal = create.Parameters.ElementAt(2).AssertIsNamed("Opening Balance").AssertIsMandatory();
             Assert.AreEqual("0", bal.GetDefault().Title);
             var asOf = create.Parameters.ElementAt(3).AssertIsNamed("As Of").AssertIsMandatory();
-            Assert.AreEqual("30/11/1999 00:00:00", asOf.GetDefault().Title);
+			Assert.AreEqual("1999-11-30 00:00:00", asOf.GetDefault().Title);
             create.Parameters.ElementAt(4).AssertIsNamed("Customer's own description").AssertIsOptional();
 
             SetNextAcNumber("B001");
@@ -414,7 +410,7 @@ namespace Cluster.Accounts.Test
             ac.GetPropertyByName("Clearance Mechanism").AssertValueIsEqual("Clear Oldest Debits First").AssertIsModifiable().AssertIsMandatory();
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void FindAccountsForAHolder()
         {
             var ah = GetTestService("Mock Account Holders").GetAction("All Instances").InvokeReturnCollection().ElementAt(1);
@@ -448,7 +444,7 @@ namespace Cluster.Accounts.Test
 
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Accounts")]
         public virtual void AttemptCreateTwoAccountsWithSameName()
         {
             var ah = GetTestService("Mock Account Holders").GetAction("All Instances").InvokeReturnCollection().ElementAt(2);
@@ -467,7 +463,7 @@ namespace Cluster.Accounts.Test
         #endregion
 
         #region Matching
-        [TestMethod]
+		[TestMethod, TestCategory("Accounts")]
         public void MatchTransactions()
         {
             var accounts = GetTestService("Accounts");
