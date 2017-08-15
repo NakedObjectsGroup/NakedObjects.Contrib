@@ -143,6 +143,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cluster.Batch.Api\Cluster.Batch.Api.csproj">
+      <Project>{7CF7BDE5-0A91-4085-8602-EABE54F78A22}</Project>
+      <Name>Cluster.Batch.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cluster.Forms.Api\Cluster.Forms.Api.csproj">
       <Project>{46f6d99c-8cde-4609-82d0-01dd8b79312f}</Project>
       <Name>Cluster.Forms.Api</Name>
