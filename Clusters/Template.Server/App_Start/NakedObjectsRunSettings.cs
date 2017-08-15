@@ -31,7 +31,9 @@ using Cluster.Audit.Impl;
 using NakedObjects.Snapshot;
 //using Cluster.Users.Test;
 using Cluster.Accounts.Test;
+using Cluster.Countries.Impl;
 using Cluster.Forms.Test;
+using Cluster.Telephones.Impl;
 //using Cluster.Batch.Impl;
 using NakedObjects.Services;
 using NakedObjects.Snapshot.Xml.Service;
@@ -88,8 +90,10 @@ namespace NakedObjects.Template {
                     typeof(NakedObjectsEmailSender),
                     typeof(XmlSnapshotService),
                     typeof(SimpleCustomerAccountNumberCreator),
-                    typeof(FormService)
-                    //typeof(AddressService),
+					typeof(FormService),
+					typeof(CountryService),
+					typeof(TelephoneService),
+					typeof(AddressService),
                     //typeof(ProcessDefinitionRepository),
                     //typeof(CustomerAccountsService),
                     //typeof(FormRepository),
@@ -116,6 +120,8 @@ namespace NakedObjects.Template {
             return new IMenu[] {
                factory.NewMenu<AccountsService>(true, "Accounts"),
                factory.NewMenu<UserService>(true, "Users"),
+			   factory.NewMenu<AddressService>(true, "Addresses"),
+			   factory.NewMenu<CountryService>(true), // TODO: disable later
                factory.NewMenu<AuditService>(true, "Audit"),
                factory.NewMenu<DocumentService>(true, "Documents"),
                factory.NewMenu<EmailService>(true, "Email")
