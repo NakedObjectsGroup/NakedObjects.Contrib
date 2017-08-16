@@ -1,0 +1,14 @@
+**/packages
+**/bin
+**/obj
+**/nakedobjects_log*.*
+*.dll
+*.zip
+*.user
+*.suo
+*.mdf
+*.LDF
+*/lib
+*/src
+/test-results
+*.nupkg
