@@ -5,22 +5,26 @@
 
   <!-- List of all clusters  -->
   <PropertyGroup>
+    <Server>Template.Server</Server>
+    <Client>Template.Client</Client>
+    <DataBase>Template.DataBase</DataBase>
+    <SeedData>Template.SeedData</SeedData>
+    <Helpers>NakedObjects.Extensions</Helpers>
     <Accounts>Cluster.Accounts</Accounts>
     <Addresses>Cluster.Addresses</Addresses>
     <Audit>Cluster.Audit</Audit>
+    <Batch>Cluster.Batch</Batch>
     <Countries>Cluster.Countries</Countries>
     <Documents>Cluster.Documents</Documents>
     <Emails>Cluster.Emails</Emails>
     <Forms>Cluster.Forms</Forms>
+    <!--<MultiStep>Cluster.MultiStep</MultiStep>-->
     <Names>Cluster.Names</Names>
-    <Batch>Cluster.Batch</Batch>
     <System>Cluster.System</System>
     <Tasks>Cluster.Tasks</Tasks>
     <Telephones>Cluster.Telephones</Telephones>
     <Templates>Cluster.Templates</Templates>
     <Users>Cluster.Users</Users>
-    <!--<RunMvc2>App.RunMvc2</RunMvc2>-->
-    <RunMvc5>App.RunMvc5</RunMvc5>
     <CommunityTargets>$(MSBuildProjectDirectory)\.build\MSBuild.Community.Tasks.targets</CommunityTargets>
     <CommunityTasks>.build\MSBuild.Community.Tasks.dll</CommunityTasks>
   </PropertyGroup>
@@ -33,7 +37,11 @@
 
   <!-- List of all projects to be built -->
   <ItemGroup>
-    <Files Include="$(RunMvc5)\$(RunMvc5).csproj"/>
+    <Files Include="$(Server)\$(Server).csproj"/>
+    <Files Include="$(Client)\$(Client).csproj"/>
+    <Files Include="$(DataBase)\$(DataBase).csproj"/>
+    <Files Include="$(SeedData)\$(SeedData).csproj"/>
+    <Files Include="$(Helpers)\Helpers.csproj"/>
     <Files Include="$(Accounts).Impl\$(Accounts).Impl.csproj"/>
     <Files Include="$(Accounts).Test\$(Accounts).Test.csproj"/>
     <Files Include="$(Addresses).Api\$(Addresses).Api.csproj"/>
@@ -58,8 +66,8 @@
     <Files Include="$(Names).Impl\$(Names).Impl.csproj"/>
     <Files Include="$(Names).Test\$(Names).Test.csproj"/>
     <Files Include="$(Batch).Api\$(Batch).Api.csproj"/>
-    <Files Include="$(Batch).Impl\$(Batch).Impl.csproj"/>
-    <Files Include="$(Batch).Test\$(Batch).Test.csproj"/>
+    <!--<Files Include="$(Batch).Impl\$(Batch).Impl.csproj"/>-->
+    <!--<Files Include="$(Batch).Test\$(Batch).Test.csproj"/>-->
     <Files Include="$(System).Api\$(System).Api.csproj"/>
     <Files Include="$(System).Impl\$(System).Impl.csproj"/>
     <Files Include="$(System).Mock\$(System).Mock.csproj"/>
