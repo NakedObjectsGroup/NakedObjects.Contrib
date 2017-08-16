@@ -1,4 +1,5 @@
-namespace NakedObjects.Template.App_Start
+
+namespace NakedObjects.Template
 {
     using System;
     using System.Collections.Generic;

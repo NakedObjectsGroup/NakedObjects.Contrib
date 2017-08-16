@@ -9,11 +9,10 @@ using System.Web.Http;
 using System.Web.Routing;
 using NakedObjects.Rest;
 using NakedObjects.Rest.Media;
-using System;
 using System.Web.Configuration;
-using NakedObjects.Template.App_Start;
 
-namespace NakedObjects.Template {
+namespace NakedObjects.Template
+{
     public class RestfulObjectsConfig {
 
         public static void RegisterRestfulObjectsRoutes(RouteCollection routes) {

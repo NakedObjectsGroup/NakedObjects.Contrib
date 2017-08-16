@@ -40,7 +40,8 @@ using NakedObjects.Snapshot.Xml.Service;
 using NakedObjects.Meta.Authorization;
 using NakedObjects.Meta.Audit;
 
-namespace NakedObjects.Template {
+namespace NakedObjects.Template
+{
     public class NakedObjectsRunSettings
     {
 
