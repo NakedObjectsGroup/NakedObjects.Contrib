@@ -21,7 +21,7 @@ namespace Cluster.Users.Test
             var fullName = rich.Properties.ElementAt(1).AssertIsVisible().AssertIsModifiable().AssertIsOptional();
             Assert.AreEqual("Full Name", fullName.Name);
 
-            var email = rich.Properties.ElementAt(2).AssertIsVisible().AssertIsUnmodifiable(); ;
+            var email = rich.Properties.ElementAt(2).AssertIsVisible().AssertIsUnmodifiable();
             Assert.AreEqual("Email Address", email.Name);
 
             var orgs = rich.Properties.ElementAt(3).AssertIsVisible();
