@@ -1,14 +1,13 @@
-namespace NakedObjects.Template.App_Start
-{
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Security.Claims;
-    using Newtonsoft.Json.Linq;
-    using System.Text;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using Newtonsoft.Json.Linq;
 
-    public static class JsonWebToken
+namespace NakedObjects.Template
+{
+	public static class JsonWebToken
     {
         private const string NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name";
         private const string RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
@@ -137,6 +136,7 @@ namespace NakedObjects.Template.App_Start
             return unixEpoch.AddSeconds(unixTime);
         }
 
+		[Serializable]
         public class TokenValidationException : Exception
         {
             public TokenValidationException(string message)
