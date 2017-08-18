@@ -134,9 +134,9 @@
       <Project>{ada98f12-0e6f-4df8-9dda-9a80c8abb6a3}</Project>
       <Name>Cluster.Forms.Impl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cluster.MultiStep.Api\Cluster.MultiStep.Api.csproj">
+    <ProjectReference Include="..\Cluster.MultiStep.Api\Cluster.MultiStep.Impl.csproj">
       <Project>{45e585ac-77e4-4e58-a69d-348715940e25}</Project>
-      <Name>Cluster.MultiStep.Api</Name>
+      <Name>Cluster.MultiStep.Impl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cluster.Names.Api\Cluster.Names.Api.csproj">
       <Project>{9edd9ad6-6a67-4683-83ca-2029e49f20ea}</Project>

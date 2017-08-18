@@ -37,7 +37,7 @@ namespace Template.DataBase
 
         //IAccountsDbContext
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<Cluster.Accounts.Impl.Transaction> Transactions { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Match> Matches { get; set; }
         public DbSet<PersistedBalance> Balances { get; set; }
         public DbSet<Period> Periods { get; set; }
