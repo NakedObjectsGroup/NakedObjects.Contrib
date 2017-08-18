@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Cluster.MultiStep.Api
+﻿
+namespace Cluster.MultiStep.Impl
 {
     /// <summary>
     /// The Stage controls the availability of sequence methods such as Next, Previous.
