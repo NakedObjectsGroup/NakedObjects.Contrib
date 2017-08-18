@@ -8,7 +8,7 @@ using NakedObjects.Services;
 
 namespace Cluster.MultiStep.Test
 {
-    [TestClass()]
+    [TestClass]
     public class MultiStepXATs : ClusterXAT<MultiStepTestDbContext, MultiStepFixture>
     {
         #region Run configuration
@@ -38,11 +38,11 @@ namespace Cluster.MultiStep.Test
             CleanupNakedObjectsFramework();
         }
 
-        #endregion
+		#endregion
 
 
-        [TestMethod]
-        public void InitiateActivity()
+		[TestMethod, TestCategory("MultiStep")]
+		public void InitiateActivity()
         {
             var a1 = GetTestService("Action1s").GetAction("New Instance").InvokeReturnObject().Save();
 
@@ -57,5 +57,6 @@ namespace Cluster.MultiStep.Test
 
             s3.AssertIsType(typeof(Step3));
         }
+
     }
 }
