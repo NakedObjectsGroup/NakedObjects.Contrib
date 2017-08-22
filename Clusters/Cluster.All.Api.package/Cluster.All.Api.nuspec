@@ -5,15 +5,15 @@
     <version>0.2.0</version>
     <authors>Naked Objects Group Ltd</authors>
     <owners>Naked Objects Group Ltd</owners>
-    <licenseUrl>https://bitbucket.org/richardpawson/clusters</licenseUrl>
-    <projectUrl>https://bitbucket.org/richardpawson/clusters</projectUrl>
+    <licenseUrl>https://github.com/NakedObjectsGroup/NakedObjects.Contrib</licenseUrl>
+    <projectUrl>https://github.com/NakedObjectsGroup/NakedObjects.Contrib</projectUrl>
     <iconUrl>http://www.nakedobjects.net/images/nakedobjects.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Api</description>
     <frameworkAssemblies>
     </frameworkAssemblies>
     <dependencies>
-      <dependency id="NakedObjects.ProgrammingModel" version="5.6.0" />
+      <dependency id="NakedObjects.ProgrammingModel" version="6.0.0" />
     </dependencies>
   </metadata>
 </package>

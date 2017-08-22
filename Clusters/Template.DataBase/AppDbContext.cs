@@ -13,6 +13,7 @@ using Cluster.Countries.Impl.Mapping;
 using Cluster.Accounts.Impl;
 using Cluster.Audit.Impl;
 using Cluster.Users.Impl;
+using Cluster.Users.Impl.Mapping;
 
 namespace Template.DataBase
 {
@@ -36,7 +37,7 @@ namespace Template.DataBase
 
         //IAccountsDbContext
         public DbSet<Account> Accounts { get; set; }
-        public DbSet<Cluster.Accounts.Impl.Transaction> Transactions { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Match> Matches { get; set; }
         public DbSet<PersistedBalance> Balances { get; set; }
         public DbSet<Period> Periods { get; set; }
@@ -100,7 +101,7 @@ namespace Template.DataBase
             MapsForCountriesCluster.AddTo(modelBuilder);
             MapsForEmailsCluster.AddTo(modelBuilder);
             MapsForTasksCluster.AddTo(modelBuilder);
-            //MapsForUsersCluster.AddTo(modelBuilder);
+            MapsForUsersCluster.AddTo(modelBuilder);
         }
     }
 }

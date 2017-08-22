@@ -1,31 +1,24 @@
+using System;
 using System.Linq;
 using NakedObjects.Boot;
 using NakedObjects.Core.NakedObjectsSystem;
-using NakedObjects.EntityObjectStore;
-using NakedObjects.Services;
 using NakedObjects.Xat;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity;
-using System;
-using NakedObjects;
 using Cluster.Tasks.Impl;
 using Cluster.Tasks.Api;
-using Cluster.Users.Api;
 using Cluster.Users.Mock;
 using Cluster.System.Mock;
 using Helpers;
-
+using NakedObjects.Services;
 
 namespace Cluster.Tasks.Test
 {
-    [TestClass()]
+    [TestClass]
     public class TasksXAT : ClusterXAT<TasksTestDbContext, TasksFixture>
     {
         #region Run configuration
 
-        private Cluster.System.Api.IClock clock = new FixedClock(new DateTime(2000, 1, 1));
+        private readonly System.Api.IClock _clock = new FixedClock(new DateTime(2000, 1, 1));
 
         //Set up the properties in this region exactly the same way as in your Run class
         protected override IServicesInstaller MenuServices
@@ -35,9 +28,9 @@ namespace Cluster.Tasks.Test
                 return new ServicesInstaller
                     (new MockUserService(),
                     new TaskRepository(),
-                    //new SimpleRepository<UnsuspendTasksBatchProcess>(),
+                    new SimpleRepository<UnsuspendTasksBatchProcess>(),
                     new TestRepository(),
-                    clock
+                    _clock
                     );
             }
         }
@@ -83,7 +76,7 @@ namespace Cluster.Tasks.Test
         #endregion
 
         #region Task Types
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void TaskType()
         {
             var t1 = GetBoundedInstance<TaskType>("TypeA");
@@ -92,7 +85,7 @@ namespace Cluster.Tasks.Test
         #endregion
 
         #region Creating Tasks
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void CreateNewTask()
         {
             var t1 = GetBoundedInstance<TaskType>("TypeA");
@@ -134,7 +127,7 @@ namespace Cluster.Tasks.Test
             }
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void CreateNewTaskAssignedToMe()
         {
             SetUser("Robbie");
@@ -153,7 +146,7 @@ namespace Cluster.Tasks.Test
             AssertLastHistoryEntryHasValues(task, "Pending", "Robbie", "Robbie");
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void OnlyUserCreatableTypesShowninDropDown()
         {
             var t1 = GetBoundedInstance<TaskType>("TypeB");
@@ -169,14 +162,14 @@ namespace Cluster.Tasks.Test
         #endregion
 
         #region Finding Tasks
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void FindById()
         {
             var task = GetTestService("Tasks").GetAction("Find By Id").InvokeReturnObject(1);
             task.AssertTitleEquals("Task # 1");
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void FindTasks()
         {
             var find = GetTestService("Tasks").GetAction("Find Tasks");
@@ -200,7 +193,7 @@ namespace Cluster.Tasks.Test
             first.GetPropertyByName("Assigned To").AssertTitleIsEqual("Richard");
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void MyAssignedTasks1()
         {
             SetUser("Robert");
@@ -211,7 +204,7 @@ namespace Cluster.Tasks.Test
                 && (x.GetPropertyByName("Status").Title == "Pending"));
             Assert.AreEqual(tasks.Count(), assignedToMe);
         }
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void MyAssignedTasks2()
         {
             SetUser("Richard");
@@ -224,7 +217,7 @@ namespace Cluster.Tasks.Test
         #endregion
 
         #region Assignment
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void Assign()
         {
             var task = GetTaskWithTestNumber(10);
@@ -238,7 +231,7 @@ namespace Cluster.Tasks.Test
 
 
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void AttemptReassignToSameUser()
         {
             var task = GetTaskWithTestNumber(11);
@@ -247,7 +240,7 @@ namespace Cluster.Tasks.Test
             task.GetAction("Assign To").AssertIsInvalidWithParms(charlie);
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void AssignToMe()
         {
             SetUser("Richard");
@@ -259,7 +252,7 @@ namespace Cluster.Tasks.Test
             status.AssertTitleIsEqual("Pending");
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void AssignActionsInvisibleIfTaskIsCompletedOrCancelled()
         {
             var task = GetTaskWithTestNumber(16);
@@ -281,7 +274,7 @@ namespace Cluster.Tasks.Test
 
         #region Start
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void StartTaskAlreadyAssignedToMe()
         {
             SetUser("Charlie");
@@ -294,7 +287,7 @@ namespace Cluster.Tasks.Test
             AssertLastHistoryEntryHasValues(task, "Started", "Charlie", "Charlie");
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void CantStartTaskIfNotAssignedToMe()
         {
             SetUser("Richard");
@@ -304,7 +297,7 @@ namespace Cluster.Tasks.Test
             task.GetAction("Start").AssertIsDisabled();
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void AssignToMeAndStart()
         {
             SetUser("Richard");
@@ -317,7 +310,7 @@ namespace Cluster.Tasks.Test
             AssertLastHistoryEntryHasValues(task, "Started", "Richard", "Richard");
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void StartActionHiddenIfAlreadyStartedOrCompletedOCancelled()
         {
             var task = GetTaskWithTestNumber(16);
@@ -336,7 +329,7 @@ namespace Cluster.Tasks.Test
         #endregion
 
         #region Complete
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void CompleteTaskYouveAlreadyStarted()
         {
             SetUser("Charlie");
@@ -349,7 +342,7 @@ namespace Cluster.Tasks.Test
             AssertLastHistoryEntryHasValues(task, "Completed", "Charlie", "Charlie");
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void CantCompleteIfNotAssignedToYou()
         {
             SetUser("Richard");
@@ -359,7 +352,7 @@ namespace Cluster.Tasks.Test
             task.GetAction("Complete").AssertIsVisible().AssertIsDisabled();
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void CompleteActionHiddenIfAlreadyCompletedOrCancelled()
         {
             var task = GetTaskWithTestNumber(21);
@@ -372,7 +365,7 @@ namespace Cluster.Tasks.Test
 
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void CantCompleteTaskIfNotStarted()
         {
             SetUser("Charlie");
@@ -382,7 +375,7 @@ namespace Cluster.Tasks.Test
             task.GetAction("Complete").AssertIsDisabled();
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void CompleteTaskWithComment()
         {
             SetUser("Charlie");
@@ -397,7 +390,7 @@ namespace Cluster.Tasks.Test
         #endregion
 
         #region Cancel
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void CancelTask()
         {
             SetUser("Charlie");
@@ -412,7 +405,7 @@ namespace Cluster.Tasks.Test
         }
 
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void CancelActionHiddenIfAlreadyCompleteOrCancelled()
         {
             var task = GetTaskWithTestNumber(27);
@@ -424,14 +417,14 @@ namespace Cluster.Tasks.Test
             task.GetAction("Cancel").AssertIsInvisible();
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void CantCancelIfStartedUnlessAssignedToYou()
         {
         }
         #endregion
 
         #region Suspension
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void SuspendTaskForDays()
         {
             var task = GetTaskWithTestNumber(29);
@@ -446,13 +439,13 @@ namespace Cluster.Tasks.Test
             suspend.InvokeReturnObject(7, null, "foo");
             status.AssertTitleIsEqual("Suspended");
             unsuspend.AssertIsVisible();
-            until.AssertIsVisible().AssertIsNotEmpty().AssertValueIsEqual("08/01/2000 00:00:00");
+			until.AssertIsVisible().AssertIsNotEmpty().AssertValueIsEqual("2000-01-08 00:00:00");
             var notes = task.GetPropertyByName("Notes").Title;
             StringAssert.EndsWith(notes, "Suspended: foo");
             AssertLastHistoryEntryHasValues(task, "Suspended", "Charlie", "Test");
         }
         
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void SuspendTaskToSpecificDate()
         {
             var task = GetTaskWithTestNumber(30);
@@ -466,27 +459,27 @@ namespace Cluster.Tasks.Test
             AssertLastHistoryEntryHasValues(task, "Suspended", "Charlie", "Test");
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void AttemptWithInvalidDates()
         {
             var task = GetTaskWithTestNumber(31);
               var suspend = task.GetAction("Suspend");
-              var todayPlus30 = clock.Today().AddDays(30);
+              var todayPlus30 = _clock.Today().AddDays(30);
               suspend.AssertIsValidWithParms(null, todayPlus30, null);
-              var todayPlus31 = clock.Today().AddDays(31);
+              var todayPlus31 = _clock.Today().AddDays(31);
             suspend.AssertIsInvalidWithParms(null, todayPlus31, null);
-            var todayMinus1 = clock.Today().AddDays(-1);
+            var todayMinus1 = _clock.Today().AddDays(-1);
             suspend.AssertIsInvalidWithParms(null, todayMinus1, null);
-            var today = clock.Today();
+            var today = _clock.Today();
             suspend.AssertIsInvalidWithParms(null, today, null);
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void MustSpecifyEitherDaysOrUntil()
         {
             var task = GetTaskWithTestNumber(31); //OK to re-use
             var suspend = task.GetAction("Suspend");
-            var todayPlus30 = clock.Today().AddDays(30);
+            var todayPlus30 = _clock.Today().AddDays(30);
             suspend.AssertIsValidWithParms(null, todayPlus30, null);
             suspend.AssertIsValidWithParms(14, null, null);
 
@@ -494,7 +487,7 @@ namespace Cluster.Tasks.Test
             suspend.AssertIsInvalidWithParms(null, null, null);
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void Unsuspend()
         {
             var task = GetTaskWithTestNumber(32);
@@ -520,10 +513,10 @@ namespace Cluster.Tasks.Test
 
         #region Task Service 
 
-        [TestMethod]
+		[TestMethod, TestCategory("TasksXAT")]
         public void UnsuspendTasksForToday()
         {
-            string today = clock.Today().Date.ToString("d");
+            string today = _clock.Today().Date.ToString("d");
             var find = GetTestService("Tasks").GetAction("Find Tasks");
             var tasks = find.InvokeReturnCollection(null, TaskStatusValues.Suspended, null);
             int total = tasks.Count();

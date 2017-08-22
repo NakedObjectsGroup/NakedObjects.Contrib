@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-//using Cluster.System.Api;
 using NakedObjects;
 
-namespace Cluster.MultiStep.Api
+namespace Cluster.MultiStep.Impl
 {
     /// <summary>
     /// Models a user view of a step in completion of an Activity.
@@ -32,8 +29,7 @@ namespace Cluster.MultiStep.Api
             }
             return t.ToString();
         }
-
-        
+		
         #region Stage & StepNumber
         [Disabled]
         public virtual Stages Stage { get; set; }
@@ -140,7 +136,6 @@ namespace Cluster.MultiStep.Api
         }
         #endregion
         #endregion
+
     }
-
-
 }

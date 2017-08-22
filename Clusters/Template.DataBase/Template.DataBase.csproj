@@ -38,6 +38,22 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NakedObjects.Attributes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NakedObjects.ProgrammingModel.7.0.4\lib\net40\NakedObjects.Attributes.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NakedObjects.Helpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NakedObjects.ProgrammingModel.7.0.4\lib\net40\NakedObjects.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NakedObjects.PMResources, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NakedObjects.ProgrammingModel.7.0.4\lib\net40\NakedObjects.PMResources.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NakedObjects.Types, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NakedObjects.ProgrammingModel.7.0.4\lib\net40\NakedObjects.Types.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -82,6 +98,10 @@
       <Project>{c76212c0-a29c-4cdb-8139-49656b835c8b}</Project>
       <Name>Cluster.Audit.Impl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cluster.Batch.Api\Cluster.Batch.Api.csproj">
+      <Project>{7cf7bde5-0a91-4085-8602-eabe54f78a22}</Project>
+      <Name>Cluster.Batch.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cluster.Countries.Api\Cluster.Countries.Api.csproj">
       <Project>{fbea5f51-e01f-4589-a730-1a7405b70182}</Project>
       <Name>Cluster.Countries.Api</Name>
@@ -114,9 +134,9 @@
       <Project>{ada98f12-0e6f-4df8-9dda-9a80c8abb6a3}</Project>
       <Name>Cluster.Forms.Impl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cluster.MultiStep.Api\Cluster.MultiStep.Api.csproj">
+    <ProjectReference Include="..\Cluster.MultiStep.Api\Cluster.MultiStep.Impl.csproj">
       <Project>{45e585ac-77e4-4e58-a69d-348715940e25}</Project>
-      <Name>Cluster.MultiStep.Api</Name>
+      <Name>Cluster.MultiStep.Impl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cluster.Names.Api\Cluster.Names.Api.csproj">
       <Project>{9edd9ad6-6a67-4683-83ca-2029e49f20ea}</Project>
@@ -169,6 +189,10 @@
     <ProjectReference Include="..\Cluster.Users.Impl\Cluster.Users.Impl.csproj">
       <Project>{4329BF10-1497-4C86-A196-BA4A284005E4}</Project>
       <Name>Cluster.Users.Impl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NakedObjects.Extensions\Helpers.csproj">
+      <Project>{947a697d-6052-488c-8105-34ab7f60cc41}</Project>
+      <Name>Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

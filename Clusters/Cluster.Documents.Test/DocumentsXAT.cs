@@ -1,23 +1,20 @@
+using System;
 using System.Linq;
 using NakedObjects.Boot;
 using NakedObjects.Core.NakedObjectsSystem;
-using NakedObjects.EntityObjectStore;
 using NakedObjects.Services;
-using NakedObjects.Xat;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data.Entity;
 using Cluster.Documents.Impl;
 using Cluster.Documents.Api;
 using Cluster.Users.Mock;
 using Cluster.System.Mock;
-using System;
 using Helpers;
 
 namespace Cluster.Documents.Test
 {
 
-    [TestClass()]
+    [TestClass]
     public class DocumentsXAT : ClusterXAT<DocumentsTestDbContext, DocumentsFixture>
     {
 
@@ -70,7 +67,7 @@ namespace Cluster.Documents.Test
         #endregion
 
 
-        [TestMethod()]
+		[TestMethod, TestCategory("DocumentsXAT")]
         public virtual void RecentDocumentsAssociatedWithHolder()
         {
             var holder = GetTestService("Simple Holders").GetAction("Find By Key").InvokeReturnObject(2);
@@ -86,7 +83,7 @@ namespace Cluster.Documents.Test
             doc.AssertIsType(typeof(Note));
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("DocumentsXAT")]
         public virtual void FindDocumentsAssociatedWithHolder()
         {
             var holder = GetTestService("Simple Holders").GetAction("Find By Key").InvokeReturnObject(3);
@@ -104,12 +101,12 @@ namespace Cluster.Documents.Test
 
         #region Notes
 
-        [TestMethod]
+		[TestMethod, TestCategory("DocumentsXAT")]
         public void PersistedNote()
         {
             SetUser("Richard");
             var note = GetTestService("Notes").GetAction("Find By Key").InvokeReturnObject(1);
-            note.GetPropertyByName("Text").AssertIsUnmodifiable().AssertValueIsEqual("Note1\nTest, 01/01/2000 00:00:00");
+			note.GetPropertyByName("Text").AssertIsUnmodifiable().AssertValueIsEqual("Note1\nTest, 2000-01-01 00:00:00");
 
             note.GetPropertyByName("Id").AssertIsInvisible();
 
@@ -124,7 +121,7 @@ namespace Cluster.Documents.Test
             note.GetPropertyByName("Last Modified").AssertIsVisible().AssertIsUnmodifiable();
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("DocumentsXAT")]
         public virtual void AddNoteToHolderWhereNonePrevious()
         {
             var holder = GetTestService("Simple Holders").GetAction("Find By Key").InvokeReturnObject(6);
@@ -153,7 +150,7 @@ namespace Cluster.Documents.Test
             Assert.AreEqual(holder, link.GetPropertyByName("Associated Role Object").ContentAsObject);
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("DocumentsXAT")]
         public virtual void AddNoteOntoPrevious()
         {
             var holder = GetTestService("Simple Holders").GetAction("Find By Key").InvokeReturnObject(4);
@@ -189,7 +186,7 @@ namespace Cluster.Documents.Test
             Assert.IsTrue(lines[7].StartsWith("Test,"));
         }
 
-        [TestMethod]
+		[TestMethod, TestCategory("DocumentsXAT")]
         public void FinishThisNoteAndStartANewOne()
         {
             var holder = GetTestService("Simple Holders").GetAction("Find By Key").InvokeReturnObject(5);
@@ -215,7 +212,7 @@ namespace Cluster.Documents.Test
         #endregion
         #region File Attachments
 
-        [TestMethod]
+		[TestMethod, TestCategory("DocumentsXAT")]
         public void PersistedFA()
         {
             var fa = GetTestService("Document With File Attachments").GetAction("All Instances").InvokeReturnCollection().ElementAt(0);
@@ -228,7 +225,7 @@ namespace Cluster.Documents.Test
             att.AssertTitleIsEqual("TextFile1.txt");
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("DocumentsXAT")]
         public virtual void AddFileAttachment()
         {
             var holder = GetTestService("Simple Holders").GetAction("Find By Key").InvokeReturnObject(1);

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NakedObjects;
 using Cluster.System.Api;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cluster.MultiStep.Api
+namespace Cluster.MultiStep.Impl
 {
     public abstract class MultiStepAction : IUpdateableEntity
     {
@@ -69,7 +66,7 @@ namespace Cluster.MultiStep.Api
 
         protected void AssertStepNumberIs(int stepNumber)
         {
-            if (this.StepNumber != stepNumber)
+            if (StepNumber != stepNumber)
             {
                 throw new DomainException("Step number is incorrect");
             }

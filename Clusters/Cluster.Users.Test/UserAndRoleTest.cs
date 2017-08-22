@@ -1,34 +1,19 @@
 using System.Linq;
-using NakedObjects.Boot;
-using NakedObjects.Core.NakedObjectsSystem;
-using NakedObjects.EntityObjectStore;
-using NakedObjects.Services;
-using NakedObjects.Xat;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity;
-using System;
-using NakedObjects;
-using Cluster.Users.Impl;
-using Cluster.Users.Api;
-using Cluster.System.Mock;
-using Cluster.System.Api;
-using App.Users.Test;
 
 namespace Cluster.Users.Test
 {
-    [TestClass()]
+    [TestClass]
     public class UserAndRoleTest : AbstractUsersTest
     {
-        [TestMethod]
+        [TestMethod, TestCategory("UserAndRoleTest")]
         public void UserPropertiesAndActions()
         {
             
             var rich = Users.GetAction("All Users").InvokeReturnCollection().ElementAt(0);
 
             //properties
-            Assert.AreEqual(7, rich.Properties.Count());
+            Assert.AreEqual(6, rich.Properties.Count()); // was 7
 
             var userName = rich.Properties.ElementAt(0).AssertIsVisible().AssertIsUnmodifiable();
             Assert.AreEqual("User Name", userName.Name);
@@ -36,7 +21,7 @@ namespace Cluster.Users.Test
             var fullName = rich.Properties.ElementAt(1).AssertIsVisible().AssertIsModifiable().AssertIsOptional();
             Assert.AreEqual("Full Name", fullName.Name);
 
-            var email = rich.Properties.ElementAt(2).AssertIsVisible().AssertIsUnmodifiable(); ;
+            var email = rich.Properties.ElementAt(2).AssertIsVisible().AssertIsUnmodifiable();
             Assert.AreEqual("Email Address", email.Name);
 
             var orgs = rich.Properties.ElementAt(3).AssertIsVisible();
@@ -71,7 +56,7 @@ namespace Cluster.Users.Test
             Assert.AreEqual("Role", addRole.Parameters[0].Name);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UserAndRoleTest")]
         public void SpecifyUsersOrganisation()
         {
             var test1 = Users.GetAction("Find User By User Name").InvokeReturnObject("Test1");
@@ -89,12 +74,12 @@ namespace Cluster.Users.Test
   
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UserAndRoleTest")]
         public void RetrieveAllUsersForOrganisation()
         {
             var findUser = Users.GetAction("Find User By User Name");
-             var test2 =findUser.InvokeReturnObject("Test2");
-             var test3 = findUser.InvokeReturnObject("Test3");
+            var test2 =findUser.InvokeReturnObject("Test2");
+            var test3 = findUser.InvokeReturnObject("Test3");
 
             var findOrg = MockOrgs.GetAction("Find By Key");
             var epsilon = findOrg.InvokeReturnObject(5).AssertTitleEquals("Epsilon");
@@ -102,19 +87,19 @@ namespace Cluster.Users.Test
             test2.GetAction("Add Organisation").InvokeReturnObject(epsilon);
             test3.GetAction("Add Organisation").InvokeReturnObject(epsilon);
 
-           var betaUsers = epsilon.GetAction("List Users").InvokeReturnCollection();
-           betaUsers.AssertCountIs(2);
-           Assert.AreEqual(test2, betaUsers.ElementAt(0));
-           Assert.AreEqual(test3, betaUsers.ElementAt(1));
+			var betaUsers = epsilon.GetAction("List Users").InvokeReturnCollection();
+			betaUsers.AssertCountIs(2);
+			Assert.AreEqual(test2, betaUsers.ElementAt(0));
+			Assert.AreEqual(test3, betaUsers.ElementAt(1));
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UserAndRoleTest")]
         public void AddUserFromWithinAnOrganisationObject()
         {
             var findOrg = MockOrgs.GetAction("Find By Key");
             var gamma = findOrg.InvokeReturnObject(3).AssertTitleEquals("Gamma");
 
-           var addUserToGamma = gamma.GetAction("Add User");
+			var addUserToGamma = gamma.GetAction("Add User");
            Assert.AreEqual(1, addUserToGamma.Parameters.Count());
            addUserToGamma.Parameters[0].AssertIsNamed("User Name").AssertIsMandatory();
 
@@ -123,15 +108,15 @@ namespace Cluster.Users.Test
            //addUserToGamma.AssertLastMessageIs("Either the UserName is unknown; or the user is already associated with another organisation");
 
             //Now execute correctly
-          var test4 =  addUserToGamma.InvokeReturnObject("Test4");
-          test4.GetPropertyByName("Organisations").ContentAsCollection.AssertCountIs(1).ElementAt(0).AssertTitleEquals("Gamma");
+			var test4 =  addUserToGamma.InvokeReturnObject("Test4");
+			test4.GetPropertyByName("Organisations").ContentAsCollection.AssertCountIs(1).ElementAt(0).AssertTitleEquals("Gamma");
 
             //Test that same user can't be added again
-          addUserToGamma.AssertIsInvalidWithParms("Test4");
-          addUserToGamma.AssertLastMessageContains("User is already associated with the organisation");
+			addUserToGamma.AssertIsInvalidWithParms("Test4");
+			addUserToGamma.AssertLastMessageContains("User is already associated with the organisation");
         }
 
-        [TestMethod,]
+        [TestMethod, TestCategory("UserAndRoleTest")]
         public void CanAddUserToMultipleOrgs()
         {
             var findOrg = MockOrgs.GetAction("Find By Key");
@@ -140,7 +125,7 @@ namespace Cluster.Users.Test
             var delta = findOrg.InvokeReturnObject(4).AssertTitleEquals("Delta");
             var addUserToDelta = delta.GetAction("Add User");
             addUserToDelta.InvokeReturnObject("Test5");
-           addUserToGamma.InvokeReturnObject("Test5");     
+			addUserToGamma.InvokeReturnObject("Test5");     
         }
 
     }

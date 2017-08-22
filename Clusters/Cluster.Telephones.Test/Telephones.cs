@@ -4,14 +4,12 @@ using NakedObjects.Core.NakedObjectsSystem;
 using NakedObjects.EntityObjectStore;
 using NakedObjects.Services;
 using NakedObjects.Xat;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cluster.Telephones.Impl;
-using System.Data.Entity;
 
 namespace Cluster.Telephones.Test
 {
-    [TestClass()]
+    [TestClass]
     public class Telephones : AcceptanceTestCase
     {
 
@@ -59,10 +57,10 @@ namespace Cluster.Telephones.Test
             CleanupNakedObjectsFramework();
         }
 
-        #endregion
+		#endregion
 
-        [TestMethod]
-        public virtual void CountryCode()
+		[TestMethod, TestCategory("Telephones")]
+		public virtual void CountryCode()
         {
             var codes = GetTestService("Telephone Country Codes").GetAction("All Instances").InvokeReturnCollection();
             codes.AssertIsNotEmpty();
@@ -70,8 +68,8 @@ namespace Cluster.Telephones.Test
             tcc.AssertIsType(typeof(TelephoneCountryCode));
         }
 
-        [TestMethod()]
-        public virtual void FindCountryCodes()
+		[TestMethod, TestCategory("Telephones")]
+		public virtual void FindCountryCodes()
         {
             var find = GetTestService("Telephone Service").GetAction("Find Telephone Country Codes");
             var results = find.InvokeReturnCollection("UK");
@@ -90,18 +88,16 @@ namespace Cluster.Telephones.Test
             results.ElementAt(0).AssertTitleEquals("Ireland +353");
         }
 
-        [TestMethod]
-        public virtual void CreateNewTelephoneDetails()
+		[TestMethod, TestCategory("Telephones")]
+		public virtual void CreateNewTelephoneDetails()
         {
             //Just to check that we haven't forgotten to set App.Settings!
-             Assert.AreEqual("UK", Cluster.Countries.Api.AppSettings.DefaultCountryISOCode());
+             Assert.AreEqual("UK", Countries.Api.AppSettings.DefaultCountryISOCode());
 
             var act = GetTestService("Telephone Service").GetAction("Create New Telephone Details");
             var td = act.InvokeReturnObject();
             td.AssertIsType(typeof(TelephoneDetails));
         }
-
-
 
     }
 }

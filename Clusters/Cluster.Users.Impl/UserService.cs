@@ -1,12 +1,9 @@
-﻿
-using NakedObjects;
+﻿using NakedObjects;
+using NakedObjects.Services;
 using System.ComponentModel;
 using System.Linq;
-using System;
-using Cluster.Users.Api;
-using Cluster.Tasks.Api;
-using NakedObjects.Services;
 using System.Collections.Generic;
+using Cluster.Users.Api;
 
 namespace Cluster.Users.Impl
 {
@@ -43,117 +40,114 @@ namespace Cluster.Users.Impl
             return null;
         }
 
-    [MemberOrder(30)]
-    public IQueryable<IUser> FindUsersByRealOrUserName(string nameMatch)
-    {
-        var match = nameMatch.Trim().ToUpper();
-        return from obj in Container.Instances<UserDetails>()
-               where obj.UserName.ToUpper().Contains(match) ||
-               obj.FullName.ToUpper().Contains(match)
-               select obj;
-    }
+		[MemberOrder(30)]
+		public IQueryable<IUser> FindUsersByRealOrUserName(string nameMatch)
+		{
+			var match = nameMatch.Trim().ToUpper();
+			return from obj in Container.Instances<UserDetails>()
+				   where obj.UserName.ToUpper().Contains(match) ||
+				   obj.FullName.ToUpper().Contains(match)
+				   select obj;
+		}
 
-    #endregion
+		#endregion
 
-    #region CurrentUser
-    [DisplayName("Me"), MemberOrder(10)]
-    public IUser CurrentUser()
-    {
-        return CurrentUserAsUser();
-    }
+		#region CurrentUser
+		[DisplayName("Me"), MemberOrder(10)]
+		public IUser CurrentUser()
+		{
+			return CurrentUserAsUser();
+		}
 
-    private UserDetails CurrentUserAsUser()
-    {
-        var userName = Container.Principal.Identity.Name;
-        if (string.IsNullOrEmpty(userName))
-        {
-            userName = Constants.UNKNOWN;
-        }
-        return FindByUserName(userName);
-    }
+		private UserDetails CurrentUserAsUser()
+		{
+			var userName = Container.Principal.Identity.Name;
+			if (string.IsNullOrEmpty(userName))
+			{
+				userName = Constants.UNKNOWN;
+			}
+			return FindByUserName(userName);
+		}
 
-    #endregion
+		#endregion
 
+		[NakedObjectsIgnore]
+		public IUser FindUserById(int id)
+		{
+			return Container.Instances<UserDetails>().Single(x => x.Id == id);
+		}
 
-    [NakedObjectsIgnore]
-    public IUser FindUserById(int id)
-    {
-        return Container.Instances<UserDetails>().Single(x => x.Id == id);
-    }
+		#region Organisations
 
-    #region Organisations
+		[NakedObjectsIgnore]
+		public IQueryable<IUser> ListUsersForOrganisation(IUserOrg organisation)
+		{
+			return PolymorphicNavigator.FindOwners<UserOrganisationLink, IUserOrg, UserDetails>(organisation);
+		}
 
-    [NakedObjectsIgnore]
-    public IQueryable<IUser> ListUsersForOrganisation(IUserOrg organisation)
-    {
-        return PolymorphicNavigator.FindOwners<UserOrganisationLink, IUserOrg, UserDetails>(organisation);
-    }
+		[NakedObjectsIgnore]
+		public bool CanAddUser(string userName, IUserOrg toOrg, out string errorMessage)
+		{
+			IUser user = FindByUserName(userName);
+			if (user == null)
+			{
+				errorMessage = "UserName " + userName + " has no UserDetails object";
+				return false;
+			}
+			if (user.CanActFor(toOrg))
+			{
+				errorMessage = "User is already associated with the organisation";
+				return false;
+			}
+			errorMessage = null;
+			return true;
+		}
 
-    [NakedObjectsIgnore]
-    public bool CanAddUser(string userName, IUserOrg toOrg, out string errorMessage)
-    {
-        IUser user = FindByUserName(userName);
-        if (user == null)
-        {
-            errorMessage = "UserName " + userName + " has no UserDetails object";
-            return false;
-        }
-        if (user.CanActFor(toOrg))
-        {
-            errorMessage = "User is already associated with the organisation";
-            return false;
-        }
-        errorMessage = null;
-        return true;
-    }
+		public IUser AddUser(string userName, IUserOrg toOrg)
+		{
+			UserDetails user = FindByUserName(userName);
+			user.AddOrganisation(toOrg);
+			return user;
+		}
+		#endregion
 
-    public IUser AddUser(string userName, IUserOrg toOrg)
-    {
-        UserDetails user = FindByUserName(userName);
-        user.AddOrganisation(toOrg);
-        return user;
-    }
-    #endregion
+		[NakedObjectsIgnore]
+		public bool CurrentUserCanActFor(IUserOrg organisation)
+		{
+			return CurrentUser().CanActFor(organisation);
+		}
 
-    [NakedObjectsIgnore]
-    public bool CurrentUserCanActFor(IUserOrg organisation)
-    {
-        return CurrentUser().CanActFor(organisation);
-    }
+		public ICollection<IUserOrg> OrganisationsOfCurrentUser()
+		{
+			return CurrentUserAsUser().Organisations;
+		}
 
-    public ICollection<IUserOrg> OrganisationsOfCurrentUser()
-    {
-        return CurrentUserAsUser().Organisations;
-    }
+	    /// <summary>
+	    /// Assumes that an IdentityUser has already been created; this method
+	    /// allows specification of further details such as the FullName and Organisation(s).
+	    /// </summary>
+	    /// <param name="userName"></param>
+	    /// <param name="fullName"></param>
+	    /// <returns></returns>
+	    public UserDetails CreateUserForUserName(string userName, string fullName)
+		{
+			var user = Container.NewTransientInstance<UserDetails>();
+			user.FullName = fullName;
+			user.UserName = userName;
+			Container.Persist(ref user);
+			return user;
+		}
 
-    /// <summary>
-    /// Assumes that an IdentityUser has already been created; this method
-    /// allows specification of further details such as the FullName and Organisation(s).
-    /// </summary>
-    /// <param name="userName"></param>
-    /// <returns></returns>
-    public UserDetails CreateUserForUserName(string userName, string fullName)
-    {
-        var user = Container.NewTransientInstance<UserDetails>();
-        user.FullName = fullName;
-            user.UserName = userName;
-        Container.Persist(ref user);
-        return user;
-    }
-
-    public string ValidateCreateUserForUserName(string userName)
-    {
-        var rb = new ReasonBuilder();
-        var user = FindByUserName(userName);
-        if (user != null)
-        {
-            return "A User already exists for username " + userName;
-        }
-        return null;
-    }
-
-
-
-
-}
+		public string ValidateCreateUserForUserName(string userName)
+		{
+			var rb = new ReasonBuilder();
+			var user = FindByUserName(userName);
+			if (user != null)
+			{
+				return "A User already exists for username " + userName;
+			}
+			return null;
+		}
+		
+	}
 }

@@ -15,7 +15,8 @@ using WebActivatorEx;
 [assembly: PostApplicationStartMethod(typeof (RestfulObjectsActivator), "PostStart")]
 [assembly: XmlConfigurator] // log4net startup config
 
-namespace NakedObjects.Template {
+namespace NakedObjects.Template
+{
     public static class RestfulObjectsActivator {
         public static void PreStart() {
             GlobalConfiguration.Configure(CorsConfig.RegisterCors);

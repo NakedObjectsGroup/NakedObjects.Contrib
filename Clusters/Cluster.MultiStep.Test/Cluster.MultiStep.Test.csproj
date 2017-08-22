@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -119,9 +119,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Cluster.MultiStep.Api\Cluster.MultiStep.Api.csproj">
+    <ProjectReference Include="..\Cluster.MultiStep.Api\Cluster.MultiStep.Impl.csproj">
       <Project>{45e585ac-77e4-4e58-a69d-348715940e25}</Project>
-      <Name>Cluster.MultiStep.Api</Name>
+      <Name>Cluster.MultiStep.Impl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cluster.System.Api\Cluster.System.Api.csproj">
       <Project>{6b67fbde-9f10-4ebd-9dd0-7f390016c661}</Project>

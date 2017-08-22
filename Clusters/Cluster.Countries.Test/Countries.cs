@@ -2,18 +2,13 @@ using System.Linq;
 using NakedObjects.Boot;
 using NakedObjects.Core.NakedObjectsSystem;
 using NakedObjects.EntityObjectStore;
-using NakedObjects.Services;
 using NakedObjects.Xat;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cluster.Countries.Impl;
-using System.Data.Entity;
-using Cluster.Countries.Api;
 
 namespace Cluster.Countries.Test
 {
-
-    [TestClass()]
+	[TestClass]
     public class Countries : AcceptanceTestCase
     {
 
@@ -62,10 +57,10 @@ namespace Cluster.Countries.Test
             CleanupNakedObjectsFramework();
         }
 
-        #endregion
+		#endregion
 
-        [TestMethod()]
-        public virtual void AllCountries()
+		[TestMethod, TestCategory("Countries")]
+		public virtual void AllCountries()
         {
             var find = GetTestService("Country Service").GetAction("All Countries");
             var results = find.InvokeReturnCollection();
@@ -78,8 +73,8 @@ namespace Cluster.Countries.Test
             country.GetPropertyByName("ISO Code").AssertValueIsEqual("AF");
          }
 
-        [TestMethod()]
-        public virtual void FindByNameResults()
+		[TestMethod, TestCategory("Countries")]
+		public virtual void FindByNameResults()
         {
             var find = GetTestService("Country Service").GetAction("Find Country By Name");
             var results = find.InvokeReturnCollection("Aust");
@@ -95,8 +90,8 @@ namespace Cluster.Countries.Test
             results.AssertCountIs(0);
         }
 
-        [TestMethod()]
-        public virtual void FindByNameParams()
+		[TestMethod, TestCategory("Countries")]
+		public virtual void FindByNameParams()
         {
             var find = GetTestService("Country Service").GetAction("Find Country By Name");
             find.Parameters.First().AssertIsNamed("Matching").AssertIsMandatory();
@@ -107,8 +102,8 @@ namespace Cluster.Countries.Test
             find.AssertIsInvalidWithParms("1ab");
         }
 
-        [TestMethod()]
-        public virtual void FindByCode()
+		[TestMethod, TestCategory("Countries")]
+		public virtual void FindByCode()
         {
             var find = GetTestService("Country Service").GetAction("Find Country By Code");
             var result = find.InvokeReturnObject("AU");
@@ -118,8 +113,8 @@ namespace Cluster.Countries.Test
             result.AssertTitleEquals("United Kingdom");
         }
 
-        [TestMethod()]
-        public virtual void FindByCodeParams()
+		[TestMethod, TestCategory("Countries")]
+		public virtual void FindByCodeParams()
         {
             var find = GetTestService("Country Service").GetAction("Find Country By Code");
             find.Parameters.First().AssertIsNamed("Code").AssertIsMandatory();
@@ -131,10 +126,9 @@ namespace Cluster.Countries.Test
             find.AssertIsInvalidWithParms("123");
             find.AssertIsInvalidWithParms("1ab");
         }
-
-
-        [TestMethod()]
-        public virtual void FindByCodeWithInvalidCode()
+		
+		[TestMethod, TestCategory("Countries")]
+		public virtual void FindByCodeWithInvalidCode()
         {
             var find = GetTestService("Country Service").GetAction("Find Country By Code");
             try
@@ -144,15 +138,15 @@ namespace Cluster.Countries.Test
             }
             catch { }
         }
-
-
-        [TestMethod()]
-        public void DefaultCountry()
+		
+		[TestMethod, TestCategory("Countries")]
+		public void DefaultCountry()
         {
             var act = GetTestService("Country Service").GetAction("Default Country");
             var c = act.InvokeReturnObject();
             c.AssertIsType(typeof(Country));
             c.AssertTitleEquals("United Kingdom");
         }
+
     }
 }

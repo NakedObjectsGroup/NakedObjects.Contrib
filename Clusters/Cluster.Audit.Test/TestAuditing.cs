@@ -15,7 +15,7 @@ using NakedObjects.Snapshot;
 namespace Cluster.Audit.Test
 {
 
-    [TestClass()]
+	[TestClass]
     public class TestAuditing : AcceptanceTestCase
     {
 
@@ -80,7 +80,7 @@ namespace Cluster.Audit.Test
 
         #endregion
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Audit")]
         public virtual void RecordObjectAction()
         {
             var mock = GetTestService("Mock Auditeds").GetAction("All Instances").InvokeReturnCollection().ElementAt(0);
@@ -96,11 +96,11 @@ namespace Cluster.Audit.Test
             last.AssertIsType(typeof(ObjectAction)).AssertIsPersistent().AssertIsImmutable();
             Assert.AreEqual(mock, last.GetPropertyByName("Object").ContentAsObject);
             last.GetPropertyByName("Action").AssertValueIsEqual("Do Something");
-            last.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
+			last.GetPropertyByName("Date Time").AssertTitleIsEqual("2000-01-01 00:00:00");
             last.GetPropertyByName("User Name").AssertValueIsEqual("Test");
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Audit")]
         public virtual void RecordObjectUpdate()
         {
             var mock = GetTestService("Mock Auditeds").GetAction("All Instances").InvokeReturnCollection().ElementAt(1);
@@ -116,12 +116,12 @@ namespace Cluster.Audit.Test
             Assert.IsNotNull(last);
             last.AssertIsType(typeof(ObjectUpdated));
             Assert.AreEqual(mock, last.GetPropertyByName("Object").ContentAsObject);
-            last.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
+			last.GetPropertyByName("Date Time").AssertTitleIsEqual("2000-01-01 00:00:00");
             last.GetPropertyByName("User Name").AssertValueIsEqual("Test");
             last.GetPropertyByName("Snapshot").AssertIsNotEmpty(); //Not a proper test!
         }
 
-        [TestMethod()] 
+		[TestMethod, TestCategory("Audit")]
         public virtual void RecordObjectCreate()
         {
             var mock = GetTestService("Mock Auditeds").GetAction("New Instance").InvokeReturnObject();
@@ -134,11 +134,11 @@ namespace Cluster.Audit.Test
                 last.AssertIsType(typeof(ObjectPersisted)).AssertIsPersistent().AssertIsImmutable();
             Assert.AreEqual(mock, last.GetPropertyByName("Object").ContentAsObject);
             last.AssertTitleEquals("Create & Save: MockAudited");
-            last.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
+			last.GetPropertyByName("Date Time").AssertTitleIsEqual("2000-01-01 00:00:00");
             last.GetPropertyByName("User Name").AssertValueIsEqual("Test");
         }
 
-        [TestMethod()]
+		[TestMethod, TestCategory("Audit")]
         public virtual void RecordServiceAction()
         {
             var recentAct = GetTestService("Auditing").GetAction("Recent Audited Events");
@@ -153,7 +153,7 @@ namespace Cluster.Audit.Test
             serviceEvent.AssertIsType(typeof(ServiceAction)).AssertIsImmutable().AssertIsPersistent();
             serviceEvent.GetPropertyByName("Service Name").AssertValueIsEqual("Mock Service");
             serviceEvent.GetPropertyByName("Action").AssertValueIsEqual("Do Something");
-            serviceEvent.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
+			serviceEvent.GetPropertyByName("Date Time").AssertTitleIsEqual("2000-01-01 00:00:00");
             serviceEvent.GetPropertyByName("User Name").AssertValueIsEqual("Test");
         }
     }

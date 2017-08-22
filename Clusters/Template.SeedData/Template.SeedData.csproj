@@ -38,6 +38,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NakedObjects.Helpers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NakedObjects.ProgrammingModel.6.0.0\lib\net40\NakedObjects.Helpers.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -94,6 +98,10 @@
       <Project>{51f52465-146c-4a6a-850d-4278dce3abfa}</Project>
       <Name>Cluster.Audit.Test</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cluster.Batch.Api\Cluster.Batch.Api.csproj">
+      <Project>{7cf7bde5-0a91-4085-8602-eabe54f78a22}</Project>
+      <Name>Cluster.Batch.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cluster.Countries.Api\Cluster.Countries.Api.csproj">
       <Project>{fbea5f51-e01f-4589-a730-1a7405b70182}</Project>
       <Name>Cluster.Countries.Api</Name>
@@ -142,9 +150,9 @@
       <Project>{4ef31adf-c252-40b9-92b5-a90a507964a5}</Project>
       <Name>Cluster.Forms.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Cluster.MultiStep.Api\Cluster.MultiStep.Api.csproj">
+    <ProjectReference Include="..\Cluster.MultiStep.Api\Cluster.MultiStep.Impl.csproj">
       <Project>{45e585ac-77e4-4e58-a69d-348715940e25}</Project>
-      <Name>Cluster.MultiStep.Api</Name>
+      <Name>Cluster.MultiStep.Impl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Cluster.MultiStep.Test\Cluster.MultiStep.Test.csproj">
       <Project>{0d58e4c5-4f2e-43ff-baa3-bc88aba417f5}</Project>
@@ -221,6 +229,10 @@
     <ProjectReference Include="..\Cluster.Users.Test\Cluster.Users.Test.csproj">
       <Project>{c74e734c-5289-49d2-a58a-4a7fea636953}</Project>
       <Name>Cluster.Users.Test</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NakedObjects.Extensions\Helpers.csproj">
+      <Project>{947a697d-6052-488c-8105-34ab7f60cc41}</Project>
+      <Name>Helpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Template.DataBase\Template.DataBase.csproj">
       <Project>{a94dc40a-6ffc-4487-9f78-e520c5484f81}</Project>
