@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0A4B9F5F-86D3-43EA-A39E-4656D32F6439}"
 	ProjectSection(SolutionItems) = preProject
@@ -119,6 +119,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cluster.Users.Test", "Cluster.Users.Test\Cluster.Users.Test.csproj", "{C74E734C-5289-49D2-A58A-4A7FEA636953}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cluster.Batch.Api", "Cluster.Batch.Api\Cluster.Batch.Api.csproj", "{7CF7BDE5-0A91-4085-8602-EABE54F78A22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers.nof9", "Helpers.nof9\Helpers.nof9.csproj", "{12DF45BC-7891-444D-B060-C29BF7BA1246}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -322,6 +324,10 @@ Global
 		{7CF7BDE5-0A91-4085-8602-EABE54F78A22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CF7BDE5-0A91-4085-8602-EABE54F78A22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CF7BDE5-0A91-4085-8602-EABE54F78A22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12DF45BC-7891-444D-B060-C29BF7BA1246}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12DF45BC-7891-444D-B060-C29BF7BA1246}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12DF45BC-7891-444D-B060-C29BF7BA1246}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12DF45BC-7891-444D-B060-C29BF7BA1246}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
