@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Cluster.System.Api;
 using NakedObjects;
 using System.ComponentModel.DataAnnotations;
@@ -9,11 +7,13 @@ namespace Cluster.Addresses.Impl
 {
     public class DomainEntity : IUpdateableEntity
     {
-        #region Injected Services
+		#region Injected Services
+		public IDomainObjectContainer Container { set; protected get; }
 
-        public IClock Clock { set; protected get; }
+		public IClock Clock { set; protected get; }
 
         #endregion
+
         #region LifeCycle Methods
         public void Persisting()
         {
@@ -25,10 +25,11 @@ namespace Cluster.Addresses.Impl
             LastModified = Clock.Now();
         }
         #endregion
+
         #region Title
         public override string ToString()
         {
-            TitleBuilder t = new TitleBuilder();
+			var t = Container.NewTitleBuilder(); // revised for NOF7
             t.Append("DomainEntity");
             return t.ToString();
         }

@@ -1,76 +1,77 @@
+using System;
 using System.Linq;
-using NakedObjects.Boot;
-using NakedObjects.Core.NakedObjectsSystem;
-using NakedObjects.EntityObjectStore;
-using NakedObjects.Services;
-using NakedObjects.Xat;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data.Entity;
 using Cluster.Addresses.Impl;
 using Cluster.Countries.Api;
-using System;
 using Cluster.System.Mock;
-using Helpers;
+using Helpers.nof9;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NakedObjects.Services;
+using NakedObjects.Xat;
 
 namespace Cluster.Addresses.Test
 {
-
-    [TestClass()]
-    public class AddressesXAT : AcceptanceTestCase
+	[TestClass()]
+    public class AddressesXAT : ClusterXAT<AddressesTestDbContext> // AcceptanceTestCase
     {
-        #region Run configuration
-        protected override IServicesInstaller MenuServices
-        {
-            get
-            {
-                return new ServicesInstaller(
-                    new AddressService(),
-                    new SimpleRepository<UKAddress>(),
-                    new SimpleRepository<GenericAddress>(), 
-                    new MockCountryService(),
-                    new FixedClock(new DateTime(2000,1,1)));
-            }
-        }
+		#region Run settings
 
-        protected override IObjectPersistorInstaller Persistor
-        {
-            get
-            {
-                var installer = new EntityPersistorInstaller();
-                Database.SetInitializer(new DropDatabaseAndInstallFixtures<AddressesTestDbContext>());
-                installer.UsingCodeFirstContext(() => new AddressesTestDbContext());
-                installer.IsInitializedCheck = () => DropDatabaseAndInstallFixtures<AddressesTestDbContext>.IsInitialized;
-                return installer;
-            }
-        }
+		protected override Type[] Types
+		{
+			get
+			{
+				return new Type[]
+				{
+					typeof(AddressTypeForCountry),
+					typeof(UKAddress),
+					typeof(GenericAddress),
+					typeof(MockCountryService),
+					typeof(MockCountry)
+				};
+			}
+		}
 
-        protected override IFixturesInstaller Fixtures
-        {
-            get
-            {
-                return new FixturesInstaller(new AddressesFixture());
-            }
-        }
+		protected override Type[] Services
+		{
+			get
+			{
+				return new Type[]
+				{
+					typeof(AddressService),
+					typeof(SimpleRepository<UKAddress>),
+					typeof(SimpleRepository<GenericAddress>),
+					typeof(MockCountryService),
+					typeof(FixedClock) // TODO: new FixedClock(new DateTime(2000, 1, 1))
+				};
+			}
+		}
+		#endregion
+
+		#region Old Run configuration
+
+        //protected override IObjectPersistorInstaller Persistor
+        //{
+        //    get
+        //    {
+        //        var installer = new EntityPersistorInstaller();
+        //        Database.SetInitializer(new DropDatabaseAndInstallFixtures<AddressesTestDbContext>());
+        //        installer.UsingCodeFirstContext(() => new AddressesTestDbContext());
+        //        installer.IsInitializedCheck = () => DropDatabaseAndInstallFixtures<AddressesTestDbContext>.IsInitialized;
+        //        return installer;
+        //    }
+        //}
+
+        //protected override IFixturesInstaller Fixtures
+        //{
+        //    get
+        //    {
+        //        return new FixturesInstaller(new AddressesFixture());
+        //    }
+        //}
         #endregion
+		
+		#region Test Methods
 
-        #region Initialize and Cleanup
-
-        [TestInitialize()]
-        public void Initialize()
-        {
-            InitializeNakedObjectsFramework();
-            // Use e.g. DatabaseUtils.RestoreDatabase to revert database before each test (or within a [ClassInitialize()] method).
-        }
-
-        [TestCleanup()]
-        public void Cleanup()
-        {
-            CleanupNakedObjectsFramework();
-        }
-
-        #endregion
-
-        [TestMethod()]
+		[TestMethod(), TestCategory("Addresses")]
         public virtual void UKAddress_Properties()
         {
             var uka = GetTestService("UK Addresses").GetAction("New Instance").InvokeReturnObject();
@@ -83,8 +84,8 @@ namespace Cluster.Addresses.Test
             uka.GetPropertyByName("Country").AssertIsUnmodifiable().AssertTitleIsEqual("United Kingdom");
         }
 
-        [TestMethod()]
-        public virtual void UKAddress_Save()
+		[TestMethod(), TestCategory("Addresses")]
+		public virtual void UKAddress_Save()
         {
             var uka = GetTestService("UK Addresses").GetAction("New Instance").InvokeReturnObject();
             uka.GetPropertyByName("Line1").SetValue("Dun Roamin");
@@ -97,8 +98,8 @@ namespace Cluster.Addresses.Test
             uka.AssertIsImmutable();
         }
 
-        [TestMethod()]
-        public virtual void UKAddress_PostcodeValidation()
+		[TestMethod(), TestCategory("Addresses")]
+		public virtual void UKAddress_PostcodeValidation()
         {
             var uka = GetTestService("UK Addresses").GetAction("New Instance").InvokeReturnObject();
             var pc = uka.GetPropertyByName("Postcode");
@@ -109,8 +110,8 @@ namespace Cluster.Addresses.Test
             pc.AssertFieldEntryInvalid("RG9 123");
         }
 
-        [TestMethod()]
-        public virtual void GenericAddress_Properties()
+		[TestMethod(), TestCategory("Addresses")]
+		public virtual void GenericAddress_Properties()
         {
             var gen = GetTestService("Generic Addresses").GetAction("New Instance").InvokeReturnObject();
             gen.AssertIsType(typeof(GenericAddress)).AssertIsTransient();
@@ -123,8 +124,8 @@ namespace Cluster.Addresses.Test
             var uk = ((ITestObject) countries.GetChoices().First()).AssertTitleEquals("United Kingdom");
         }
 
-        [TestMethod()]
-        public virtual void GenericAddress_Save()
+		[TestMethod(), TestCategory("Addresses")]
+		public virtual void GenericAddress_Save()
         {
             var gen = GetTestService("Generic Addresses").GetAction("New Instance").InvokeReturnObject();
             gen.GetPropertyByName("Line1").SetValue("Bog House");
@@ -140,8 +141,8 @@ namespace Cluster.Addresses.Test
             gen.AssertIsImmutable();
         }
 
-        [TestMethod()]
-        public virtual void GenericAddress_CountryNotShownIfPresent()
+		[TestMethod(), TestCategory("Addresses")]
+		public virtual void GenericAddress_CountryNotShownIfPresent()
         {
             var gen = GetTestService("Generic Addresses").GetAction("New Instance").InvokeReturnObject();
             gen.GetPropertyByName("Line1").SetValue("Bog House");
@@ -156,8 +157,8 @@ namespace Cluster.Addresses.Test
             gen.AssertIsPersistent().AssertTitleEquals("Bog House, Coastal Road");
         }
 
-        [TestMethod()]
-        public virtual void FindAddressById()
+		[TestMethod(), TestCategory("Addresses")]
+		public virtual void FindAddressById()
         {
             var find =GetTestService("Address Service").GetAction("Find Address By Id");
             var a1 = find.InvokeReturnObject("1");
@@ -168,25 +169,23 @@ namespace Cluster.Addresses.Test
 
         }
 
-        [TestMethod()]
-        public virtual void CreateNewAddress()
+		[TestMethod(), TestCategory("Addresses")]
+		public virtual void CreateNewAddress()
         {
             var addr = GetTestService("Address Service").GetAction("Create New Address").InvokeReturnObject();
             addr.AssertIsType(typeof(UKAddress)).AssertIsTransient();
         }
-
-
-
-        [TestMethod()]
-        public virtual void CreateNewGenericAddress()
+		
+		[TestMethod(), TestCategory("Addresses")]
+		public virtual void CreateNewGenericAddress()
         {
             var addr = GetTestService("Address Service").GetAction("Create New Generic Address").InvokeReturnObject();
             addr.AssertIsType(typeof(GenericAddress)).AssertIsTransient();
             addr.GetPropertyByName("Country").AssertIsEmpty();
         }
 
-        [TestMethod()]
-        public virtual void CreateNewAddressForCountry()
+		[TestMethod(), TestCategory("Addresses")]
+		public virtual void CreateNewAddressForCountry()
         {
             var action = GetTestService("Address Service").GetAction("Create New Address For Country");
             var p1 = action.Parameters.ElementAt(0);
@@ -198,5 +197,7 @@ namespace Cluster.Addresses.Test
             addr = action.InvokeReturnObject(CountryCodes.UK);
             addr.AssertIsTransient().AssertIsType(typeof(UKAddress));
         }
-    }
+
+		#endregion
+	}
 }

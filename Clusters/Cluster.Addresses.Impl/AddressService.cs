@@ -1,11 +1,8 @@
 ﻿using Cluster.Addresses.Api;
 using NakedObjects;
 using System.Linq;
-using System.Collections.Generic;
 using System;
 using NakedObjects.Util;
-using System.ComponentModel.DataAnnotations;
-using System.Configuration;
 using Cluster.Countries.Api;
 
 namespace Cluster.Addresses.Impl
@@ -27,7 +24,7 @@ namespace Cluster.Addresses.Impl
 
         public IClusterManagedPostalAddress CreateNewAddress()
         {
-            return CreateNewAddressForCountry(Cluster.Countries.Api.AppSettings.DefaultCountryISOCode());
+            return CreateNewAddressForCountry(Countries.Api.AppSettings.DefaultCountryISOCode());
         }
 
         public IClusterManagedPostalAddress CreateNewAddressForCountry(string countryIsoCode)

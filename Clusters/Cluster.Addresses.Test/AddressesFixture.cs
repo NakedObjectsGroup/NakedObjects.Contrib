@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Data.Entity;
-using System.IO;
 using Cluster.Addresses.Api;
 using Cluster.Addresses.Impl;
 using Cluster.Countries.Api;
 using NakedObjects;
-using NakedObjects.Core.Context;
-
 
 namespace Cluster.Addresses.Test
 {
@@ -20,7 +16,7 @@ namespace Cluster.Addresses.Test
         public void Install()
         {
             AllMockCountries();
-            NewTransaction(); //As countries are looked up when creating addresses
+            //NewTransaction(); //As countries are looked up when creating addresses
 
             UKAddresses();
             GenericAddresses();
@@ -96,11 +92,11 @@ namespace Cluster.Addresses.Test
             return atfc;
         }
 
-        protected void NewTransaction()
-        {
-            NakedObjectsContext.ObjectPersistor.EndTransaction();
-            NakedObjectsContext.ObjectPersistor.StartTransaction();
-        }
+        //protected void NewTransaction()
+        //{
+        //    NakedObjectsContext.ObjectPersistor.EndTransaction();
+        //    NakedObjectsContext.ObjectPersistor.StartTransaction();
+        //}
     }
 }
 

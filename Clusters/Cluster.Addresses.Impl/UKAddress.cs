@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
-using Cluster.Addresses.Api;
 using Cluster.Countries.Api;
 using NakedObjects;
 
 namespace Cluster.Addresses.Impl
 {
-     [Immutable(WhenTo.OncePersisted)]
+    [Immutable(WhenTo.OncePersisted)]
     public class UKAddress : AbstractAddress
     {
         #region Injected Services
@@ -20,11 +17,10 @@ namespace Cluster.Addresses.Impl
             this.ISOCode = CountryCodes.UK;
         }
         #endregion
-
-        
+		
         public override string ToString()
         {
-            TitleBuilder t = new TitleBuilder();
+			var t = Container.NewTitleBuilder(); // revised for NOF7
             t.Append(Line1);
             t.Append(",", CountryIsDefaultCountry() ? Line5 : ISOCode);
             return t.ToString();

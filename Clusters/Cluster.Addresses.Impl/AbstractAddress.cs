@@ -20,6 +20,7 @@ namespace Cluster.Addresses.Impl
         public IClock Clock { set; protected get; }
 
         #endregion
+
         #region LifeCycle Methods
         public void Persisting()
         {
@@ -31,11 +32,12 @@ namespace Cluster.Addresses.Impl
             LastModified = Clock.Now();
         }
         #endregion
+
         #region Title methods
         
         public override string ToString()
         {
-            TitleBuilder t = new TitleBuilder();
+			var t = Container.NewTitleBuilder(); // revised for NOF7
             t.Append(Line1);
             t.Append(",", CountryIsDefaultCountry() ? Line2 : ISOCode);
             return t.ToString();
@@ -64,7 +66,7 @@ namespace Cluster.Addresses.Impl
         
         #region Country Property of type ICountry ('Result' interface)
 
-        [Hidden()]
+        [Hidden(WhenTo.Always)]
         public virtual string ISOCode { get; set; }
 
         protected bool CountryIsDefaultCountry()
@@ -126,15 +128,15 @@ namespace Cluster.Addresses.Impl
         #region Implementation of IPostalAddress
         public virtual string AsSingleLine()
         {
-            var tb = new TitleBuilder();
-            Append4Lines(tb);
-            tb.Append(",", Country);
-            return tb.ToString();
+            var t = Container.NewTitleBuilder();
+            Append4Lines(t);
+            t.Append(",", Country);
+            return t.ToString();
         }
 
-        protected virtual void Append4Lines(TitleBuilder tb)
+        protected virtual void Append4Lines(ITitleBuilder t)
         {
-            tb.Append(Line1).Append(",", Line2).Append(", ", Line3).Append(",", Line4).Append(",", Line5);
+            t.Append(Line1).Append(",", Line2).Append(", ", Line3).Append(",", Line4).Append(",", Line5);
         }
 
         public virtual string[] LabelFormIncludingCountry()

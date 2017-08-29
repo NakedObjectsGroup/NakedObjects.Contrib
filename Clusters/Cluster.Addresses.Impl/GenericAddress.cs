@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Cluster.Addresses.Api;
-using NakedObjects;
+﻿using NakedObjects;
 
 namespace Cluster.Addresses.Impl
 {
