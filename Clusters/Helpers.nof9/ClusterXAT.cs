@@ -1,123 +1,122 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System;
+using System.Data.Entity;
+using System.Linq;
+using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NakedObjects.Persistor.Entity.Configuration;
 using NakedObjects.Util;
 using NakedObjects.Xat;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Helpers
+namespace Helpers.nof9
 {
-    public abstract class ClusterXAT<TContext> : AcceptanceTestCase
-        where TContext : DbContext
+	public abstract class ClusterXAT<TContext> : AcceptanceTestCase
+		where TContext : DbContext
 
-    {
-        #region Initialization
-        private bool initialized;
+	{
+		#region Initialization
 
-        protected void InitializeNakedObjectsFrameworkOnce()
-        {
-            if (!initialized)
-            {
-                InitializeNakedObjectsFramework(this);
-                initialized = true;
-            }
-        }
+		private bool _initialized;
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext tc)
-        {
-        }
+		protected void InitializeNakedObjectsFrameworkOnce()
+		{
+			if (!_initialized)
+			{
+				InitializeNakedObjectsFramework(this);
+				_initialized = true;
+			}
+		}
 
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            
-        }
+		[ClassInitialize]
+		public static void ClassInitialize(TestContext tc)
+		{
+		}
 
-        [TestInitialize()]
-        public void TestInitialize()
-        {
-            InitializeNakedObjectsFrameworkOnce();
-            StartTest();
-        }
+		[ClassCleanup]
+		public static void ClassCleanup()
+		{
+			
+		}
 
-        #endregion
+		[TestInitialize()]
+		public void TestInitialize()
+		{
+			InitializeNakedObjectsFrameworkOnce();
+			StartTest();
+		}
 
-        #region Run settings
-        protected override string[] Namespaces
-        {
-            get
-            {
-                return new string[] { "Cluster" }; //Add top-level namespace(s) that cover the domain model
-            }
-        }
+		#endregion
 
+		#region Run settings
 
-        protected override EntityObjectStoreConfiguration Persistor
-        {
-            get
-            {
-                var config = new EntityObjectStoreConfiguration();
-                config.UsingCodeFirstContext(Activator.CreateInstance<TContext>);
-                return config;
-            }
-        }
-        #endregion
+		protected override string[] Namespaces
+		{
+			get
+			{
+				return new string[] { "Cluster" }; //Add top-level namespace(s) that cover the domain model
+			}
+		}
+		
+		protected override EntityObjectStoreConfiguration Persistor
+		{
+			get
+			{
+				var config = new EntityObjectStoreConfiguration();
+				config.UsingCodeFirstContext(Activator.CreateInstance<TContext>);
+				return config;
+			}
+		}
+		#endregion
 
-        #region Unity Configuration
+		#region Unity Configuration
 
-        protected override void RegisterTypes(IUnityContainer container)
-        {
-            base.RegisterTypes(container);
-            container.RegisterInstance<IEntityObjectStoreConfiguration>(Persistor, (new ContainerControlledLifetimeManager()));
-        }
+		protected override void RegisterTypes(IUnityContainer container)
+		{
+			base.RegisterTypes(container);
+			container.RegisterInstance<IEntityObjectStoreConfiguration>(Persistor, (new ContainerControlledLifetimeManager()));
+		}
 
-        #endregion
+		#endregion
 
-        #region Helpers
-        /// <summary>
-        /// Assumes that a SimpleRepository for the type T has been registered in Services
-        /// </summary>
-        protected ITestObject NewTestObject<T>()
-        {
-            return GetSimpleRepositoryTestService<T>().GetAction("New Instance").InvokeReturnObject();
-        }
+		#region Helpers
 
-        private ITestService GetSimpleRepositoryTestService<T>()
-        {
-            var name = NameUtils.NaturalName(typeof(T).Name) + "s";
-            return GetTestService(name);
-        }
+		/// <summary>
+		/// Assumes that a SimpleRepository for the type T has been registered in Services
+		/// </summary>
+		protected ITestObject NewTestObject<T>()
+		{
+			return GetSimpleRepositoryTestService<T>().GetAction("New Instance").InvokeReturnObject();
+		}
 
-        protected ITestObject GetAllInstances<T>(int number)
-        {
-            return GetSimpleRepositoryTestService<T>().GetAction("All Instances").InvokeReturnCollection().ElementAt(number);
-        }
+		private ITestService GetSimpleRepositoryTestService<T>()
+		{
+			var name = NameUtils.NaturalName(typeof(T).Name) + "s";
+			return GetTestService(name);
+		}
 
-        protected ITestObject GetAllInstances(string simpleRepositoryName, int number)
-        {
-            return GetTestService(simpleRepositoryName).GetAction("All Instances").InvokeReturnCollection().ElementAt(number);
-        }
+		protected ITestObject GetAllInstances<T>(int number)
+		{
+			return GetSimpleRepositoryTestService<T>().GetAction("All Instances").InvokeReturnCollection().ElementAt(number);
+		}
 
-        protected ITestObject GetAllInstances(Type repositoryType, int number)
-        {
-            return GetTestService(repositoryType).GetAction("All Instances").InvokeReturnCollection().ElementAt(number);
-        }
+		protected ITestObject GetAllInstances(string simpleRepositoryName, int number)
+		{
+			return GetTestService(simpleRepositoryName).GetAction("All Instances").InvokeReturnCollection().ElementAt(number);
+		}
 
-        protected ITestObject FindById<T>(int id)
-        {
-            return GetSimpleRepositoryTestService<T>().GetAction("Find By Key").InvokeReturnObject(id);
-        }
+		protected ITestObject GetAllInstances(Type repositoryType, int number)
+		{
+			return GetTestService(repositoryType).GetAction("All Instances").InvokeReturnCollection().ElementAt(number);
+		}
 
-        protected ITestObject FindById(string simpleRepositoryName, int id)
-        {
-            return GetTestService(simpleRepositoryName).GetAction("Find By Key").InvokeReturnObject(id);
-        }
-        #endregion
-    }
+		protected ITestObject FindById<T>(int id)
+		{
+			return GetSimpleRepositoryTestService<T>().GetAction("Find By Key").InvokeReturnObject(id);
+		}
+
+		protected ITestObject FindById(string simpleRepositoryName, int id)
+		{
+			return GetTestService(simpleRepositoryName).GetAction("Find By Key").InvokeReturnObject(id);
+		}
+		#endregion
+	}
 }

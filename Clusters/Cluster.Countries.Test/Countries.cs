@@ -2,7 +2,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cluster.Countries.Impl;
 using System;
-using Helpers;
+using Helpers.nof9;
 
 namespace Cluster.Countries.Test
 {
@@ -30,9 +30,11 @@ namespace Cluster.Countries.Test
                 };
             }
         }
-        #endregion
+		#endregion
 
-        [TestMethod()]
+		#region Test Methods
+
+		[TestMethod(), TestCategory("Countries")]
         public virtual void AllCountries()
         {
             var find = GetTestService("Country Service").GetAction("All Countries");
@@ -46,7 +48,7 @@ namespace Cluster.Countries.Test
             country.GetPropertyByName("ISO Code").AssertValueIsEqual("AF");
          }
 
-        [TestMethod()]
+        [TestMethod(), TestCategory("Countries")]
         public virtual void FindByNameResults()
         {
             var find = GetTestService("Country Service").GetAction("Find Country By Name");
@@ -63,7 +65,7 @@ namespace Cluster.Countries.Test
             results.AssertCountIs(0);
         }
 
-        [TestMethod()]
+        [TestMethod(), TestCategory("Countries")]
         public virtual void FindByNameParams()
         {
             var find = GetTestService("Country Service").GetAction("Find Country By Name");
@@ -75,7 +77,7 @@ namespace Cluster.Countries.Test
             find.AssertIsInvalidWithParms("1ab");
         }
 
-        [TestMethod()]
+        [TestMethod(), TestCategory("Countries")]
         public virtual void FindByCode()
         {
             var find = GetTestService("Country Service").GetAction("Find Country By Code");
@@ -100,7 +102,7 @@ namespace Cluster.Countries.Test
             find.AssertIsInvalidWithParms("1ab");
         }
 
-        [TestMethod()]
+        [TestMethod(), TestCategory("Countries")]
         public virtual void FindByCodeWithInvalidCode()
         {
             var find = GetTestService("Country Service").GetAction("Find Country By Code");
@@ -112,7 +114,7 @@ namespace Cluster.Countries.Test
             catch { }
         }
 
-        [TestMethod()]
+        [TestMethod(), TestCategory("Countries")]
         public void DefaultCountry()
         {
             var act = GetTestService("Country Service").GetAction("Default Country");
@@ -120,5 +122,7 @@ namespace Cluster.Countries.Test
             c.AssertIsType(typeof(Country));
             c.AssertTitleEquals("United Kingdom");
         }
-    }
+
+		#endregion
+	}
 }
