@@ -1,7 +1,6 @@
 using System.Data.Entity;
 using Cluster.Telephones.Impl;
 
-
 namespace Cluster.Telephones.Test
 {
     /// <summary>

@@ -1,63 +1,46 @@
+using System;
 using System.Linq;
-using NakedObjects.Boot;
-using NakedObjects.Core.NakedObjectsSystem;
-using NakedObjects.EntityObjectStore;
 using NakedObjects.Services;
-using NakedObjects.Xat;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cluster.Telephones.Impl;
+using Helpers.nof9;
 
 namespace Cluster.Telephones.Test
 {
-    [TestClass]
-    public class Telephones : AcceptanceTestCase
+    [TestClass()]
+    public class Telephones : ClusterXAT<TelephonesTestDbContext> //AcceptanceTestCase
     {
+		#region Run settings
 
-        #region Constructors
-        public Telephones(string name) : base(name) { }
+		protected override Type[] Types
+		{
+			get
+			{
+				return new Type[]
+				{
+					typeof(TelephoneDetails),
+					typeof(TelephoneCountryCode),
+					typeof(MockCountryService),
+					typeof(MockCountry)
+				};
+			}
+		}
 
-        public Telephones() : this(typeof(Telephones).Name) { }
-        #endregion
+	    protected override Type[] Services
+	    {
+		    get
+		    {
+			    return new Type[]
+			    {
+				    typeof(TelephoneService),
+				    typeof(SimpleRepository<TelephoneCountryCode>),
+				    typeof(MockCountryService)
+			    };
+		    }
+	    }
+	    #endregion
 
-        #region Run configuration
-
-        protected override IServicesInstaller MenuServices
-        {
-            get
-            {
-                return new ServicesInstaller(new TelephoneService(), 
-                    new SimpleRepository<TelephoneCountryCode>(), 
-                    new MockCountryService());
-            }
-        }
-
-        protected override IObjectPersistorInstaller Persistor
-        {
-            get
-            {
-                var installer = new EntityPersistorInstaller();
-                installer.UsingCodeFirstContext(() => new TelephonesTestDbContext());
-                return installer;
-            }
-        }
-        #endregion
-
-        #region Initialize and Cleanup
-
-        [TestInitialize()]
-        public void Initialize()
-        {
-            InitializeNakedObjectsFramework();
-            // Use e.g. DatabaseUtils.RestoreDatabase to revert database before each test (or within a [ClassInitialize()] method).
-        }
-
-        [TestCleanup()]
-        public void Cleanup()
-        {
-            CleanupNakedObjectsFramework();
-        }
-
-		#endregion
+		#region Test Methods
 
 		[TestMethod, TestCategory("Telephones")]
 		public virtual void CountryCode()
@@ -98,6 +81,6 @@ namespace Cluster.Telephones.Test
             var td = act.InvokeReturnObject();
             td.AssertIsType(typeof(TelephoneDetails));
         }
-
-    }
+		#endregion
+	}
 }

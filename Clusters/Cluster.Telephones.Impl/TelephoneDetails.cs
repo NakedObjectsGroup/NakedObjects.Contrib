@@ -1,22 +1,23 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Configuration;
 using System.Linq;
 using Cluster.System.Api;
 using Cluster.Telephones.Api;
-using Cluster.Users.Api;
 using NakedObjects;
 
 namespace Cluster.Telephones.Impl
 {
     public class TelephoneDetails : ITelephoneDetails, IUpdateableEntity
     {
-        #region Injected Services
-        public TelephoneService TelephoneService { set; protected get; }
+		#region Injected Services
+		public IDomainObjectContainer Container { set; protected get; }
+
+		public TelephoneService TelephoneService { set; protected get; }
 
         public IClock Clock { set; protected get; }
         #endregion
+
         #region LifeCycle Methods
         public void Persisting()
         {
@@ -28,10 +29,11 @@ namespace Cluster.Telephones.Impl
             LastModified = Clock.Now();
         }
         #endregion
+
         #region Title
         public override string ToString()
         {
-            TitleBuilder t = new TitleBuilder();
+			var t = Container.NewTitleBuilder(); // revised for NOF7
             t.Append(NumberToDial(true, Cluster.Countries.Api.AppSettings.DefaultCountryISOCode()));
             return t.ToString();
         }
@@ -124,5 +126,6 @@ namespace Cluster.Telephones.Impl
         [ConcurrencyCheck, Disabled, MemberOrder(1000)]
         public virtual DateTime LastModified { get; set; }
 #endregion
+
     }
 }

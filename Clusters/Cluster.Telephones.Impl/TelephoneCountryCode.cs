@@ -1,6 +1,4 @@
-﻿using Cluster.Telephones.Api;
-using NakedObjects;
-using System.Linq;
+﻿using NakedObjects;
 using System.ComponentModel.DataAnnotations.Schema;
 using Cluster.Countries.Api;
 
@@ -20,18 +18,18 @@ namespace Cluster.Telephones.Impl
 
         public override string ToString()
         {
-            TitleBuilder t = new TitleBuilder();
-           t.Append(Country).Append("+").Concat(CountryCallingCode);
+			var t = Container.NewTitleBuilder(); // revised for NOF7
+			t.Append(Country).Append("+").Concat(CountryCallingCode);
             return t.ToString();
         }
       
-        [Hidden]
+        [Hidden(WhenTo.Always)]
         public virtual int Id { get; set; }
 
         
         #region Country Property of type Country
 
-        [Hidden()]
+        [Hidden(WhenTo.Always)]
         public virtual string ISOCountryCode { get; set; }
 
 

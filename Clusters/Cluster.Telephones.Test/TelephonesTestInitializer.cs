@@ -1,8 +1,6 @@
-﻿using System;
-using System.Data.Entity;
-using System.IO;
+﻿using System.Data.Entity;
 using Cluster.Countries.Api;
-using Cluster.Telephones.Api;
+//using Cluster.Telephones.Api;
 using Cluster.Telephones.Impl;
 
 namespace Cluster.Telephones.Test
@@ -14,8 +12,7 @@ namespace Cluster.Telephones.Test
             AllTelephoneCodes(context);
             AllMockCountries(context.MockCountries);
         }
-
-
+		
         public static void AllTelephoneCodes(ITelephonesDbContext context)
         {
             DbSet<TelephoneCountryCode> dbSet = context.TelephoneCountryCodes;
@@ -57,9 +54,7 @@ namespace Cluster.Telephones.Test
             dbSet.Add(tcc);
             return tcc;
         }
-
-
-
+		
         public static ICountry NewCountry(DbSet<MockCountry> dbSet, string name, string code)
         {
             var c = new MockCountry()
@@ -72,4 +67,3 @@ namespace Cluster.Telephones.Test
         }
    }
 }
-

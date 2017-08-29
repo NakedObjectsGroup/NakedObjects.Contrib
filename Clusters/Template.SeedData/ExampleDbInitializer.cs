@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Data.Entity;
 using Template.DataBase;
 
 namespace Template.SeedData
 {
     public class ExampleDbInitializer : DropCreateDatabaseIfModelChanges<ExampleDbContext>
     {
-        private ExampleDbContext Context;
+        private ExampleDbContext _context;
+
         protected override void Seed(ExampleDbContext context)
         {
-            this.Context = context;
+            _context = context;
         }
     }
 }

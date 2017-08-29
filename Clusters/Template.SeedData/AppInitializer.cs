@@ -1,6 +1,4 @@
-﻿using System;
-using System.Data.Entity;
-using System.IO;
+﻿using System.Data.Entity;
 using Cluster.Tasks.Api;
 using Cluster.Tasks.Impl;
 using Cluster.Forms.Impl;
@@ -22,11 +20,11 @@ namespace Template.SeedData
 {
     public class AppInitializer :  DropCreateDatabaseIfModelChanges<AppDbContext> 
     {
-        private AppDbContext context;
+        private AppDbContext _context;
 
         protected override void Seed(AppDbContext context)
         {
-            this.context = context;
+            _context = context;
 
             #region Users and Roles
             //UsersTestInitializer.TestRoles(context);
@@ -59,15 +57,14 @@ namespace Template.SeedData
             //TasksTestInitializer.CreateTaskScheduledProcesses(context);
             #endregion
         }
-
-
+		
         private CreateTaskBatchProcess NewCreateTaskBatchProcess(string text)
         {
             var crt = new CreateTaskBatchProcess()
             {
                 NotesToAddToTask = text
             };
-            context.CreateTaskBatchProcesses.Add(crt);
+            _context.CreateTaskBatchProcesses.Add(crt);
             return crt;
         }  
     }
