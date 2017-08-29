@@ -12,3 +12,4 @@
 */src
 /test-results
 *.nupkg
+.vs/
