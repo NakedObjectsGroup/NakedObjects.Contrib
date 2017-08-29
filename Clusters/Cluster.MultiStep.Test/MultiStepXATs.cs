@@ -1,45 +1,43 @@
 ﻿using System;
 using Cluster.System.Mock;
-using Helpers;
+using Helpers.nof9;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NakedObjects.Boot;
-using NakedObjects.Core.NakedObjectsSystem;
 using NakedObjects.Services;
 
 namespace Cluster.MultiStep.Test
 {
-    [TestClass]
-    public class MultiStepXATs : ClusterXAT<MultiStepTestDbContext, MultiStepFixture>
-    {
-        #region Run configuration
-        protected override IServicesInstaller MenuServices
-        {
-            get
-            {
-                return new ServicesInstaller(
-                    new SimpleRepository<Action1>(),
-                    new FixedClock(new DateTime(2000,1,1))
-                    );
-            }
-        }
-        #endregion
+	[TestClass]
+	public class MultiStepXATs : ClusterXAT<MultiStepTestDbContext>
+	{
+		#region Run settings
 
-        #region Initialize and Cleanup
+		protected override Type[] Types
+		{
+			get
+			{
+				return new Type[]
+				{
+					typeof(Step1),
+					typeof(Step2),
+					typeof(Step3)
+				};
+			}
+		}
 
-        [TestInitialize()]
-        public void Initialize()
-        {
-            InitializeNakedObjectsFramework();
-        }
-
-        [TestCleanup()]
-        public void Cleanup()
-        {
-            CleanupNakedObjectsFramework();
-        }
-
+		protected override Type[] Services
+		{
+			get
+			{
+				return new Type[] 
+				{
+					typeof(SimpleRepository<Action1>),
+					typeof(FixedClock) // TODO: new FixedClock(new DateTime(2000, 1, 1))
+				};
+			}
+		}
 		#endregion
 
+		#region Test Methods
 
 		[TestMethod, TestCategory("MultiStep")]
 		public void InitiateActivity()
@@ -55,8 +53,8 @@ namespace Cluster.MultiStep.Test
 
             var s3 = s2.GetAction("Next").InvokeReturnObject();
 
-            s3.AssertIsType(typeof(Step3));
-        }
-
-    }
+			s3.AssertIsType(typeof(Step3));
+		}
+		#endregion
+	}
 }

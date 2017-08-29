@@ -17,7 +17,7 @@ namespace Cluster.MultiStep.Impl
 
         public override string ToString()
         {
-            TitleBuilder t = new TitleBuilder();
+			var t = Container.NewTitleBuilder(); // revised for NOF7
             t.Append(ParentAction);
             if (Stage == Stages.InProcess)
             {

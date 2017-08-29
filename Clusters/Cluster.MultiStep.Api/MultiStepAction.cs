@@ -1,7 +1,7 @@
 ﻿using System;
-using NakedObjects;
-using Cluster.System.Api;
 using System.ComponentModel.DataAnnotations;
+using Cluster.System.Api;
+using NakedObjects;
 
 namespace Cluster.MultiStep.Impl
 {
