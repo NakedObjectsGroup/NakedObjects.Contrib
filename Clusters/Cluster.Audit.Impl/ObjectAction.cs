@@ -21,7 +21,7 @@ namespace Cluster.Audit.Impl
         
         public override string ToString()
         {
-            TitleBuilder t = new TitleBuilder();
+            var t = Container.NewTitleBuilder();
             t.Append("Action:").Append(Action);
             return t.ToString();
         }

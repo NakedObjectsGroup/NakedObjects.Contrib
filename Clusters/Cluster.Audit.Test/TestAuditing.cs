@@ -1,93 +1,77 @@
+using System;
 using System.Linq;
-using NakedObjects.Boot;
-using NakedObjects.Core.NakedObjectsSystem;
-using NakedObjects.EntityObjectStore;
-using NakedObjects.Services;
-using NakedObjects.Xat;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cluster.Audit.Impl;
-using System;
 using Cluster.System.Mock;
-using NakedObjects.Reflector.Audit;
-using NakedObjects.Snapshot;
+using Helpers.nof9;
+using NakedObjects.Architecture.Menu;
+using NakedObjects.Menu;
+using NakedObjects.Meta.Audit;
+using NakedObjects.Services;
+using NakedObjects.Snapshot.Xml.Service;
 
 namespace Cluster.Audit.Test
 {
-
 	[TestClass]
-    public class TestAuditing : AcceptanceTestCase
+    public class TestAuditing : ClusterXAT<AuditTestDbContext> //AcceptanceTestCase
     {
+		#region Run settings
 
-        #region Constructors
-        public TestAuditing(string name) : base(name) { }
+		protected override Type[] Types
+		{
+			get
+			{
+				return new Type[]
+				{
+					typeof(AuditService),
+				};
+			}
+		}
 
-        public TestAuditing() : this(typeof(TestAuditing).Name) { }
-        #endregion
+		protected override Type[] Services
+		{
+			get
+			{
+				return new Type[]
+				{
+					typeof(AuditService),
+					typeof(SimpleRepository<MockAudited>),
+					typeof(AuditContributedActions),
+					typeof(PolymorphicNavigator),
+					typeof(FixedClock), // TODO: typeof(FixedClock(typeof(DateTime(2000, 1, 1))
+					typeof(MockService),
+					typeof(XmlSnapshotService)
+				};
+			}
+		}
 
-        #region Run configuration
-        //Set up the properties in this region exactly the same way as in your Run class
+		//Create main menus here, if they need to be accessed in tests
+		protected override IMenu[] MainMenus(IMenuFactory factory)
+		{
+			return new[] {
+				factory.NewMenu<AuditService>(true),
 
-        protected override IServicesInstaller MenuServices
-        {
-            get
-            {
-                return new ServicesInstaller(
-                    new AuditService(), 
-                    new SimpleRepository<MockAudited>(),
-                    new AuditContributedActions(),
-                    new PolymorphicNavigator(),
-                    new FixedClock(new DateTime(2000,1,1)),
-                    new MockService(),
-                    new XmlSnapshotService());
-            }
-        }
+			};
+		}
 
-        protected override IAuditorInstaller Auditor
-        {
-            get
-            {
-                return new AuditInstaller(new DefaultAuditor());
-            }
-        }
+		public static IAuditConfiguration AuditConfig()
+		{
+			var config = new AuditConfiguration<DefaultAuditor>();
+			return config;
+		}
+		#endregion
 
-
-        protected override IObjectPersistorInstaller Persistor
-        {
-            get
-            {
-                var installer = new EntityPersistorInstaller();
-                installer.UsingCodeFirstContext(() => new AuditTestDbContext());
-                return installer;
-            }
-        }
-        #endregion
-
-        #region Initialize and Cleanup
-
-        [TestInitialize()]
-        public void Initialize()
-        {
-            InitializeNakedObjectsFramework();
-            // Use e.g. DatabaseUtils.RestoreDatabase to revert database before each test (or within a [ClassInitialize()] method).
-        }
-
-        [TestCleanup()]
-        public void Cleanup()
-        {
-            CleanupNakedObjectsFramework();
-        }
-
-        #endregion
+		#region Test Methods
 
 		[TestMethod, TestCategory("Audit")]
         public virtual void RecordObjectAction()
         {
             var mock = GetTestService("Mock Auditeds").GetAction("All Instances").InvokeReturnCollection().ElementAt(0);
-           mock.AssertTitleEquals("Mock1");
+			mock.AssertTitleEquals("Mock1");
 
-            var getLast = mock.GetAction("Last Audited Event", "Auditing");
-            var last = getLast.InvokeReturnObject(mock);
+			// TODO: var getLast = mock.GetAction("Last Audited Event", "Auditing");
+			var getLast = mock.GetAction("Last Audited Event");
+			var last = getLast.InvokeReturnObject(mock);
             Assert.IsNull(last);
 
             mock.GetAction("Do Something").InvokeReturnObject();
@@ -106,8 +90,9 @@ namespace Cluster.Audit.Test
             var mock = GetTestService("Mock Auditeds").GetAction("All Instances").InvokeReturnCollection().ElementAt(1);
             mock.AssertTitleEquals("Mock2").AssertIsPersistent();
 
-            var getLast = mock.GetAction("Last Audited Event", "Auditing");
-            var last = getLast.InvokeReturnObject(mock);
+			// TODO: var getLast = mock.GetAction("Last Audited Event", "Auditing");
+			var getLast = mock.GetAction("Last Audited Event");
+			var last = getLast.InvokeReturnObject(mock);
             Assert.IsNull(last);
 
             mock.GetPropertyByName("Name").SetValue("Updated Name");
@@ -128,8 +113,9 @@ namespace Cluster.Audit.Test
             mock.GetPropertyByName("Name").SetValue("Foo");
             mock.Save();
 
-            var getLast = mock.GetAction("Last Audited Event", "Auditing");
-            var last = getLast.InvokeReturnObject(mock);
+			// TODO: var getLast = mock.GetAction("Last Audited Event", "Auditing");
+			var getLast = mock.GetAction("Last Audited Event");
+			var last = getLast.InvokeReturnObject(mock);
             Assert.IsNotNull(last);
                 last.AssertIsType(typeof(ObjectPersisted)).AssertIsPersistent().AssertIsImmutable();
             Assert.AreEqual(mock, last.GetPropertyByName("Object").ContentAsObject);
@@ -142,8 +128,8 @@ namespace Cluster.Audit.Test
         public virtual void RecordServiceAction()
         {
             var recentAct = GetTestService("Auditing").GetAction("Recent Audited Events");
-           var recent =  recentAct.InvokeReturnCollection();
-           int startCount = recent.Count();
+			var recent =  recentAct.InvokeReturnCollection();
+			int startCount = recent.Count();
  
             GetTestService("Mock Service").GetAction("Do Something").InvokeReturnObject();
             recent = recentAct.InvokeReturnCollection();
@@ -156,5 +142,6 @@ namespace Cluster.Audit.Test
 			serviceEvent.GetPropertyByName("Date Time").AssertTitleIsEqual("2000-01-01 00:00:00");
             serviceEvent.GetPropertyByName("User Name").AssertValueIsEqual("Test");
         }
-    }
+		#endregion
+	}
 }

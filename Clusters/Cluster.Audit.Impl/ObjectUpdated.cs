@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using Cluster.System.Api;
-using NakedObjects;
-using NakedObjects.Services;
+﻿using NakedObjects;
 
 namespace Cluster.Audit.Impl
 {
@@ -17,12 +9,12 @@ namespace Cluster.Audit.Impl
         #endregion
 
         #region LifeCycle methods
-#endregion
+		#endregion
 
         public override string ToString()
         {
-            TitleBuilder t = new TitleBuilder();
-            t.Append("Update:").Append(this.Object.ToString());
+			var t = Container.NewTitleBuilder();
+			t.Append("Update:").Append(this.Object.ToString());
             return t.ToString();
         }
 

@@ -1,22 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NakedObjects;
+﻿using NakedObjects;
 
 namespace Cluster.Audit.Impl
 {
-     [Immutable(WhenTo.OncePersisted)]
+    [Immutable(WhenTo.OncePersisted)]
     public class ServiceAction : AuditedEvent
     {
+		public IDomainObjectContainer Container { set; protected get; }
 
-         public override string ToString()
-         {
-             TitleBuilder t = new TitleBuilder();
-             t.Append("Action:").Append(Action);
+		public override string ToString()
+        {
+			var t = Container.NewTitleBuilder();
+			t.Append("Action:").Append(Action);
              return t.ToString();
-         }
+        }
 
-         [MemberOrder(30)]
+        [MemberOrder(30)]
         public virtual string ServiceName { get; set; }
 
         [MemberOrder(40)]

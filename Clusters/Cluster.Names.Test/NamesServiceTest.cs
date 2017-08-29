@@ -1,8 +1,8 @@
-using System;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cluster.Names.Impl;
 using Cluster.System.Mock;
+using System;
+using System.Linq;
 using Helpers.nof9;
 using NakedObjects.Services;
 

@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Cluster.System.Api;
+﻿using Cluster.System.Api;
 using NakedObjects;
 
 namespace Cluster.Audit.Test
 {
     public class MockAudited : IDomainInterface
     {
+		#region LifeCycle Methods
 
-        #region LifeCycle Methods
-         #endregion
-        public virtual int Id { get; set; }
+		public IDomainObjectContainer Container { set; protected get; }
+		#endregion
 
-        
+		public virtual int Id { get; set; }
+		
         public override string ToString()
         {
-            TitleBuilder t = new TitleBuilder();
+			var t = Container.NewTitleBuilder(); // revised for NOF7
             t.Append(Name);
             return t.ToString();
         }
-      
 
         [Optionally]
         public virtual string Name { get; set; }

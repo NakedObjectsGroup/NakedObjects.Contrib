@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Cluster.System.Api;
 using NakedObjects;
 using NakedObjects.Services;
@@ -13,6 +9,7 @@ namespace Cluster.Audit.Impl
     public abstract class ObjectAuditedEvent : AuditedEvent
     {
         #region Injected Services
+
         public PolymorphicNavigator PolymorphicNavigator { set; protected get; }
 
         public IDomainObjectContainer Container { set; protected get; }
@@ -20,33 +17,34 @@ namespace Cluster.Audit.Impl
         #endregion
 
         #region LifeCycle methods
+
         public void Persisting()
         {
-            TargetObjectLink = PolymorphicNavigator.NewTransientLink<ObjectAuditedEventTargetObjectLink, IDomainInterface, ObjectAuditedEvent>(_TargetObject, this);
+            TargetObjectLink = PolymorphicNavigator.NewTransientLink<ObjectAuditedEventTargetObjectLink, IDomainInterface, ObjectAuditedEvent>(_targetObject, this);
         }
         #endregion
 
         #region TargetObject Property of type IAuditedObject ('role' interface)
 
-        [Hidden]
+        [Hidden(WhenTo.Always)]
         public virtual ObjectAuditedEventTargetObjectLink TargetObjectLink { get; set; }
 
-        private IDomainInterface _TargetObject;
+        private IDomainInterface _targetObject;
 
         [NotPersisted, NotMapped, MemberOrder(30)]
         public IDomainInterface Object
         {
             get
             {
-                if (_TargetObject == null)
+                if (_targetObject == null)
                 {
-                    _TargetObject = PolymorphicNavigator.RoleObjectFromLink(ref _TargetObject, TargetObjectLink, this);
+                    _targetObject = PolymorphicNavigator.RoleObjectFromLink(ref _targetObject, TargetObjectLink, this);
                 }
-                return _TargetObject;
+                return _targetObject;
             }
             set
             {
-                _TargetObject = value;
+                _targetObject = value;
             }
         }
         #endregion

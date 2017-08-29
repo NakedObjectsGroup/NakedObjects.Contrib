@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-
-using NakedObjects;
-using Cluster.System.Api;
 using System.Security.Principal;
 using System.Text;
+using System.ComponentModel;
+using System.Xml.Linq;
+using Cluster.Audit.Api;
+using Cluster.System.Api;
+using NakedObjects;
 using NakedObjects.Snapshot;
 using NakedObjects.Util;
-using System.ComponentModel;
-using Cluster.Audit.Api;
-using System.Xml.Linq;
+
 namespace Cluster.Audit.Impl
 {
     [DisplayName("Auditing")]
@@ -24,8 +23,7 @@ namespace Cluster.Audit.Impl
 
         public IClock Clock { set; protected get; }
         #endregion
-
-
+		
         [MemberOrder(10)]
         public IQueryable<AuditedEvent> RecentAuditedEvents()
         {
@@ -85,8 +83,7 @@ namespace Cluster.Audit.Impl
             string paramString = sb.ToString();
             return paramString;
         }
-
-
+		
         private T NewTransientAuditedEvent<T>(IPrincipal byPrincipal) where T : AuditedEvent, new()
         {
             var ae = Container.NewTransientInstance<T>();
@@ -102,8 +99,9 @@ namespace Cluster.Audit.Impl
             if (queryOnly && !AppSettings.AuditQueryOnlyActions()) return;
 
             var ae = NewTransientAuditedEvent<ServiceAction>(byPrincipal);
-            (ae as ServiceAction).ServiceName = serviceName;
-            ae.Action = NameUtils.NaturalName(actionName);
+			//(ae as ServiceAction).ServiceName = serviceName;
+			ae.ServiceName = serviceName;
+			ae.Action = NameUtils.NaturalName(actionName);
             ae.Parameters = ParamsAsString(withParameters);
             Container.Persist(ref ae);
         }
@@ -122,9 +120,9 @@ namespace Cluster.Audit.Impl
 
         private void ObjectChanged<T>(IPrincipal byPrincipal, object changedObject) where T : ObjectUpdated, new()
         {
-            if (!typeof(IDomainInterface).IsAssignableFrom(changedObject.GetType())) return;
-            Type objectType =TypeUtils.GetProxiedType(changedObject.GetType());
-            if (objectType.Namespace.StartsWith(this.GetType().Namespace)) return;  // Else get stack overlfow!
+            if (!(changedObject is IDomainInterface)) return;
+            Type objectType =changedObject.GetType().GetProxiedType();
+            if (objectType.Namespace != null && objectType.Namespace.StartsWith(GetType().Namespace)) return;  // Else get stack overflow!
 
             var ae = NewTransientAuditedEvent<T>(byPrincipal);
             ae.Object = (IDomainInterface)changedObject;

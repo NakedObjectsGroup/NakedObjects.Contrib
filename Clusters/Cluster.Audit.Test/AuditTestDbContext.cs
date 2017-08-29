@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+﻿using System.Data.Entity;
 using Cluster.Audit.Impl;
 
 namespace Cluster.Audit.Test
@@ -19,7 +16,6 @@ namespace Cluster.Audit.Test
         {
             Database.SetInitializer(new AuditTestInitializer());
         }
-
-
+		
     }
 }

@@ -21,8 +21,8 @@ namespace Cluster.Audit.Impl
 
         public override string ToString()
         {
-            TitleBuilder t = new TitleBuilder();
-            t.Append("Create & Save:").Append(this.Object.GetType().GetProxiedType().Name);
+			var t = Container.NewTitleBuilder();
+			t.Append("Create & Save:").Append(this.Object.GetType().GetProxiedType().Name);
             return t.ToString();
         }
                
