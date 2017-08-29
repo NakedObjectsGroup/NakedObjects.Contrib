@@ -1,5 +1,4 @@
-﻿using System;
-using Cluster.Addresses.Impl;
+﻿using Cluster.Addresses.Impl;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cluster.Addresses.Test
@@ -17,7 +16,7 @@ namespace Cluster.Addresses.Test
         [TestMethod]
         public void UnitTestAppSettingForDefaultCountry()
         {
-            Assert.AreEqual("UK", Cluster.Countries.Api.AppSettings.DefaultCountryISOCode());
+            Assert.AreEqual("UK", Countries.Api.AppSettings.DefaultCountryISOCode());
         }
     }
 }

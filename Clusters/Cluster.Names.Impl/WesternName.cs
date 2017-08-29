@@ -4,16 +4,15 @@ namespace Cluster.Names.Impl
 {
     public class WesternName : AbstractName
     {
-
-        public override string ToString()
+		public override string ToString()
         {
-            TitleBuilder t = new TitleBuilder();
-            t.Append(NormalName);
+			var t = Container.NewTitleBuilder(); // revised for NOF7
+			t.Append(NormalName);
             return t.ToString();
         }
 
-
         #region Properties
+
         [Optionally, MemberOrder(10)]
         public virtual WesternNamePrefixes? Prefix { get; set; }
 
@@ -41,8 +40,8 @@ namespace Cluster.Names.Impl
         {
             get
             {
-                TitleBuilder t = new TitleBuilder();
-                t.Append(FirstName).Append(LastName);
+				var t = Container.NewTitleBuilder(); // revised for NOF7
+				t.Append(FirstName).Append(LastName);
                 return t.ToString();
             }
         }
@@ -52,8 +51,8 @@ namespace Cluster.Names.Impl
         {
             get
             {
-                TitleBuilder t = new TitleBuilder();
-                t.Append(Prefix).Append(FirstName).Append(MiddleInitial).Append(LastName).Append(Suffix);
+				var t = Container.NewTitleBuilder(); // revised for NOF7
+				t.Append(Prefix).Append(FirstName).Append(MiddleInitial).Append(LastName).Append(Suffix);
                 return t.ToString();
             }
         }
@@ -63,8 +62,8 @@ namespace Cluster.Names.Impl
         {
             get
             {
-                TitleBuilder t = new TitleBuilder();
-                t.Append(LastName).Append(",", FirstName).Append(MiddleInitial);
+				var t = Container.NewTitleBuilder(); // revised for NOF7
+				t.Append(LastName).Append(",", FirstName).Append(MiddleInitial);
                 return t.ToString();
             }
         }
@@ -74,8 +73,8 @@ namespace Cluster.Names.Impl
         {
             get
             {
-                TitleBuilder t = new TitleBuilder();
-                t.Append(Prefix);
+				var t = Container.NewTitleBuilder(); // revised for NOF7
+				t.Append(Prefix);
                 if (Prefix == null) t.Append(FirstName);
                 t.Append(LastName);
                 return t.ToString();

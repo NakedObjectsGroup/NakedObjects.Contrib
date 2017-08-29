@@ -1,5 +1,4 @@
-﻿using System;
-using Cluster.Names.Impl;
+﻿using Cluster.Names.Impl;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cluster.Names.Test

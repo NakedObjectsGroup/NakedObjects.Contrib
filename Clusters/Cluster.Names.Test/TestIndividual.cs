@@ -13,32 +13,30 @@ namespace Cluster.Names.Test
         #endregion
 
         public virtual int Id { get; set; }
-
-        
+		
         #region Name Property of type IName ('Result' interface)
 
-        [Hidden()]
+        [Hidden(WhenTo.Always)]
         public virtual int NameId { get; set; }
 
 
-        private IName _Name;
+        private IName _name;
 
         [NotPersisted(), NotMapped]
         public IName Name
         {
             get
             {
-                if (_Name == null && NameId > 0)
+                if (_name == null && NameId > 0)
                 {
-                    _Name = NameService.FindById(NameId);
+                    _name = NameService.FindById(NameId);
                 }
-                return _Name;
+                return _name;
             }
         }
         #endregion
     }
-
-
+	
     public class TestIndividualFinder
     {
         public IDomainObjectContainer Container { set; protected get; }

@@ -1,7 +1,6 @@
 using System.Data.Entity;
 using Cluster.Names.Impl;
 
-
 namespace Cluster.Names.Test
 {
     /// <summary>

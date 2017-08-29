@@ -121,6 +121,7 @@ namespace NakedObjects.Template
             return new IMenu[] {
                factory.NewMenu<AccountsService>(true, "Accounts"),
                factory.NewMenu<UserService>(true, "Users"),
+			   factory.NewMenu<NameService>(true, "Names"), // TODO: disable later?
 			   factory.NewMenu<AddressService>(true, "Addresses"),
 			   factory.NewMenu<CountryService>(true), // TODO: disable later
                factory.NewMenu<AuditService>(true, "Audit"),

@@ -1,76 +1,55 @@
+using System;
 using System.Linq;
-using NakedObjects.Boot;
-using NakedObjects.Core.NakedObjectsSystem;
-using NakedObjects.EntityObjectStore;
-using NakedObjects.Services;
-using NakedObjects.Xat;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cluster.Names.Impl;
-using Cluster.Names.Api;
-using System.Data.Entity;
 using Cluster.System.Mock;
-using System;
+using Helpers.nof9;
+using NakedObjects.Services;
 
 namespace Cluster.Names.Test
 {
-
-
-    [TestClass()]
-    public class NamesServiceTest : AcceptanceTestCase
+	[TestClass()]
+    public class NamesServiceTest : ClusterXAT<NamesTestDbContext> // AcceptanceTestCase
     {
+		#region Run settings
 
-        #region Constructors
-        public NamesServiceTest(string name) : base(name) { }
+		protected override Type[] Types
+		{
+			get
+			{
+				return new Type[]
+				{
+					typeof(NameService),
+					typeof(AbstractName),
+					typeof(WesternName),
+					typeof(TestIndividualFinder),
+					typeof(FixedClock) // FixedClock(new DateTime(2000, 1,1))
+				};
+			}
+		}
 
-        public NamesServiceTest() : this(typeof(NamesServiceTest).Name) { }
-        #endregion
+		protected override Type[] Services
+		{
+			get
+			{
+				return new Type[]
+				{
+					typeof(NameService),
+					typeof(AbstractName),
+					typeof(WesternName),
+					typeof(TestIndividualFinder),
+					typeof(SimpleRepository<TestIndividual>),
+					typeof(FixedClock)
+				};
+			}
+		}
+		#endregion
+		   
+		// TODO: Tests all fail at WesternName.get_SortableName
 
-        #region Run configuration
+		#region Test Methods
 
-        //Set up the properties in this region exactly the same way as in your Run class
-        protected override IServicesInstaller MenuServices
-        {
-            get
-            {
-                return new ServicesInstaller(
-                    new NameService(), 
-                    new TestIndividualFinder(),
-                    new FixedClock(new DateTime(2000, 1,1)));
-            }
-        }
-
-        protected override IObjectPersistorInstaller Persistor
-        {
-            get
-            {
-               var installer = new EntityPersistorInstaller();
-                installer.UsingCodeFirstContext(() => new NamesTestDbContext());
-                return installer;
-            }
-        }
-        #endregion
-
-        #region Initialize and Cleanup
-
-        [TestInitialize()]
-        public void Initialize()
-        {
-            InitializeNakedObjectsFramework(); // This must be the first line in the method
-            // Optional: use e.g. DatabaseUtils.RestoreDatabase to revert database before each test (or within a [ClassInitialize()] method).
-			// This uses SQL Server Management Objects (SMO) - you may need to install a SQL Server feature pack if SMO is not present on your 
-			// machine.
-        }
-
-        [TestCleanup()]
-        public void Cleanup()
-        {
-            CleanupNakedObjectsFramework();
-        }
-
-        #endregion
-
-        [TestMethod]
+		[TestMethod, TestCategory("Name Service")]
         public void FindName() {
             var results = GetTestService("Name Service").GetAction("Find Matching Names").InvokeReturnCollection("paws");
             results.AssertCountIs(1);
@@ -79,8 +58,8 @@ namespace Cluster.Names.Test
             result.AssertIsImmutable();
         }
 
-        [TestMethod]
-        public void WesternNameTestDerivedNames() {
+		[TestMethod, TestCategory("Name Service")]
+		public void WesternNameTestDerivedNames() {
             var find = GetTestService("Name Service").GetAction("Find By Id");
                 
             var result = find.InvokeReturnObject(1);
@@ -106,8 +85,8 @@ namespace Cluster.Names.Test
 
         }
 
-        [TestMethod]
-        public void CreateNewName()
+		[TestMethod, TestCategory("Name Service")]
+		public void CreateNewName()
         {
             var name = GetTestService("Name Service").GetAction("Create New Name").InvokeReturnObject();
             name.AssertIsType(typeof(WesternName));
@@ -130,15 +109,15 @@ namespace Cluster.Names.Test
             name.GetPropertyByName("Formal Salutation").AssertTitleIsEqual("Mr Bush");
         }
 
-        [TestMethod]
-        public void IndividualWithClusterManagedName()
+		[TestMethod, TestCategory("Name Service")]
+		public void IndividualWithClusterManagedName()
         {
             var results =GetTestService("Test Individual Finder").GetAction("Find By Name").InvokeReturnCollection("will");
             var ind = results.AssertCountIs(1).ElementAt(0);
             ind.AssertIsType(typeof(TestIndividual));
             ind.GetPropertyByName("Name").AssertTitleIsEqual("William Morris");
         }
+		#endregion
 
-        
-    }
+	}
 }

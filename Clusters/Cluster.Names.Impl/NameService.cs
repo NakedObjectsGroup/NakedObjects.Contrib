@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Configuration;
 using System.Linq;
 using Cluster.Names.Api;
 using NakedObjects;
@@ -30,12 +29,14 @@ namespace Cluster.Names.Impl
         public IClusterManagedName CreateNewName()
         {
             string defaultType = AppSettings.DefaultNameType();
-            return (IClusterManagedName) Container.NewTransientInstance(TypeUtils.GetType(defaultType));
+			// TODO: fix exception: Failed to Load Specification for: Cluster.Names.Impl.WesternName error: unexpected null
+
+			return (IClusterManagedName) Container.NewTransientInstance(TypeUtils.GetType(defaultType));
         }
 
         #endregion
 
-        #region Finding by name
+        #region Finding by Name
         public IQueryable<T> FindByName<T>(string match) where T : class, IIndividualWithClusterManagedName
         {
             var nameMatches = FindMatchingNames(match);
@@ -60,8 +61,6 @@ namespace Cluster.Names.Impl
             return names;
         }
         #endregion
-
-
-
+		
     }
 }

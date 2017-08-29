@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data.Entity;
-using System.IO;
 using Cluster.Names.Impl;
 
 namespace Cluster.Names.Test
@@ -12,6 +11,7 @@ namespace Cluster.Names.Test
             TestNames(context);
             TestIndividuals(context.TestIndividuals);
         }
+
         public static void TestNames(INamesDbContext context)
         {
             DbSet<AbstractName> dbSet = context.Names;
@@ -54,4 +54,3 @@ namespace Cluster.Names.Test
    
     }
 }
-

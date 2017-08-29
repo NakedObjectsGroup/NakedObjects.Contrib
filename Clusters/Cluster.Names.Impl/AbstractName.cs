@@ -13,11 +13,14 @@ namespace Cluster.Names.Impl
     [Immutable(WhenTo.OncePersisted)]
     public abstract class AbstractName : IClusterManagedName, IUpdateableEntity
     {
-        #region Injected Services
+		#region Injected Services
 
-        public IClock Clock { set; protected get; }
+		public IDomainObjectContainer Container { set; protected get; }
+
+		public IClock Clock { set; protected get; }
 
         #endregion
+
         #region LifeCycle Methods
         public void Persisting()
         {
@@ -31,16 +34,18 @@ namespace Cluster.Names.Impl
             LastModified = Clock.Now();
         }
         #endregion
+
         #region Title
         public override string ToString()
         {
-            TitleBuilder t = new TitleBuilder();
-            t.Append(NormalName);
+			var t = Container.NewTitleBuilder(); // revised for NOF7
+			t.Append(NormalName);
             return t.ToString();
         }
         #endregion
 
         #region IName properties
+
         public abstract string NormalName { get; }
 
         public abstract string FormalName { get; }
@@ -66,5 +71,6 @@ namespace Cluster.Names.Impl
         [ConcurrencyCheck, Disabled, MemberOrder(1000)]
         public virtual DateTime LastModified { get; set; }
         #endregion
+
     }
 }
