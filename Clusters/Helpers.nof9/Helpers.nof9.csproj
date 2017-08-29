@@ -110,8 +110,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthorizationTestCase.cs" />
     <Compile Include="ClusterXAT.cs" />
+    <Compile Include="DropDatabaseAndInstallFixtures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDefaultAuthorizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
