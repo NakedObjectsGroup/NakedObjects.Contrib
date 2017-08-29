@@ -26,8 +26,8 @@ namespace Cluster.System.Test
         public void ProgammableClockDefaultValue()
         {
 			var clock = new FixedClock();
-			Assert.AreEqual("01/01/0001 00:00:00", clock.Now().ToString(CultureInfo.InvariantCulture));
-			Assert.AreEqual("01/01/0001 00:00:00", clock.Today().ToString(CultureInfo.InvariantCulture));
+			Assert.AreEqual("01/01/2000 00:00:00", clock.Now().ToString(CultureInfo.InvariantCulture));
+			Assert.AreEqual("01/01/2000 00:00:00", clock.Today().ToString(CultureInfo.InvariantCulture));
         }
 
 		[TestMethod, TestCategory("System_ClockTest")]
@@ -68,6 +68,6 @@ namespace Cluster.System.Test
 
 			Assert.AreEqual("2013-07-28 14:08:30", clock.Now().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
 			Assert.AreEqual("2013-07-28 00:00:00", clock.Today().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
-    }
+		}
 	}
 }

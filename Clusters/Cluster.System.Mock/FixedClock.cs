@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Cluster.System.Api;
 
 namespace Cluster.System.Mock
@@ -8,28 +6,32 @@ namespace Cluster.System.Mock
     public class FixedClock : IClock
     {
         #region Constructors
-        public FixedClock() {}
+
+	    public FixedClock()
+	    {
+			_clock = new DateTime(2000, 1, 1); // TODO: fix this properly (originally 0001)
+		}
         public FixedClock(DateTime value) {
-            clock = value;
-    }
+            _clock = value;
+		}
         #endregion
 
-        private DateTime clock = new DateTime();
+        private DateTime _clock;
 
         public void SetClock(DateTime value)
         {
-            clock = value;
+            _clock = value;
         }
 
         public void Forward(int days)
         {
-            clock = clock.AddDays(days);
+            _clock = _clock.AddDays(days);
         }
 
-        public DateTime Today() {return clock.Date; }
+        public DateTime Today() {return _clock.Date; }
         
 
-        public DateTime Now() { return clock; }
+        public DateTime Now() { return _clock; }
         
     }
 }
