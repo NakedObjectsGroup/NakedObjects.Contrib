@@ -113,7 +113,6 @@ namespace Cluster.Audit.Test
             mock.GetPropertyByName("Name").SetValue("Foo");
             mock.Save();
 
-			// TODO: var getLast = mock.GetAction("Last Audited Event", "Auditing");
 			var getLast = mock.GetAction("Last Audited Event");
 			var last = getLast.InvokeReturnObject(mock);
             Assert.IsNotNull(last);

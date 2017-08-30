@@ -17,20 +17,20 @@ namespace Cluster.Audit.Impl
 		#endregion
 
 		[MemberOrder(10)]
-		public AuditedEvent LastAuditedEvent(IDomainInterface onObject)
+		public AuditedEvent LastAuditedEvent([ContributedAction] IDomainInterface onObject)
 		{
 			return RecentAuditedEvents(onObject).FirstOrDefault();
 		}
 
 		[MemberOrder(20)]
-		public IQueryable<AuditedEvent> RecentAuditedEvents(IDomainInterface onObject)
+		public IQueryable<AuditedEvent> RecentAuditedEvents([ContributedAction] IDomainInterface onObject)
 		{
 			return PolymorphicNavigator.FindOwners<ObjectAuditedEventTargetObjectLink, IDomainInterface, ObjectAuditedEvent>(onObject).OrderByDescending(x => x.DateTime);
 		}
 
 		[MemberOrder(30)]
 		public IQueryable<AuditedEvent> FindAuditedEvents(
-			IDomainInterface onObject, 
+            [ContributedAction] IDomainInterface onObject, 
 			[Optionally] DateTime? fromDate,
 			[Optionally] DateTime? toDate,
 			string userName)
