@@ -66,8 +66,8 @@ namespace Cluster.System.Test
 		{
 			var clock = new FixedClock(new DateTime(2013, 7, 28, 14, 08, 30));
 
-			Assert.AreEqual("2013-07-28 14:08:30", clock.Now().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
-			Assert.AreEqual("2013-07-28 00:00:00", clock.Today().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
+			Assert.AreEqual("28/07/2013 14:08:30", clock.Now().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
+			Assert.AreEqual("28/07/2013 00:00:00", clock.Today().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
 		}
 	}
 }

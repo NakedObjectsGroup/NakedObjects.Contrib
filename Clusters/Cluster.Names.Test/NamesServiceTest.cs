@@ -35,10 +35,8 @@ namespace Cluster.Names.Test
 				return new Type[]
 				{
 					typeof(NameService),
-					typeof(AbstractName),
-					typeof(WesternName),
-					typeof(TestIndividualFinder),
 					typeof(SimpleRepository<TestIndividual>),
+                    typeof(TestIndividualFinder),
 					typeof(FixedClock)
 				};
 			}
