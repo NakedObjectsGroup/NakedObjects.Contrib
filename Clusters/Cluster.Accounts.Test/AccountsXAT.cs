@@ -239,7 +239,7 @@ namespace Cluster.Accounts.Test
             var post = GetTestService("Accounts").GetAction("Post Transaction");
             Assert.AreEqual(6, post.Parameters.Count());
             var date = post.Parameters[0].AssertIsNamed("Date").AssertIsMandatory();
-			Assert.AreEqual("2000-01-01 00:00:00", date.GetDefault().Title);
+			Assert.AreEqual("01/01/2000 00:00:00", date.GetDefault().Title);
             var desc = post.Parameters[1].AssertIsNamed("Description").AssertIsMandatory();
             var curr = post.Parameters[2].AssertIsNamed("Currency").AssertIsMandatory();
             Assert.AreEqual("USD", curr.GetDefault().Title);
@@ -270,13 +270,13 @@ namespace Cluster.Accounts.Test
 
             var transView = entries.ElementAt(1);
             transView.AssertIsType(typeof(TransactionInAccountView));
-			transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-02 00:00:00");
+			transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("02/01/2000 00:00:00");
             transView.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Trans 1");
             transView.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("12.34");
             transView.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
 
             var balance = entries.ElementAt(2);
-			balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-01 00:00:00");
+			balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
             balance.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Current Balance");
             balance.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("12.34");
             balance.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
@@ -287,7 +287,7 @@ namespace Cluster.Accounts.Test
 
             entries = a1.GetPropertyByName("Entries").ContentAsCollection.AssertCountIs(4);
             transView = entries.ElementAt(2);
-			transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-02-01 00:00:00");
+			transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/02/2000 00:00:00");
             transView.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Trans 2");
             transView.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertIsEmpty();
             transView.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertValueIsEqual("5.12");
@@ -297,19 +297,19 @@ namespace Cluster.Accounts.Test
             trans2.GetPropertyByName("Period").AssertIsUnmodifiable().AssertTitleIsEqual("Feb 00");
 
             balance = entries.ElementAt(3);
-			balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-01 00:00:00");
+			balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
             balance.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Current Balance");
             balance.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("7.22");
             balance.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
 
             entries = a2.GetPropertyByName("Entries").ContentAsCollection.AssertCountIs(4);
             transView = entries.ElementAt(2);
-			transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-02-01 00:00:00");
+			transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/02/2000 00:00:00");
             transView.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("5.12");
             transView.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
 
             balance = entries.ElementAt(3);
-			balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-01 00:00:00");
+			balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
             balance.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Current Balance");
             balance.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertIsEmpty();
             balance.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertValueIsEqual("7.22");

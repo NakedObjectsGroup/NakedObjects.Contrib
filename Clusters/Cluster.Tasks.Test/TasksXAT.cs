@@ -439,7 +439,7 @@ namespace Cluster.Tasks.Test
             suspend.InvokeReturnObject(7, null, "foo");
             status.AssertTitleIsEqual("Suspended");
             unsuspend.AssertIsVisible();
-			until.AssertIsVisible().AssertIsNotEmpty().AssertValueIsEqual("2000-01-08 00:00:00");
+			until.AssertIsVisible().AssertIsNotEmpty().AssertValueIsEqual("08/01/2000 00:00:00");
             var notes = task.GetPropertyByName("Notes").Title;
             StringAssert.EndsWith(notes, "Suspended: foo");
             AssertLastHistoryEntryHasValues(task, "Suspended", "Charlie", "Test");

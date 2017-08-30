@@ -45,7 +45,6 @@ namespace Cluster.Audit.Test
 					typeof(FixedClock), // TODO: typeof(FixedClock(typeof(DateTime(2000, 1, 1))
 					typeof(MockService),
 					typeof(XmlSnapshotService),
-					typeof(AuditService),
 					typeof(SimpleRepository<ServiceAction>),
 					typeof(SimpleRepository<ObjectAction>),
 					typeof(SimpleRepository<ObjectUpdated>)

@@ -12,8 +12,8 @@ namespace Cluster.Addresses.Test
 			AllMockCountries(context.MockCountries);
 			// Not required in versions NOF>6: NewTransaction(); //As countries are looked up when creating addresses
 
-			// TODO: UKAddresses(context);
-			// TODO: GenericAddresses(context);
+			UKAddresses(context);
+			GenericAddresses(context);
 			Associations(context);
 		}
 
@@ -76,10 +76,11 @@ namespace Cluster.Addresses.Test
 
 		public UKAddress NewUKAddress(DbSet<AbstractAddress> dbSet, string line1, string postcode)
 		{
-			var a = new UKAddress
-			{
-				Line1 = line1,
-				Line5 = postcode
+            var a = new UKAddress
+            {
+                Line1 = line1,
+                Line5 = postcode,
+                LastModified = DateTime.Now
 			};
 			dbSet.Add(a);
 			return a;
@@ -88,12 +89,13 @@ namespace Cluster.Addresses.Test
 		public GenericAddress NewGenericAddress(DbSet<AbstractAddress> dbSet,
 			string line1, string line2, string line3, string isoCode)
 		{
-			var a = new GenericAddress
-			{
-				Line1 = line1,
-				Line2 = line2,
-				Line3 = line3,
-				ISOCode = isoCode
+            var a = new GenericAddress
+            {
+                Line1 = line1,
+                Line2 = line2,
+                Line3 = line3,
+                ISOCode = isoCode,
+                LastModified = DateTime.Now
 			};
 			dbSet.Add(a);
 			return a;

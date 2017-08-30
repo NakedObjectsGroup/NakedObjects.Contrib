@@ -106,7 +106,7 @@ namespace Cluster.Documents.Test
         {
             SetUser("Richard");
             var note = GetTestService("Notes").GetAction("Find By Key").InvokeReturnObject(1);
-			note.GetPropertyByName("Text").AssertIsUnmodifiable().AssertValueIsEqual("Note1\nTest, 2000-01-01 00:00:00");
+			note.GetPropertyByName("Text").AssertIsUnmodifiable().AssertValueIsEqual("Note1\nTest, 01/01/2000 00:00:00");
 
             note.GetPropertyByName("Id").AssertIsInvisible();
 
