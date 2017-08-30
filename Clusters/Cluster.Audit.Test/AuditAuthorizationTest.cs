@@ -63,27 +63,20 @@ namespace Cluster.Audit.Test
 			};
 		}
 
-		public static IAuditConfiguration AuditConfig()
-		{
-			var config = new AuditConfiguration<DefaultAuditor>();
-			return config;
-		}
-
-        protected override void RegisterTypes(IUnityContainer container)
+		protected override void RegisterTypes(IUnityContainer container)
         {
             base.RegisterTypes(container);
             var config = new AuthorizationConfiguration<TestDefaultAuthorizer>();
             config.AddNamespaceAuthorizer<AuditAuthorizer>("Cluster.Audit"); // TODO: check this
             container.RegisterInstance<IAuthorizationConfiguration>(config, (new ContainerControlledLifetimeManager()));
             container.RegisterType<IFacetDecorator, AuthorizationManager>("AuthorizationManager", new ContainerControlledLifetimeManager());
-
         }
         #endregion
 
         #region Test Methods
 
-        //TODO: private string sysAdmin = SystemRoles.SysAdmin;
-        //TODO: private string auditor = AuditRoles.Auditor;
+        private string sysAdmin = SystemRoles.SysAdmin;
+       private string auditor = AuditRoles.Auditor;
 
         [TestMethod, TestCategory("AuditService")]
 		public virtual void AuditService()
@@ -93,14 +86,14 @@ namespace Cluster.Audit.Test
 			ITestAction action = null;
 
 			action = auditService.GetAction("Recent Audited Events");
-			//AssertIsInvisibleByDefault(action);
+			AssertIsInvisibleByDefault(action);
 			action.AssertIsInvisible(); // TODO: fails
-			// TODO: AssertIsVisibleByRoles(action, sysAdmin, auditor);
+			AssertIsVisibleByRoles(action, sysAdmin, auditor);
 
 			action = auditService.GetAction("Find Audited Events");
-			//AssertIsInvisibleByDefault(action);
+			AssertIsInvisibleByDefault(action);
 			action.AssertIsInvisible();
-			// TODO: AssertIsVisibleByRoles(action, sysAdmin, auditor);
+			AssertIsVisibleByRoles(action, sysAdmin, auditor);
 		}
 
 		[TestMethod, TestCategory("AuditService")]
@@ -110,51 +103,51 @@ namespace Cluster.Audit.Test
 
 			ITestProperty prop = null;
 			prop = sa.GetPropertyByName("Service Name");
-            //AssertIsInvisibleByDefault(prop);
+            AssertIsInvisibleByDefault(prop);
 
             prop.AssertIsInvisible(); // TODO: fails
-			//	AssertIsVisibleByRoles(prop, sysAdmin, auditor);
+            AssertIsVisibleByRoles(prop, sysAdmin, auditor);
 
-			//	prop = sa.GetPropertyByName("Action");
-			//	AssertIsInvisibleByDefault(prop);
-			//	AssertIsVisibleByRoles(prop, sysAdmin, auditor);
+            prop = sa.GetPropertyByName("Action");
+            AssertIsInvisibleByDefault(prop);
+            AssertIsVisibleByRoles(prop, sysAdmin, auditor);
 
-			//	prop = sa.GetPropertyByName("Parameters");
-			//	AssertIsInvisibleByDefault(prop);
-			//	AssertIsVisibleByRoles(prop, sysAdmin, auditor);
+            prop = sa.GetPropertyByName("Parameters");
+            AssertIsInvisibleByDefault(prop);
+            AssertIsVisibleByRoles(prop, sysAdmin, auditor);
 
-			//	prop = sa.GetPropertyByName("Date Time");
-			//	AssertIsInvisibleByDefault(prop);
-			//	AssertIsVisibleByRoles(prop, sysAdmin, auditor);
+            prop = sa.GetPropertyByName("Date Time");
+            AssertIsInvisibleByDefault(prop);
+            AssertIsVisibleByRoles(prop, sysAdmin, auditor);
 
-			//	prop = sa.GetPropertyByName("User Name");
-			//	AssertIsInvisibleByDefault(prop);
-			//	AssertIsVisibleByRoles(prop, sysAdmin, auditor);
+            prop = sa.GetPropertyByName("User Name");
+            AssertIsInvisibleByDefault(prop);
+            AssertIsVisibleByRoles(prop, sysAdmin, auditor);
 
-			//	var oa = GetTestService("Object Actions").GetAction("New Instance").InvokeReturnObject();
+            var oa = GetTestService("Object Actions").GetAction("New Instance").InvokeReturnObject();
 
-			//	prop = oa.GetPropertyByName("Object");
-			//	AssertIsInvisibleByDefault(prop);
-			//	AssertIsVisibleByRoles(prop, sysAdmin, auditor);
+            prop = oa.GetPropertyByName("Object");
+            AssertIsInvisibleByDefault(prop);
+            AssertIsVisibleByRoles(prop, sysAdmin, auditor);
 
-			//	prop = oa.GetPropertyByName("Action");
-			//	AssertIsInvisibleByDefault(prop);
-			//	AssertIsVisibleByRoles(prop, sysAdmin, auditor);
+            prop = oa.GetPropertyByName("Action");
+            AssertIsInvisibleByDefault(prop);
+            AssertIsVisibleByRoles(prop, sysAdmin, auditor);
 
-			//	prop = oa.GetPropertyByName("Parameters");
-			//	AssertIsInvisibleByDefault(prop);
-			//	AssertIsVisibleByRoles(prop, sysAdmin, auditor);
+            prop = oa.GetPropertyByName("Parameters");
+            AssertIsInvisibleByDefault(prop);
+            AssertIsVisibleByRoles(prop, sysAdmin, auditor);
 
-			//	var ou = GetTestService("Object Updateds").GetAction("New Instance").InvokeReturnObject();
+            var ou = GetTestService("Object Updateds").GetAction("New Instance").InvokeReturnObject();
 
-			//	prop = ou.GetPropertyByName("Object");
-			//	AssertIsInvisibleByDefault(prop);
-			//	AssertIsVisibleByRoles(prop, sysAdmin, auditor);
+            prop = ou.GetPropertyByName("Object");
+            AssertIsInvisibleByDefault(prop);
+            AssertIsVisibleByRoles(prop, sysAdmin, auditor);
 
-			//	prop = ou.GetPropertyByName("Snapshot");
-			//	AssertIsInvisibleByDefault(prop);
-			//	AssertIsVisibleByRoles(prop, sysAdmin, auditor);
-		}
+            prop = ou.GetPropertyByName("Snapshot");
+            AssertIsInvisibleByDefault(prop);
+            AssertIsVisibleByRoles(prop, sysAdmin, auditor);
+        }
 		#endregion
 	}
 }
