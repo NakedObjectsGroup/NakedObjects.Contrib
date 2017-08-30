@@ -32,7 +32,7 @@ namespace Cluster.Names.Test
                 InformalFirstName = informal,
                 LastModified = DateTime.Now
             };
-            name.Searchable = name.SortableName;
+            name.Searchable = last + ", " + first + " " + middle;
             dbSet.Add(name);
             return name;
         }
