@@ -50,7 +50,7 @@ namespace Cluster.Users.Impl
         [NakedObjectsIgnore]
         public virtual int Id { get; set; }
 
-        [MemberOrder(10)]
+        [MemberOrder(10), Disabled]
         public string UserName { get; set; }
 
         [MemberOrder(20), Optionally()]  

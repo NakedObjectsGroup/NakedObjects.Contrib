@@ -4,6 +4,7 @@ using Cluster.Audit.Impl;
 using Cluster.System.Api;
 using Cluster.System.Mock;
 using Helpers.nof9;
+using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NakedObjects.Architecture.Menu;
 using NakedObjects.Menu;
@@ -12,6 +13,7 @@ using NakedObjects.Meta.Authorization;
 using NakedObjects.Services;
 using NakedObjects.Snapshot.Xml.Service;
 using NakedObjects.Xat;
+using NakedObjects.Architecture.Component;
 
 namespace Cluster.Audit.Test
 {
@@ -67,20 +69,23 @@ namespace Cluster.Audit.Test
 			return config;
 		}
 
-		public static IAuthorizationConfiguration AuthorizationConfig()
-		{
-			var config = new AuthorizationConfiguration<TestDefaultAuthorizer>();
-			config.AddNamespaceAuthorizer<AuditAuthorizer>("Cluster.Audit"); // TODO: check this
-			return config;
-		}
-		#endregion
+        protected override void RegisterTypes(IUnityContainer container)
+        {
+            base.RegisterTypes(container);
+            var config = new AuthorizationConfiguration<TestDefaultAuthorizer>();
+            config.AddNamespaceAuthorizer<AuditAuthorizer>("Cluster.Audit"); // TODO: check this
+            container.RegisterInstance<IAuthorizationConfiguration>(config, (new ContainerControlledLifetimeManager()));
+            container.RegisterType<IFacetDecorator, AuthorizationManager>("AuthorizationManager", new ContainerControlledLifetimeManager());
 
-		#region Test Methods
+        }
+        #endregion
 
-		//TODO: private string sysAdmin = SystemRoles.SysAdmin;
-		//TODO: private string auditor = AuditRoles.Auditor;
+        #region Test Methods
 
-		[TestMethod, TestCategory("AuditService")]
+        //TODO: private string sysAdmin = SystemRoles.SysAdmin;
+        //TODO: private string auditor = AuditRoles.Auditor;
+
+        [TestMethod, TestCategory("AuditService")]
 		public virtual void AuditService()
 		{
 			var auditService = GetTestService("Auditing");
@@ -105,8 +110,9 @@ namespace Cluster.Audit.Test
 
 			ITestProperty prop = null;
 			prop = sa.GetPropertyByName("Service Name");
-			//AssertIsInvisibleByDefault(prop);
-			prop.AssertIsInvisible(); // TODO: fails
+            //AssertIsInvisibleByDefault(prop);
+
+            prop.AssertIsInvisible(); // TODO: fails
 			//	AssertIsVisibleByRoles(prop, sysAdmin, auditor);
 
 			//	prop = sa.GetPropertyByName("Action");

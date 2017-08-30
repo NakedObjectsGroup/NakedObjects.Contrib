@@ -1,12 +1,30 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NakedObjects.Reflector.Security;
+using NakedObjects.Security;
+using Helpers;
+using Cluster.Users.Impl;
 
 namespace Cluster.Users.Test
 {
-    [TestClass]
+    [TestClass, Ignore]
     public class UserAndRoleTest : AbstractUsersTest
     {
-        [TestMethod, TestCategory("UserAndRoleTest"), Ignore] //TODO: fix this
+        #region Run Configuration
+
+        protected override IAuthorizerInstaller Authorizer
+        {
+            get
+            {
+                return new CustomAuthorizerInstaller(
+                    new TestDefaultAuthorizer()
+                    //new UsersAuthorizer()
+                );
+            }
+        }
+        #endregion
+
+        [TestMethod, TestCategory("UserAndRoleTest")] //TODO: fix this
         public void UserPropertiesAndActions()
         {
             
@@ -21,7 +39,7 @@ namespace Cluster.Users.Test
             var fullName = rich.Properties.ElementAt(1).AssertIsVisible().AssertIsModifiable().AssertIsOptional();
             Assert.AreEqual("Full Name", fullName.Name);
 
-            var email = rich.Properties.ElementAt(2).AssertIsVisible().AssertIsUnmodifiable();
+            var email = rich.Properties.ElementAt(2).AssertIsVisible().AssertIsModifiable();
             Assert.AreEqual("Email Address", email.Name);
 
             var orgs = rich.Properties.ElementAt(3).AssertIsVisible();
@@ -31,10 +49,7 @@ namespace Cluster.Users.Test
             var last = rich.Properties.ElementAt(4).AssertIsVisible();
             Assert.AreEqual("Last Modified", last.Name);
 
-            var identity = rich.Properties.ElementAt(5).AssertIsInvisible();
-            Assert.AreEqual("Identity User", identity.Name);
-
-            var roles = rich.Properties.ElementAt(6).AssertIsVisible();
+            var roles = rich.Properties.ElementAt(5).AssertIsVisible();
             Assert.AreEqual("Roles", roles.Name);
 
             //Actions
