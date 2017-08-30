@@ -80,7 +80,7 @@ namespace Cluster.Accounts.Test
             var p4 = newAccount.Parameters[4].AssertIsNamed("Opening Balance").AssertIsMandatory();
             Assert.AreEqual("0", p4.GetDefault().Title);
             var p5 = newAccount.Parameters[5].AssertIsNamed("As Of").AssertIsMandatory();
-			Assert.AreEqual("1999-11-30 00:00:00", p5.GetDefault().Title);
+			Assert.AreEqual("30/11/1999 00:00:00", p5.GetDefault().Title);
 
 
         }
@@ -107,17 +107,17 @@ namespace Cluster.Accounts.Test
             a1.GetPropertyByName("Name").AssertIsMandatory().AssertIsModifiable().AssertValueIsEqual("Income 1");
             a1.GetPropertyByName("Type").AssertIsUnmodifiable().AssertTitleIsEqual("Income");
             a1.GetPropertyByName("Currency").AssertIsUnmodifiable().AssertValueIsEqual("USD");
-			a1.GetPropertyByName("Last Modified").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-01 00:00:00");
+			a1.GetPropertyByName("Last Modified").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
 
             var entries = a1.GetPropertyByName("Entries").ContentAsCollection.AssertCountIs(2);
             var opening = entries.ElementAt(0);
-			opening.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("1999-04-01 00:00:00");
+			opening.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/04/1999 00:00:00");
             opening.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Opening Balance");
             opening.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertValueIsEqual("10");
             opening.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertIsEmpty();
 
             var current = entries.ElementAt(1);
-			current.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-01 00:00:00");
+			current.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
             current.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Current Balance");
             current.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertValueIsEqual("10");
             current.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertIsEmpty();
@@ -202,13 +202,13 @@ namespace Cluster.Accounts.Test
 
             var entries = a1.GetPropertyByName("Entries").ContentAsCollection.AssertCountIs(2);
             var opening = entries.ElementAt(0);
-			opening.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("1999-04-01 00:00:00");
+			opening.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/04/1999 00:00:00");
             opening.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Opening Balance");
             opening.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
             opening.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("10");
 
             var current = entries.ElementAt(1);
-			current.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("2000-01-01 00:00:00");
+			current.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
             current.GetPropertyByName("Description").AssertIsUnmodifiable().AssertValueIsEqual("Current Balance");
             current.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
             current.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("10");
@@ -396,7 +396,7 @@ namespace Cluster.Accounts.Test
             var bal = create.Parameters.ElementAt(2).AssertIsNamed("Opening Balance").AssertIsMandatory();
             Assert.AreEqual("0", bal.GetDefault().Title);
             var asOf = create.Parameters.ElementAt(3).AssertIsNamed("As Of").AssertIsMandatory();
-			Assert.AreEqual("1999-11-30 00:00:00", asOf.GetDefault().Title);
+			Assert.AreEqual("30/11/1999 00:00:00", asOf.GetDefault().Title);
             create.Parameters.ElementAt(4).AssertIsNamed("Customer's own description").AssertIsOptional();
 
             SetNextAcNumber("B001");
