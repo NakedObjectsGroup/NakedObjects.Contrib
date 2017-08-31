@@ -1,6 +1,6 @@
-﻿using System;
-using Cluster.Documents.Api;
+﻿using Cluster.Documents.Api;
 using NakedObjects;
+
 namespace Cluster.Documents.Impl
 {
     public class Note : Document
@@ -19,12 +19,13 @@ namespace Cluster.Documents.Impl
 
         private void AddUserAndTimeStampToText()
         {
-            string user = UserFinder.CurrentUser().UserName;
-            Text += "\n" + User.UserName + ", " + Clock.Now();
+            //string user = UserFinder.CurrentUser().UserName;
+            Text += "\n" + User.UserName + ", " + Clock.NowAsStringRoundTrip();
         }
         #endregion
 
         #region Title
+
         public override string ToString()
         {
             TitleBuilder t = new TitleBuilder();
@@ -65,15 +66,15 @@ namespace Cluster.Documents.Impl
         }
 
         public string DisableAddToNote()
-{
-  var rb = new ReasonBuilder();
-  rb.AppendOnCondition(Status == NoteStatus.Finished, "Cannot add to a Finished note. Start a new one instead");
-  return rb.Reason;
-}
-
+		{
+		  var rb = new ReasonBuilder();
+		  rb.AppendOnCondition(Status == NoteStatus.Finished, "Cannot add to a Finished note. Start a new one instead");
+		  return rb.Reason;
+		}
         #endregion  
     
         #region Finish (Action)
+
         [MemberOrder(20)]
         public void FinishThisNote()
         {
@@ -84,7 +85,6 @@ namespace Cluster.Documents.Impl
         {
             return Status == NoteStatus.Finished;
         }
-
         #endregion
     }
 

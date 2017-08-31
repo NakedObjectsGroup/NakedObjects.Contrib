@@ -3,7 +3,6 @@ using System.Linq;
 using NakedObjects.Boot;
 using NakedObjects.Core.NakedObjectsSystem;
 using NakedObjects.Services;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Cluster.Documents.Impl;
 using Cluster.Documents.Api;
@@ -35,8 +34,7 @@ namespace Cluster.Documents.Test
                     new FixedClock(new DateTime(2000, 1, 1)));
             }
         }
-
-
+		
         protected override IFixturesInstaller Fixtures
         {
             get
@@ -63,9 +61,9 @@ namespace Cluster.Documents.Test
         {
             CleanupNakedObjectsFramework();
         }
-
-        #endregion
-
+		#endregion
+		
+		#region Test Methods
 
 		[TestMethod, TestCategory("DocumentsXAT")]
         public virtual void RecentDocumentsAssociatedWithHolder()
@@ -106,7 +104,9 @@ namespace Cluster.Documents.Test
         {
             SetUser("Richard");
             var note = GetTestService("Notes").GetAction("Find By Key").InvokeReturnObject(1);
-			note.GetPropertyByName("Text").AssertIsUnmodifiable().AssertValueIsEqual("Note1\nTest, 01/01/2000 00:00:00");
+
+			var expectedText = $"Note1\nTest, {UtcAndToStringRoundTrip(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			note.GetPropertyByName("Text").AssertIsUnmodifiable().AssertValueIsEqual(expectedText);
 
             note.GetPropertyByName("Id").AssertIsInvisible();
 
@@ -237,6 +237,8 @@ namespace Cluster.Documents.Test
             add.Parameters[1].AssertIsNamed("File").AssertIsMandatory();
             add.Parameters[2].AssertIsNamed("Description").AssertIsOptional();
         }
-        #endregion
-    }
+		#endregion
+
+		#endregion
+	}
 }
