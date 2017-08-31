@@ -9,10 +9,12 @@ namespace Cluster.System.Mock
 
 	    public FixedClock()
 	    {
-			_clock = new DateTime(2000, 1, 1); // TODO: fix this properly (originally 0001)
+			//_clock = new DateTime(2000, 1, 1);
+			_clock = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 		}
-        public FixedClock(DateTime value) {
-            _clock = value;
+		public FixedClock(DateTime value)
+		{
+            _clock = value.ToUniversalTime();
 		}
         #endregion
 
@@ -20,18 +22,29 @@ namespace Cluster.System.Mock
 
         public void SetClock(DateTime value)
         {
-            _clock = value;
+            _clock = value.ToUniversalTime();
         }
 
         public void Forward(int days)
         {
-            _clock = _clock.AddDays(days);
+            _clock = _clock.ToUniversalTime().AddDays(days);
         }
 
-        public DateTime Today() {return _clock.Date; }
+        public DateTime Today() {return _clock.ToUniversalTime().Date; }
         
+        public DateTime Now() { return _clock.ToUniversalTime(); }
 
-        public DateTime Now() { return _clock; }
-        
-    }
+		/// <summary>
+		/// See https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings#Roundtrip
+		/// </summary>
+		/// <returns></returns>
+		public string TodayAsStringRoundTrip() { return _clock.ToUniversalTime().Date.ToString("O"); }
+
+		/// <summary>
+		/// See https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings#Roundtrip
+		/// </summary>
+		/// <returns></returns>
+		public string NowAsStringRoundTrip() { return _clock.ToUniversalTime().ToString("O"); }
+
+	}
 }
