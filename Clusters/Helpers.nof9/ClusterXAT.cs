@@ -77,9 +77,7 @@ namespace Helpers.nof9
 
 		#endregion
 
-		#region Helpers
-
-		#region Time Helpers
+		#region DateTime Helpers
 
 		public string UtcAndToStringRoundTrip(DateTime value)
 		{
@@ -91,6 +89,8 @@ namespace Helpers.nof9
 			return value.ToUniversalTime().ToString("yyyy'-'MM'-'dd' 'HH':'mm':'ss");
 		}
 		#endregion
+
+		#region Helpers
 
 		/// <summary>
 		/// Assumes that a SimpleRepository for the type T has been registered in Services

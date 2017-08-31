@@ -32,7 +32,7 @@ namespace Helpers
             }
         }
 
-		#region Time Helpers
+		#region DateTime Helpers
 
 		public string UtcAndToStringRoundTrip(DateTime value)
 		{
