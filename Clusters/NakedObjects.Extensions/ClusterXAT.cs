@@ -1,13 +1,9 @@
-using System.Linq;
 using NakedObjects.Boot;
 using NakedObjects.Core.NakedObjectsSystem;
 using NakedObjects.EntityObjectStore;
-using NakedObjects.Services;
 using NakedObjects.Xat;
-
 using System.Data.Entity;
 using System;
-using Helpers;
 
 namespace Helpers
 {
@@ -36,5 +32,17 @@ namespace Helpers
             }
         }
 
-    }
+		#region Time Helpers
+
+		public string UtcAndToStringRoundTrip(DateTime value)
+		{
+			return value.ToUniversalTime().ToString("O");
+		}
+
+		public string UtcAndToStringSortable(DateTime value)
+		{
+			return value.ToUniversalTime().ToString("yyyy'-'MM'-'dd' 'HH':'mm':'ss");
+		}
+		#endregion
+	}
 }
