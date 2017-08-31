@@ -7,7 +7,7 @@ namespace Cluster.Names.Test
     public class UnitTests
     {
 
-        [TestMethod]
+        [TestMethod, TestCategory("Name Service")]
         public void AppSettingForDefaultNameType()
         {
             string setting = AppSettings.DefaultNameType();
