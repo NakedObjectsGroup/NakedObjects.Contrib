@@ -424,6 +424,7 @@ namespace Cluster.Tasks.Test
         #endregion
 
         #region Suspension
+
 		[TestMethod, TestCategory("TasksXAT")]
         public void SuspendTaskForDays()
         {
@@ -439,8 +440,12 @@ namespace Cluster.Tasks.Test
             suspend.InvokeReturnObject(7, null, "foo");
             status.AssertTitleIsEqual("Suspended");
             unsuspend.AssertIsVisible();
-			until.AssertIsVisible().AssertIsNotEmpty().AssertValueIsEqual("08/01/2000 00:00:00");
-            var notes = task.GetPropertyByName("Notes").Title;
+
+			//until.AssertIsVisible().AssertIsNotEmpty().AssertValueIsEqual("08/01/2000 00:00:00");
+			var expectedText = $"{UtcAndToStringSortable(new DateTime(2000, 1, 8, 0, 0, 0, DateTimeKind.Utc))}";
+			until.AssertIsVisible().AssertIsNotEmpty().AssertValueIsEqual(expectedText);
+
+			var notes = task.GetPropertyByName("Notes").Title;
             StringAssert.EndsWith(notes, "Suspended: foo");
             AssertLastHistoryEntryHasValues(task, "Suspended", "Charlie", "Test");
         }
