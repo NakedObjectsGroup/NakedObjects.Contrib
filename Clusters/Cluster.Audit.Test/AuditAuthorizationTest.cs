@@ -8,7 +8,6 @@ using Microsoft.Practices.Unity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NakedObjects.Architecture.Menu;
 using NakedObjects.Menu;
-using NakedObjects.Meta.Audit;
 using NakedObjects.Meta.Authorization;
 using NakedObjects.Services;
 using NakedObjects.Snapshot.Xml.Service;
@@ -44,7 +43,7 @@ namespace Cluster.Audit.Test
 					typeof(SimpleRepository<MockAudited>),
 					typeof(AuditContributedActions),
 					typeof(PolymorphicNavigator),
-					typeof(FixedClock), // TODO: typeof(FixedClock(typeof(DateTime(2000, 1, 1))
+					typeof(FixedClock),
 					typeof(MockService),
 					typeof(XmlSnapshotService),
 					typeof(SimpleRepository<ServiceAction>),
@@ -87,7 +86,7 @@ namespace Cluster.Audit.Test
 
 			action = auditService.GetAction("Recent Audited Events");
 			AssertIsInvisibleByDefault(action);
-			action.AssertIsInvisible(); // TODO: fails
+			action.AssertIsInvisible();
 			AssertIsVisibleByRoles(action, sysAdmin, auditor);
 
 			action = auditService.GetAction("Find Audited Events");
@@ -105,7 +104,7 @@ namespace Cluster.Audit.Test
 			prop = sa.GetPropertyByName("Service Name");
             AssertIsInvisibleByDefault(prop);
 
-            prop.AssertIsInvisible(); // TODO: fails
+            prop.AssertIsInvisible();
             AssertIsVisibleByRoles(prop, sysAdmin, auditor);
 
             prop = sa.GetPropertyByName("Action");

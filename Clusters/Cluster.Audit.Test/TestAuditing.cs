@@ -92,8 +92,12 @@ namespace Cluster.Audit.Test
             last.AssertIsType(typeof(ObjectAction)).AssertIsPersistent().AssertIsImmutable();
             Assert.AreEqual(mock, last.GetPropertyByName("Object").ContentAsObject);
             last.GetPropertyByName("Action").AssertValueIsEqual("Do Something");
-			last.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
-            last.GetPropertyByName("User Name").AssertValueIsEqual("Test");
+
+			//var expectedText = $"Note1\nTest, {UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText = $"{UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			//last.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
+			last.GetPropertyByName("Date Time").AssertTitleIsEqual(expectedText);
+			last.GetPropertyByName("User Name").AssertValueIsEqual("Test");
         }
 
 		[TestMethod, TestCategory("Audit"), Ignore] //Failing  -  Updated method on Auditor no being called by prop.SetValue 
@@ -110,11 +114,14 @@ namespace Cluster.Audit.Test
             mock.GetPropertyByName("Name").SetValue("Updated Name");
 
             last = getLast.InvokeReturnObject(mock);
-            Assert.IsNotNull(last);
+            Assert.IsNotNull(last); // TODO: fails
             last.AssertIsType(typeof(ObjectUpdated));
             Assert.AreEqual(mock, last.GetPropertyByName("Object").ContentAsObject);
-			last.GetPropertyByName("Date Time").AssertTitleIsEqual("2000-01-01 00:00:00");
-            last.GetPropertyByName("User Name").AssertValueIsEqual("Test");
+
+			var expectedText = $"{UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			last.GetPropertyByName("Date Time").AssertTitleIsEqual(expectedText);
+			//last.GetPropertyByName("Date Time").AssertTitleIsEqual("2000-01-01 00:00:00");
+			last.GetPropertyByName("User Name").AssertValueIsEqual("Test");
             last.GetPropertyByName("Snapshot").AssertIsNotEmpty(); //Not a proper test!
         }
 
@@ -131,9 +138,12 @@ namespace Cluster.Audit.Test
                 last.AssertIsType(typeof(ObjectPersisted)).AssertIsPersistent().AssertIsImmutable();
             Assert.AreEqual(mock, last.GetPropertyByName("Object").ContentAsObject);
             last.AssertTitleEquals("Create & Save: MockAudited");
-			last.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
-            last.GetPropertyByName("User Name").AssertValueIsEqual("Test");
-        }
+			last.GetPropertyByName("User Name").AssertValueIsEqual("Test");
+
+			var expectedText = $"{UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			last.GetPropertyByName("Date Time").AssertTitleIsEqual(expectedText);
+			//last.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
+		}
 
 		[TestMethod, TestCategory("Audit")]
         public virtual void RecordServiceAction()
@@ -150,9 +160,14 @@ namespace Cluster.Audit.Test
             serviceEvent.AssertIsType(typeof(ServiceAction)).AssertIsImmutable().AssertIsPersistent();
             serviceEvent.GetPropertyByName("Service Name").AssertValueIsEqual("Mock Service");
             serviceEvent.GetPropertyByName("Action").AssertValueIsEqual("Do Something");
-			serviceEvent.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
-            serviceEvent.GetPropertyByName("User Name").AssertValueIsEqual("Test");
-        }
+			serviceEvent.GetPropertyByName("User Name").AssertValueIsEqual("Test");
+
+			var expectedText = UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc));
+			//serviceEvent.GetPropertyByName("Date Time").AssertValueIsEqual(expectedValue); // fails with different ticks precision
+			//serviceEvent.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
+			serviceEvent.GetPropertyByName("Date Time").AssertTitleIsEqual(expectedText);
+		}
+
 		#endregion
 	}
 }
