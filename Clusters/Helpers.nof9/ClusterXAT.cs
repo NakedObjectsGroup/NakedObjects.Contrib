@@ -84,10 +84,20 @@ namespace Helpers.nof9
 			return value.ToUniversalTime().ToString("O");
 		}
 
-		public string UtcAndToStringSortable(DateTime value)
+		/// <summary>
+		/// XAT assertions with the current machine's regional settings
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public string UtcAndToString(DateTime value)
 		{
-			return value.ToUniversalTime().ToString("yyyy'-'MM'-'dd' 'HH':'mm':'ss");
+			return value.ToUniversalTime().ToString();
 		}
+
+		//public string UtcAndToStringSortable(DateTime value)
+		//{
+		//	return value.ToUniversalTime().ToString("yyyy'-'MM'-'dd' 'HH':'mm':'ss");
+		//}
 		#endregion
 
 		#region Helpers
