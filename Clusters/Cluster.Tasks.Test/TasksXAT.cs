@@ -441,14 +441,11 @@ namespace Cluster.Tasks.Test
             status.AssertTitleIsEqual("Suspended");
             unsuspend.AssertIsVisible();
 
-            //Original
-            //until.AssertIsVisible().AssertIsNotEmpty().AssertValueIsEqual("08/01/2000 00:00:00");
-            //Tom's change
-            //var expectedText = $"{UtcAndToStringSortable(new DateTime(2000, 1, 8, 0, 0, 0, DateTimeKind.Utc))}";
-            //until.AssertIsVisible().AssertIsNotEmpty().AssertValueIsEqual(expectedText);
-            //Richard's proposal
-            until.AssertIsVisible().AssertIsNotEmpty().AssertValueIsEqual((new DateTime(2000, 1, 8).ToString()));
-            var notes = task.GetPropertyByName("Notes").Title;
+			//until.AssertIsVisible().AssertIsNotEmpty().AssertValueIsEqual("08/01/2000 00:00:00");
+			var expectedText = $"{UtcAndToString(new DateTime(2000, 1, 8, 0, 0, 0, DateTimeKind.Utc))}";
+			until.AssertIsVisible().AssertIsNotEmpty().AssertValueIsEqual(expectedText);
+
+			var notes = task.GetPropertyByName("Notes").Title;
             StringAssert.EndsWith(notes, "Suspended: foo");
             AssertLastHistoryEntryHasValues(task, "Suspended", "Charlie", "Test");
         }

@@ -94,7 +94,7 @@ namespace Cluster.Audit.Test
             last.GetPropertyByName("Action").AssertValueIsEqual("Do Something");
 
 			//var expectedText = $"Note1\nTest, {UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
-			var expectedText = $"{UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText = $"{UtcAndToString(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
 			//last.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
 			last.GetPropertyByName("Date Time").AssertTitleIsEqual(expectedText);
 			last.GetPropertyByName("User Name").AssertValueIsEqual("Test");
@@ -118,7 +118,7 @@ namespace Cluster.Audit.Test
             last.AssertIsType(typeof(ObjectUpdated));
             Assert.AreEqual(mock, last.GetPropertyByName("Object").ContentAsObject);
 
-			var expectedText = $"{UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText = $"{UtcAndToString(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
 			last.GetPropertyByName("Date Time").AssertTitleIsEqual(expectedText);
 			//last.GetPropertyByName("Date Time").AssertTitleIsEqual("2000-01-01 00:00:00");
 			last.GetPropertyByName("User Name").AssertValueIsEqual("Test");
@@ -140,7 +140,7 @@ namespace Cluster.Audit.Test
             last.AssertTitleEquals("Create & Save: MockAudited");
 			last.GetPropertyByName("User Name").AssertValueIsEqual("Test");
 
-			var expectedText = $"{UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText = $"{UtcAndToString(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
 			last.GetPropertyByName("Date Time").AssertTitleIsEqual(expectedText);
 			//last.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
 		}
@@ -162,7 +162,7 @@ namespace Cluster.Audit.Test
             serviceEvent.GetPropertyByName("Action").AssertValueIsEqual("Do Something");
 			serviceEvent.GetPropertyByName("User Name").AssertValueIsEqual("Test");
 
-			var expectedText = UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc));
+			var expectedText = UtcAndToString(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc));
 			//serviceEvent.GetPropertyByName("Date Time").AssertValueIsEqual(expectedValue); // fails with different ticks precision
 			//serviceEvent.GetPropertyByName("Date Time").AssertTitleIsEqual("01/01/2000 00:00:00");
 			serviceEvent.GetPropertyByName("Date Time").AssertTitleIsEqual(expectedText);

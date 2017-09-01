@@ -82,7 +82,7 @@ namespace Cluster.Accounts.Test
             var p5 = newAccount.Parameters[5].AssertIsNamed("As Of").AssertIsMandatory();
 			
 			//Assert.AreEqual("30/11/1999 00:00:00", p5.GetDefault().Title);
-			var expectedText = $"{UtcAndToStringSortable(new DateTime(1999, 11, 30, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText = $"{UtcAndToString(new DateTime(1999, 11, 30, 0, 0, 0, DateTimeKind.Utc))}";
 			Assert.AreEqual(expectedText, p5.GetDefault().Title);
 		}
 
@@ -108,7 +108,7 @@ namespace Cluster.Accounts.Test
             a1.GetPropertyByName("Type").AssertIsUnmodifiable().AssertTitleIsEqual("Income");
             a1.GetPropertyByName("Currency").AssertIsUnmodifiable().AssertValueIsEqual("USD");
 			//a1.GetPropertyByName("Last Modified").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
-			var expectedText = $"{UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText = $"{UtcAndToString(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
 			a1.GetPropertyByName("Last Modified").AssertIsUnmodifiable().AssertValueIsEqual(expectedText);
 
 			var entries = a1.GetPropertyByName("Entries").ContentAsCollection.AssertCountIs(2);
@@ -118,7 +118,7 @@ namespace Cluster.Accounts.Test
             opening.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertIsEmpty();
 			
 			//opening.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/04/1999 00:00:00");
-			var expectedText1 = $"{UtcAndToStringSortable(new DateTime(1999, 4, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText1 = $"{UtcAndToString(new DateTime(1999, 4, 1, 0, 0, 0, DateTimeKind.Utc))}";
 			opening.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual(expectedText1);
 
 			var current = entries.ElementAt(1);
@@ -214,7 +214,7 @@ namespace Cluster.Accounts.Test
 			opening.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("10");
 			
 			//opening.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/04/1999 00:00:00");
-			var expectedText = $"{UtcAndToStringSortable(new DateTime(1999, 4, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText = $"{UtcAndToString(new DateTime(1999, 4, 1, 0, 0, 0, DateTimeKind.Utc))}";
 			opening.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual(expectedText);
 			
             var current = entries.ElementAt(1);
@@ -223,7 +223,7 @@ namespace Cluster.Accounts.Test
             current.GetPropertyByName("Debit").AssertIsUnmodifiable().AssertValueIsEqual("10");
 			
 			//current.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
-			expectedText = $"{UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			expectedText = $"{UtcAndToString(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
 			current.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual(expectedText);
 		}
 
@@ -254,7 +254,7 @@ namespace Cluster.Accounts.Test
             var date = post.Parameters[0].AssertIsNamed("Date").AssertIsMandatory();
 
 			//Assert.AreEqual("01/01/2000 00:00:00", date.GetDefault().Title);
-			var expectedText = $"{UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText = $"{UtcAndToString(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
 			Assert.AreEqual(expectedText, date.GetDefault().Title);
 
 			var desc = post.Parameters[1].AssertIsNamed("Description").AssertIsMandatory();
@@ -292,7 +292,7 @@ namespace Cluster.Accounts.Test
             transView.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
 			
 			//transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("02/01/2000 00:00:00");
-			var expectedText2 = $"{UtcAndToStringSortable(new DateTime(2000, 1, 2, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText2 = $"{UtcAndToString(new DateTime(2000, 1, 2, 0, 0, 0, DateTimeKind.Utc))}";
 			transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual(expectedText2);
 
 			var balance = entries.ElementAt(2);
@@ -301,7 +301,7 @@ namespace Cluster.Accounts.Test
             balance.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertIsEmpty();
 			
 			//balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/01/2000 00:00:00");
-			var expectedText1 = $"{UtcAndToStringSortable(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText1 = $"{UtcAndToString(new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc))}";
 			balance.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual(expectedText1);
 			
 			//Post a reverse transaction
@@ -315,7 +315,7 @@ namespace Cluster.Accounts.Test
             transView.GetPropertyByName("Credit").AssertIsUnmodifiable().AssertValueIsEqual("5.12");
 			
 			//transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual("01/02/2000 00:00:00");
-			var expectedText3 = $"{UtcAndToStringSortable(new DateTime(2000, 2, 1, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText3 = $"{UtcAndToString(new DateTime(2000, 2, 1, 0, 0, 0, DateTimeKind.Utc))}";
 			transView.GetPropertyByName("Date").AssertIsUnmodifiable().AssertValueIsEqual(expectedText3);
 
 			var trans2 = transView.GetPropertyByName("Transaction").ContentAsObject;
@@ -430,7 +430,7 @@ namespace Cluster.Accounts.Test
             Assert.AreEqual("0", bal.GetDefault().Title);
             var asOf = create.Parameters.ElementAt(3).AssertIsNamed("As Of").AssertIsMandatory();
 
-			var expectedText = $"{UtcAndToStringSortable(new DateTime(1999, 11, 30, 0, 0, 0, DateTimeKind.Utc))}";
+			var expectedText = $"{UtcAndToString(new DateTime(1999, 11, 30, 0, 0, 0, DateTimeKind.Utc))}";
 			Assert.AreEqual(expectedText, asOf.GetDefault().Title);
 			//Assert.AreEqual("30/11/1999 00:00:00", asOf.GetDefault().Title);
 			create.Parameters.ElementAt(4).AssertIsNamed("Customer's own description").AssertIsOptional();
