@@ -92,9 +92,11 @@ namespace Cluster.System.Test
 			var givenTime = new DateTime(2013, 7, 28, 14, 08, 30, DateTimeKind.Utc);
 			var clock = new FixedClock(givenTime);
 
-			// Note: these assertions will be affected by machine settings of region, short date and long time formats:
-			Assert.AreEqual("2013-07-28 14:08:30", clock.Now().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
-			Assert.AreEqual("2013-07-28 00:00:00", clock.Today().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
+            // Note: these assertions will be affected by machine settings of region, short date and long time formats:
+            var expected = new DateTime(2013, 7, 28, 14, 8, 30);
+			Assert.AreEqual(expected.ToString(), clock.Now().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
+            expected = new DateTime(2013, 7, 28);
+            Assert.AreEqual(expected.ToString(), clock.Today().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
 			// Not equal 
 			Assert.AreNotEqual(UtcAndStringify(givenTime), clock.Now().ToString(CultureInfo.CreateSpecificCulture("en-gb")));
 			Assert.AreNotEqual(UtcAndStringify(givenTime.Date), clock.Today().ToString(CultureInfo.CreateSpecificCulture("en-gb")));

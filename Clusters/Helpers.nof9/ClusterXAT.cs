@@ -93,11 +93,6 @@ namespace Helpers.nof9
 		{
 			return value.ToUniversalTime().ToString();
 		}
-
-		//public string UtcAndToStringSortable(DateTime value)
-		//{
-		//	return value.ToUniversalTime().ToString("yyyy'-'MM'-'dd' 'HH':'mm':'ss");
-		//}
 		#endregion
 
 		#region Helpers

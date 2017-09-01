@@ -48,11 +48,6 @@ namespace Helpers
 		{
 			return value.ToUniversalTime().ToString();
 		}
-
-		//public string UtcAndToStringSortable(DateTime value)
-		//{
-		//	return value.ToUniversalTime().ToString("yyyy'-'MM'-'dd' 'HH':'mm':'ss");
-		//}
 		#endregion
 	}
 }
